@@ -1,7 +1,7 @@
-// +build integration
+//go:build integration
 
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,18 +91,18 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`ListSchematicsLocation - List supported schematics locations`, func() {
+	Describe(`GetSchematicsVersion - Get Schematics API information`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
 		})
-		It(`ListSchematicsLocation(listSchematicsLocationOptions *ListSchematicsLocationOptions)`, func() {
-			listSchematicsLocationOptions := &schematicsv1.ListSchematicsLocationOptions{
+		It(`GetSchematicsVersion(getSchematicsVersionOptions *GetSchematicsVersionOptions)`, func() {
+			getSchematicsVersionOptions := &schematicsv1.GetSchematicsVersionOptions{
 			}
 
-			schematicsLocations, response, err := schematicsService.ListSchematicsLocation(listSchematicsLocationOptions)
+			versionResponse, response, err := schematicsService.GetSchematicsVersion(getSchematicsVersionOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
-			Expect(schematicsLocations).ToNot(BeNil())
+			Expect(versionResponse).ToNot(BeNil())
 		})
 	})
 
@@ -136,18 +136,18 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`GetSchematicsVersion - Get Schematics API information`, func() {
+	Describe(`ListSchematicsLocation - List supported schematics locations`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
 		})
-		It(`GetSchematicsVersion(getSchematicsVersionOptions *GetSchematicsVersionOptions)`, func() {
-			getSchematicsVersionOptions := &schematicsv1.GetSchematicsVersionOptions{
+		It(`ListSchematicsLocation(listSchematicsLocationOptions *ListSchematicsLocationOptions)`, func() {
+			listSchematicsLocationOptions := &schematicsv1.ListSchematicsLocationOptions{
 			}
 
-			versionResponse, response, err := schematicsService.GetSchematicsVersion(getSchematicsVersionOptions)
+			schematicsLocations, response, err := schematicsService.ListSchematicsLocation(listSchematicsLocationOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
-			Expect(versionResponse).ToNot(BeNil())
+			Expect(schematicsLocations).ToNot(BeNil())
 		})
 	})
 
@@ -208,24 +208,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`ListWorkspaces - List workspaces`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListWorkspaces(listWorkspacesOptions *ListWorkspacesOptions)`, func() {
-			listWorkspacesOptions := &schematicsv1.ListWorkspacesOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Profile: core.StringPtr("ids"),
-			}
-
-			workspaceResponseList, response, err := schematicsService.ListWorkspaces(listWorkspacesOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceResponseList).ToNot(BeNil())
-		})
-	})
-
 	Describe(`CreateWorkspace - Create a workspace`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -233,7 +215,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		It(`CreateWorkspace(createWorkspaceOptions *CreateWorkspaceOptions)`, func() {
 			serviceExtensionsModel := &schematicsv1.ServiceExtensions{
 				Name: core.StringPtr("flavor"),
-				Value: core.StringPtr("standard"),
+				Value: core.StringPtr("testString"),
 				Type: core.StringPtr("string"),
 			}
 
@@ -274,18 +256,18 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				Secure: core.BoolPtr(true),
 			}
 
-			injectTerraformTemplateInnerTftParametersItemModel := &schematicsv1.InjectTerraformTemplateInnerTftParametersItem{
+			injectTerraformTemplateItemTftParametersItemModel := &schematicsv1.InjectTerraformTemplateItemTftParametersItem{
 				Name: core.StringPtr("testString"),
 				Value: core.StringPtr("testString"),
 			}
 
-			injectTerraformTemplateInnerModel := &schematicsv1.InjectTerraformTemplateInner{
+			injectTerraformTemplateItemModel := &schematicsv1.InjectTerraformTemplateItem{
 				TftGitURL: core.StringPtr("testString"),
 				TftGitToken: core.StringPtr("testString"),
 				TftPrefix: core.StringPtr("testString"),
 				InjectionType: core.StringPtr("testString"),
 				TftName: core.StringPtr("testString"),
-				TftParameters: []schematicsv1.InjectTerraformTemplateInnerTftParametersItem{*injectTerraformTemplateInnerTftParametersItemModel},
+				TftParameters: []schematicsv1.InjectTerraformTemplateItemTftParametersItem{*injectTerraformTemplateItemTftParametersItemModel},
 			}
 
 			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
@@ -303,7 +285,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				Folder: core.StringPtr("testString"),
 				Compact: core.BoolPtr(true),
 				InitStateFile: core.StringPtr("testString"),
-				Injectors: []schematicsv1.InjectTerraformTemplateInner{*injectTerraformTemplateInnerModel},
+				Injectors: []schematicsv1.InjectTerraformTemplateItem{*injectTerraformTemplateItemModel},
 				Type: core.StringPtr("testString"),
 				UninstallScriptName: core.StringPtr("testString"),
 				Values: core.StringPtr("testString"),
@@ -354,6 +336,65 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`GetAllWorkspaceInputs - Get workspace template details`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetAllWorkspaceInputs(getAllWorkspaceInputsOptions *GetAllWorkspaceInputsOptions)`, func() {
+			getAllWorkspaceInputsOptions := &schematicsv1.GetAllWorkspaceInputsOptions{
+				WID: core.StringPtr("testString"),
+			}
+
+			workspaceTemplateValuesResponse, response, err := schematicsService.GetAllWorkspaceInputs(getAllWorkspaceInputsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceTemplateValuesResponse).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetTemplateActivityLog - Show logs for a workspace job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetTemplateActivityLog(getTemplateActivityLogOptions *GetTemplateActivityLogOptions)`, func() {
+			getTemplateActivityLogOptions := &schematicsv1.GetTemplateActivityLogOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+				ActivityID: core.StringPtr("testString"),
+				LogTfCmd: core.BoolPtr(true),
+				LogTfPrefix: core.BoolPtr(true),
+				LogTfNullResource: core.BoolPtr(true),
+				LogTfAnsible: core.BoolPtr(true),
+			}
+
+			result, response, err := schematicsService.GetTemplateActivityLog(getTemplateActivityLogOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(result).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetTemplateLogs - Show latest logs for a workspace template`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetTemplateLogs(getTemplateLogsOptions *GetTemplateLogsOptions)`, func() {
+			getTemplateLogsOptions := &schematicsv1.GetTemplateLogsOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+				LogTfCmd: core.BoolPtr(true),
+				LogTfPrefix: core.BoolPtr(true),
+				LogTfNullResource: core.BoolPtr(true),
+				LogTfAnsible: core.BoolPtr(true),
+			}
+
+			result, response, err := schematicsService.GetTemplateLogs(getTemplateLogsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(result).ToNot(BeNil())
+		})
+	})
+
 	Describe(`GetWorkspace - Get workspace details`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -370,6 +411,175 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`GetWorkspaceActivityLogs - Get workspace job log URL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceActivityLogs(getWorkspaceActivityLogsOptions *GetWorkspaceActivityLogsOptions)`, func() {
+			getWorkspaceActivityLogsOptions := &schematicsv1.GetWorkspaceActivityLogsOptions{
+				WID: core.StringPtr("testString"),
+				ActivityID: core.StringPtr("testString"),
+			}
+
+			workspaceActivityLogs, response, err := schematicsService.GetWorkspaceActivityLogs(getWorkspaceActivityLogsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceActivityLogs).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceInputMetadata - List workspace variable metadata`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceInputMetadata(getWorkspaceInputMetadataOptions *GetWorkspaceInputMetadataOptions)`, func() {
+			getWorkspaceInputMetadataOptions := &schematicsv1.GetWorkspaceInputMetadataOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+			}
+
+			result, response, err := schematicsService.GetWorkspaceInputMetadata(getWorkspaceInputMetadataOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(result).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceInputs - List workspace input variables`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceInputs(getWorkspaceInputsOptions *GetWorkspaceInputsOptions)`, func() {
+			getWorkspaceInputsOptions := &schematicsv1.GetWorkspaceInputsOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+			}
+
+			templateValues, response, err := schematicsService.GetWorkspaceInputs(getWorkspaceInputsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateValues).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceLogUrls - Get latest workspace job log URL for all workspace templates`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceLogUrls(getWorkspaceLogUrlsOptions *GetWorkspaceLogUrlsOptions)`, func() {
+			getWorkspaceLogUrlsOptions := &schematicsv1.GetWorkspaceLogUrlsOptions{
+				WID: core.StringPtr("testString"),
+			}
+
+			logStoreResponseList, response, err := schematicsService.GetWorkspaceLogUrls(getWorkspaceLogUrlsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(logStoreResponseList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceOutputs - List workspace output values`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceOutputs(getWorkspaceOutputsOptions *GetWorkspaceOutputsOptions)`, func() {
+			getWorkspaceOutputsOptions := &schematicsv1.GetWorkspaceOutputsOptions{
+				WID: core.StringPtr("testString"),
+			}
+
+			outputValuesItem, response, err := schematicsService.GetWorkspaceOutputs(getWorkspaceOutputsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(outputValuesItem).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceReadme - Show workspace template readme`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceReadme(getWorkspaceReadmeOptions *GetWorkspaceReadmeOptions)`, func() {
+			getWorkspaceReadmeOptions := &schematicsv1.GetWorkspaceReadmeOptions{
+				WID: core.StringPtr("testString"),
+				Ref: core.StringPtr("testString"),
+				Formatted: core.StringPtr("markdown"),
+			}
+
+			templateReadme, response, err := schematicsService.GetWorkspaceReadme(getWorkspaceReadmeOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateReadme).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceResources - List workspace resources`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceResources(getWorkspaceResourcesOptions *GetWorkspaceResourcesOptions)`, func() {
+			getWorkspaceResourcesOptions := &schematicsv1.GetWorkspaceResourcesOptions{
+				WID: core.StringPtr("testString"),
+			}
+
+			templateResources, response, err := schematicsService.GetWorkspaceResources(getWorkspaceResourcesOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateResources).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceState - Get Terraform statefile URL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceState(getWorkspaceStateOptions *GetWorkspaceStateOptions)`, func() {
+			getWorkspaceStateOptions := &schematicsv1.GetWorkspaceStateOptions{
+				WID: core.StringPtr("testString"),
+			}
+
+			stateStoreResponseList, response, err := schematicsService.GetWorkspaceState(getWorkspaceStateOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(stateStoreResponseList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceTemplateState - Show Terraform statefile content`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceTemplateState(getWorkspaceTemplateStateOptions *GetWorkspaceTemplateStateOptions)`, func() {
+			getWorkspaceTemplateStateOptions := &schematicsv1.GetWorkspaceTemplateStateOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+			}
+
+			templateStateStore, response, err := schematicsService.GetWorkspaceTemplateState(getWorkspaceTemplateStateOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateStateStore).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListWorkspaces - List workspaces`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListWorkspaces(listWorkspacesOptions *ListWorkspacesOptions)`, func() {
+			listWorkspacesOptions := &schematicsv1.ListWorkspacesOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Profile: core.StringPtr("ids"),
+				ResourceGroup: core.StringPtr("testString"),
+			}
+
+			workspaceResponseList, response, err := schematicsService.ListWorkspaces(listWorkspacesOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceResponseList).ToNot(BeNil())
+		})
+	})
+
 	Describe(`ReplaceWorkspace - Update workspace`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -377,7 +587,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		It(`ReplaceWorkspace(replaceWorkspaceOptions *ReplaceWorkspaceOptions)`, func() {
 			serviceExtensionsModel := &schematicsv1.ServiceExtensions{
 				Name: core.StringPtr("flavor"),
-				Value: core.StringPtr("standard"),
+				Value: core.StringPtr("testString"),
 				Type: core.StringPtr("string"),
 			}
 
@@ -418,18 +628,18 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				Secure: core.BoolPtr(true),
 			}
 
-			injectTerraformTemplateInnerTftParametersItemModel := &schematicsv1.InjectTerraformTemplateInnerTftParametersItem{
+			injectTerraformTemplateItemTftParametersItemModel := &schematicsv1.InjectTerraformTemplateItemTftParametersItem{
 				Name: core.StringPtr("testString"),
 				Value: core.StringPtr("testString"),
 			}
 
-			injectTerraformTemplateInnerModel := &schematicsv1.InjectTerraformTemplateInner{
+			injectTerraformTemplateItemModel := &schematicsv1.InjectTerraformTemplateItem{
 				TftGitURL: core.StringPtr("testString"),
 				TftGitToken: core.StringPtr("testString"),
 				TftPrefix: core.StringPtr("testString"),
 				InjectionType: core.StringPtr("testString"),
 				TftName: core.StringPtr("testString"),
-				TftParameters: []schematicsv1.InjectTerraformTemplateInnerTftParametersItem{*injectTerraformTemplateInnerTftParametersItemModel},
+				TftParameters: []schematicsv1.InjectTerraformTemplateItemTftParametersItem{*injectTerraformTemplateItemTftParametersItemModel},
 			}
 
 			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
@@ -447,7 +657,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				Folder: core.StringPtr("testString"),
 				Compact: core.BoolPtr(true),
 				InitStateFile: core.StringPtr("testString"),
-				Injectors: []schematicsv1.InjectTerraformTemplateInner{*injectTerraformTemplateInnerModel},
+				Injectors: []schematicsv1.InjectTerraformTemplateItem{*injectTerraformTemplateItemModel},
 				Type: core.StringPtr("testString"),
 				UninstallScriptName: core.StringPtr("testString"),
 				Values: core.StringPtr("testString"),
@@ -501,6 +711,54 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`ReplaceWorkspaceInputs - Replace workspace input variables`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ReplaceWorkspaceInputs(replaceWorkspaceInputsOptions *ReplaceWorkspaceInputsOptions)`, func() {
+			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
+				Description: core.StringPtr("testString"),
+				Name: core.StringPtr("testString"),
+				Secure: core.BoolPtr(true),
+				Type: core.StringPtr("testString"),
+				UseDefault: core.BoolPtr(true),
+				Value: core.StringPtr("testString"),
+			}
+
+			replaceWorkspaceInputsOptions := &schematicsv1.ReplaceWorkspaceInputsOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+				EnvValues: []map[string]interface{}{map[string]interface{}{"anyKey": "anyValue"}},
+				Values: core.StringPtr("testString"),
+				Variablestore: []schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel},
+			}
+
+			userValues, response, err := schematicsService.ReplaceWorkspaceInputs(replaceWorkspaceInputsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(userValues).ToNot(BeNil())
+		})
+	})
+
+	Describe(`TemplateRepoUpload - Upload a TAR file to your workspace`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`TemplateRepoUpload(templateRepoUploadOptions *TemplateRepoUploadOptions)`, func() {
+			templateRepoUploadOptions := &schematicsv1.TemplateRepoUploadOptions{
+				WID: core.StringPtr("testString"),
+				TID: core.StringPtr("testString"),
+				File: CreateMockReader("This is a mock file."),
+				FileContentType: core.StringPtr("testString"),
+			}
+
+			templateRepoTarUploadResponse, response, err := schematicsService.TemplateRepoUpload(templateRepoUploadOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateRepoTarUploadResponse).ToNot(BeNil())
+		})
+	})
+
 	Describe(`UpdateWorkspace - Update workspace metadata`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -508,7 +766,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		It(`UpdateWorkspace(updateWorkspaceOptions *UpdateWorkspaceOptions)`, func() {
 			serviceExtensionsModel := &schematicsv1.ServiceExtensions{
 				Name: core.StringPtr("flavor"),
-				Value: core.StringPtr("standard"),
+				Value: core.StringPtr("testString"),
 				Type: core.StringPtr("string"),
 			}
 
@@ -549,18 +807,18 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				Secure: core.BoolPtr(true),
 			}
 
-			injectTerraformTemplateInnerTftParametersItemModel := &schematicsv1.InjectTerraformTemplateInnerTftParametersItem{
+			injectTerraformTemplateItemTftParametersItemModel := &schematicsv1.InjectTerraformTemplateItemTftParametersItem{
 				Name: core.StringPtr("testString"),
 				Value: core.StringPtr("testString"),
 			}
 
-			injectTerraformTemplateInnerModel := &schematicsv1.InjectTerraformTemplateInner{
+			injectTerraformTemplateItemModel := &schematicsv1.InjectTerraformTemplateItem{
 				TftGitURL: core.StringPtr("testString"),
 				TftGitToken: core.StringPtr("testString"),
 				TftPrefix: core.StringPtr("testString"),
 				InjectionType: core.StringPtr("testString"),
 				TftName: core.StringPtr("testString"),
-				TftParameters: []schematicsv1.InjectTerraformTemplateInnerTftParametersItem{*injectTerraformTemplateInnerTftParametersItemModel},
+				TftParameters: []schematicsv1.InjectTerraformTemplateItemTftParametersItem{*injectTerraformTemplateItemTftParametersItemModel},
 			}
 
 			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
@@ -578,7 +836,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				Folder: core.StringPtr("testString"),
 				Compact: core.BoolPtr(true),
 				InitStateFile: core.StringPtr("testString"),
-				Injectors: []schematicsv1.InjectTerraformTemplateInner{*injectTerraformTemplateInnerModel},
+				Injectors: []schematicsv1.InjectTerraformTemplateItem{*injectTerraformTemplateItemModel},
 				Type: core.StringPtr("testString"),
 				UninstallScriptName: core.StringPtr("testString"),
 				Values: core.StringPtr("testString"),
@@ -628,282 +886,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(workspaceResponse).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceReadme - Show workspace template readme`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceReadme(getWorkspaceReadmeOptions *GetWorkspaceReadmeOptions)`, func() {
-			getWorkspaceReadmeOptions := &schematicsv1.GetWorkspaceReadmeOptions{
-				WID: core.StringPtr("testString"),
-				Ref: core.StringPtr("testString"),
-				Formatted: core.StringPtr("markdown"),
-			}
-
-			templateReadme, response, err := schematicsService.GetWorkspaceReadme(getWorkspaceReadmeOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(templateReadme).ToNot(BeNil())
-		})
-	})
-
-	Describe(`TemplateRepoUpload - Upload a TAR file to your workspace`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`TemplateRepoUpload(templateRepoUploadOptions *TemplateRepoUploadOptions)`, func() {
-			templateRepoUploadOptions := &schematicsv1.TemplateRepoUploadOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-				File: CreateMockReader("This is a mock file."),
-				FileContentType: core.StringPtr("testString"),
-			}
-
-			templateRepoTarUploadResponse, response, err := schematicsService.TemplateRepoUpload(templateRepoUploadOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(templateRepoTarUploadResponse).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceInputs - List workspace input variables`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceInputs(getWorkspaceInputsOptions *GetWorkspaceInputsOptions)`, func() {
-			getWorkspaceInputsOptions := &schematicsv1.GetWorkspaceInputsOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-			}
-
-			templateValues, response, err := schematicsService.GetWorkspaceInputs(getWorkspaceInputsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(templateValues).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ReplaceWorkspaceInputs - Replace workspace input variables`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ReplaceWorkspaceInputs(replaceWorkspaceInputsOptions *ReplaceWorkspaceInputsOptions)`, func() {
-			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
-				Description: core.StringPtr("testString"),
-				Name: core.StringPtr("testString"),
-				Secure: core.BoolPtr(true),
-				Type: core.StringPtr("testString"),
-				UseDefault: core.BoolPtr(true),
-				Value: core.StringPtr("testString"),
-			}
-
-			replaceWorkspaceInputsOptions := &schematicsv1.ReplaceWorkspaceInputsOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-				EnvValues: []map[string]interface{}{map[string]interface{}{"anyKey": "anyValue"}},
-				Values: core.StringPtr("testString"),
-				Variablestore: []schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel},
-			}
-
-			userValues, response, err := schematicsService.ReplaceWorkspaceInputs(replaceWorkspaceInputsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(userValues).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetAllWorkspaceInputs - Get workspace template details`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetAllWorkspaceInputs(getAllWorkspaceInputsOptions *GetAllWorkspaceInputsOptions)`, func() {
-			getAllWorkspaceInputsOptions := &schematicsv1.GetAllWorkspaceInputsOptions{
-				WID: core.StringPtr("testString"),
-			}
-
-			workspaceTemplateValuesResponse, response, err := schematicsService.GetAllWorkspaceInputs(getAllWorkspaceInputsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceTemplateValuesResponse).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceInputMetadata - List workspace variable metadata`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceInputMetadata(getWorkspaceInputMetadataOptions *GetWorkspaceInputMetadataOptions)`, func() {
-			getWorkspaceInputMetadataOptions := &schematicsv1.GetWorkspaceInputMetadataOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-			}
-
-			result, response, err := schematicsService.GetWorkspaceInputMetadata(getWorkspaceInputMetadataOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(result).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceOutputs - List workspace output values`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceOutputs(getWorkspaceOutputsOptions *GetWorkspaceOutputsOptions)`, func() {
-			getWorkspaceOutputsOptions := &schematicsv1.GetWorkspaceOutputsOptions{
-				WID: core.StringPtr("testString"),
-			}
-
-			outputValuesInner, response, err := schematicsService.GetWorkspaceOutputs(getWorkspaceOutputsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(outputValuesInner).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceResources - List workspace resources`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceResources(getWorkspaceResourcesOptions *GetWorkspaceResourcesOptions)`, func() {
-			getWorkspaceResourcesOptions := &schematicsv1.GetWorkspaceResourcesOptions{
-				WID: core.StringPtr("testString"),
-			}
-
-			templateResources, response, err := schematicsService.GetWorkspaceResources(getWorkspaceResourcesOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(templateResources).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceState - Get Terraform statefile URL`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceState(getWorkspaceStateOptions *GetWorkspaceStateOptions)`, func() {
-			getWorkspaceStateOptions := &schematicsv1.GetWorkspaceStateOptions{
-				WID: core.StringPtr("testString"),
-			}
-
-			stateStoreResponseList, response, err := schematicsService.GetWorkspaceState(getWorkspaceStateOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(stateStoreResponseList).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceTemplateState - Show Terraform statefile content`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceTemplateState(getWorkspaceTemplateStateOptions *GetWorkspaceTemplateStateOptions)`, func() {
-			getWorkspaceTemplateStateOptions := &schematicsv1.GetWorkspaceTemplateStateOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-			}
-
-			templateStateStore, response, err := schematicsService.GetWorkspaceTemplateState(getWorkspaceTemplateStateOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(templateStateStore).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceActivityLogs - Get workspace job log URL`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceActivityLogs(getWorkspaceActivityLogsOptions *GetWorkspaceActivityLogsOptions)`, func() {
-			getWorkspaceActivityLogsOptions := &schematicsv1.GetWorkspaceActivityLogsOptions{
-				WID: core.StringPtr("testString"),
-				ActivityID: core.StringPtr("testString"),
-			}
-
-			workspaceActivityLogs, response, err := schematicsService.GetWorkspaceActivityLogs(getWorkspaceActivityLogsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceActivityLogs).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceLogUrls - Get latest workspace job log URL for all workspace templates`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceLogUrls(getWorkspaceLogUrlsOptions *GetWorkspaceLogUrlsOptions)`, func() {
-			getWorkspaceLogUrlsOptions := &schematicsv1.GetWorkspaceLogUrlsOptions{
-				WID: core.StringPtr("testString"),
-			}
-
-			logStoreResponseList, response, err := schematicsService.GetWorkspaceLogUrls(getWorkspaceLogUrlsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(logStoreResponseList).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetTemplateLogs - Show latest logs for a workspace template`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetTemplateLogs(getTemplateLogsOptions *GetTemplateLogsOptions)`, func() {
-			getTemplateLogsOptions := &schematicsv1.GetTemplateLogsOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-				LogTfCmd: core.BoolPtr(true),
-				LogTfPrefix: core.BoolPtr(true),
-				LogTfNullResource: core.BoolPtr(true),
-				LogTfAnsible: core.BoolPtr(true),
-			}
-
-			result, response, err := schematicsService.GetTemplateLogs(getTemplateLogsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(result).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetTemplateActivityLog - Show logs for a workspace job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetTemplateActivityLog(getTemplateActivityLogOptions *GetTemplateActivityLogOptions)`, func() {
-			getTemplateActivityLogOptions := &schematicsv1.GetTemplateActivityLogOptions{
-				WID: core.StringPtr("testString"),
-				TID: core.StringPtr("testString"),
-				ActivityID: core.StringPtr("testString"),
-				LogTfCmd: core.BoolPtr(true),
-				LogTfPrefix: core.BoolPtr(true),
-				LogTfNullResource: core.BoolPtr(true),
-				LogTfAnsible: core.BoolPtr(true),
-			}
-
-			result, response, err := schematicsService.GetTemplateActivityLog(getTemplateActivityLogOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(result).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListActions - List actions`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListActions(listActionsOptions *ListActionsOptions)`, func() {
-			listActionsOptions := &schematicsv1.ListActionsOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Sort: core.StringPtr("testString"),
-				Profile: core.StringPtr("ids"),
-			}
-
-			actionList, response, err := schematicsService.ListActions(listActionsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(actionList).ToNot(BeNil())
 		})
 	})
 
@@ -1056,6 +1038,25 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(action).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListActions - List actions`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListActions(listActionsOptions *ListActionsOptions)`, func() {
+			listActionsOptions := &schematicsv1.ListActionsOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Sort: core.StringPtr("testString"),
+				Profile: core.StringPtr("ids"),
+			}
+
+			actionList, response, err := schematicsService.ListActions(listActionsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(actionList).ToNot(BeNil())
 		})
 	})
 
@@ -1213,71 +1214,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`ListWorkspaceActivities - List workspace jobs`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListWorkspaceActivities(listWorkspaceActivitiesOptions *ListWorkspaceActivitiesOptions)`, func() {
-			listWorkspaceActivitiesOptions := &schematicsv1.ListWorkspaceActivitiesOptions{
-				WID: core.StringPtr("testString"),
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-			}
-
-			workspaceActivities, response, err := schematicsService.ListWorkspaceActivities(listWorkspaceActivitiesOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceActivities).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetWorkspaceActivity - Get workspace job details`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetWorkspaceActivity(getWorkspaceActivityOptions *GetWorkspaceActivityOptions)`, func() {
-			getWorkspaceActivityOptions := &schematicsv1.GetWorkspaceActivityOptions{
-				WID: core.StringPtr("testString"),
-				ActivityID: core.StringPtr("testString"),
-			}
-
-			workspaceActivity, response, err := schematicsService.GetWorkspaceActivity(getWorkspaceActivityOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceActivity).ToNot(BeNil())
-		})
-	})
-
-	Describe(`RunWorkspaceCommands - Run Terraform Commands`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`RunWorkspaceCommands(runWorkspaceCommandsOptions *RunWorkspaceCommandsOptions)`, func() {
-			terraformCommandModel := &schematicsv1.TerraformCommand{
-				Command: core.StringPtr("testString"),
-				CommandParams: core.StringPtr("testString"),
-				CommandName: core.StringPtr("testString"),
-				CommandDesc: core.StringPtr("testString"),
-				CommandOnError: core.StringPtr("testString"),
-				CommandDependsOn: core.StringPtr("testString"),
-				CommandStatus: core.StringPtr("testString"),
-			}
-
-			runWorkspaceCommandsOptions := &schematicsv1.RunWorkspaceCommandsOptions{
-				WID: core.StringPtr("testString"),
-				RefreshToken: core.StringPtr("testString"),
-				Commands: []schematicsv1.TerraformCommand{*terraformCommandModel},
-				OperationName: core.StringPtr("testString"),
-				Description: core.StringPtr("testString"),
-			}
-
-			workspaceActivityCommandResult, response, err := schematicsService.RunWorkspaceCommands(runWorkspaceCommandsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceActivityCommandResult).ToNot(BeNil())
-		})
-	})
-
 	Describe(`ApplyWorkspaceCommand - Perform a Schematics `apply` job`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -1299,96 +1235,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(202))
 			Expect(workspaceActivityApplyResult).ToNot(BeNil())
-		})
-	})
-
-	Describe(`DestroyWorkspaceCommand - Perform a Schematics `destroy` job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`DestroyWorkspaceCommand(destroyWorkspaceCommandOptions *DestroyWorkspaceCommandOptions)`, func() {
-			workspaceActivityOptionsTemplateModel := &schematicsv1.WorkspaceActivityOptionsTemplate{
-				Target: []string{"testString"},
-				TfVars: []string{"testString"},
-			}
-
-			destroyWorkspaceCommandOptions := &schematicsv1.DestroyWorkspaceCommandOptions{
-				WID: core.StringPtr("testString"),
-				RefreshToken: core.StringPtr("testString"),
-				ActionOptions: workspaceActivityOptionsTemplateModel,
-				DelegatedToken: core.StringPtr("testString"),
-			}
-
-			workspaceActivityDestroyResult, response, err := schematicsService.DestroyWorkspaceCommand(destroyWorkspaceCommandOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(workspaceActivityDestroyResult).ToNot(BeNil())
-		})
-	})
-
-	Describe(`PlanWorkspaceCommand - Perform a Schematics `plan` job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`PlanWorkspaceCommand(planWorkspaceCommandOptions *PlanWorkspaceCommandOptions)`, func() {
-			workspaceActivityOptionsTemplateModel := &schematicsv1.WorkspaceActivityOptionsTemplate{
-				Target: []string{"testString"},
-				TfVars: []string{"testString"},
-			}
-
-			planWorkspaceCommandOptions := &schematicsv1.PlanWorkspaceCommandOptions{
-				WID: core.StringPtr("testString"),
-				RefreshToken: core.StringPtr("testString"),
-				ActionOptions: workspaceActivityOptionsTemplateModel,
-				DelegatedToken: core.StringPtr("testString"),
-			}
-
-			workspaceActivityPlanResult, response, err := schematicsService.PlanWorkspaceCommand(planWorkspaceCommandOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(workspaceActivityPlanResult).ToNot(BeNil())
-		})
-	})
-
-	Describe(`RefreshWorkspaceCommand - Perform a Schematics `refresh` job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`RefreshWorkspaceCommand(refreshWorkspaceCommandOptions *RefreshWorkspaceCommandOptions)`, func() {
-			refreshWorkspaceCommandOptions := &schematicsv1.RefreshWorkspaceCommandOptions{
-				WID: core.StringPtr("testString"),
-				RefreshToken: core.StringPtr("testString"),
-				DelegatedToken: core.StringPtr("testString"),
-			}
-
-			workspaceActivityRefreshResult, response, err := schematicsService.RefreshWorkspaceCommand(refreshWorkspaceCommandOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(workspaceActivityRefreshResult).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListJobs - List jobs`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListJobs(listJobsOptions *ListJobsOptions)`, func() {
-			listJobsOptions := &schematicsv1.ListJobsOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Sort: core.StringPtr("testString"),
-				Profile: core.StringPtr("ids"),
-				Resource: core.StringPtr("workspaces"),
-				ResourceID: core.StringPtr("testString"),
-				ActionID: core.StringPtr("testString"),
-				WorkspaceID: core.StringPtr("testString"),
-				List: core.StringPtr("all"),
-			}
-
-			jobList, response, err := schematicsService.ListJobs(listJobsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(jobList).ToNot(BeNil())
 		})
 	})
 
@@ -1703,6 +1549,30 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`DestroyWorkspaceCommand - Perform a Schematics `destroy` job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DestroyWorkspaceCommand(destroyWorkspaceCommandOptions *DestroyWorkspaceCommandOptions)`, func() {
+			workspaceActivityOptionsTemplateModel := &schematicsv1.WorkspaceActivityOptionsTemplate{
+				Target: []string{"testString"},
+				TfVars: []string{"testString"},
+			}
+
+			destroyWorkspaceCommandOptions := &schematicsv1.DestroyWorkspaceCommandOptions{
+				WID: core.StringPtr("testString"),
+				RefreshToken: core.StringPtr("testString"),
+				ActionOptions: workspaceActivityOptionsTemplateModel,
+				DelegatedToken: core.StringPtr("testString"),
+			}
+
+			workspaceActivityDestroyResult, response, err := schematicsService.DestroyWorkspaceCommand(destroyWorkspaceCommandOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(workspaceActivityDestroyResult).ToNot(BeNil())
+		})
+	})
+
 	Describe(`GetJob - Get a job`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -1717,6 +1587,170 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(job).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetJobFiles - Get output files from the Job record`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetJobFiles(getJobFilesOptions *GetJobFilesOptions)`, func() {
+			getJobFilesOptions := &schematicsv1.GetJobFilesOptions{
+				JobID: core.StringPtr("testString"),
+				FileType: core.StringPtr("template_repo"),
+			}
+
+			jobFileData, response, err := schematicsService.GetJobFiles(getJobFilesOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(jobFileData).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetWorkspaceActivity - Get workspace job details`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetWorkspaceActivity(getWorkspaceActivityOptions *GetWorkspaceActivityOptions)`, func() {
+			getWorkspaceActivityOptions := &schematicsv1.GetWorkspaceActivityOptions{
+				WID: core.StringPtr("testString"),
+				ActivityID: core.StringPtr("testString"),
+			}
+
+			workspaceActivity, response, err := schematicsService.GetWorkspaceActivity(getWorkspaceActivityOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceActivity).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListJobLogs - Get job logs`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListJobLogs(listJobLogsOptions *ListJobLogsOptions)`, func() {
+			listJobLogsOptions := &schematicsv1.ListJobLogsOptions{
+				JobID: core.StringPtr("testString"),
+			}
+
+			jobLog, response, err := schematicsService.ListJobLogs(listJobLogsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(jobLog).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListJobs - List jobs`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListJobs(listJobsOptions *ListJobsOptions)`, func() {
+			listJobsOptions := &schematicsv1.ListJobsOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Sort: core.StringPtr("testString"),
+				Profile: core.StringPtr("ids"),
+				Resource: core.StringPtr("workspaces"),
+				ResourceID: core.StringPtr("testString"),
+				ActionID: core.StringPtr("testString"),
+				WorkspaceID: core.StringPtr("testString"),
+				List: core.StringPtr("all"),
+			}
+
+			jobList, response, err := schematicsService.ListJobs(listJobsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(jobList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListWorkspaceActivities - List workspace jobs`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListWorkspaceActivities(listWorkspaceActivitiesOptions *ListWorkspaceActivitiesOptions)`, func() {
+			listWorkspaceActivitiesOptions := &schematicsv1.ListWorkspaceActivitiesOptions{
+				WID: core.StringPtr("testString"),
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+			}
+
+			workspaceActivities, response, err := schematicsService.ListWorkspaceActivities(listWorkspaceActivitiesOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceActivities).ToNot(BeNil())
+		})
+	})
+
+	Describe(`PlanWorkspaceCommand - Perform a Schematics `plan` job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`PlanWorkspaceCommand(planWorkspaceCommandOptions *PlanWorkspaceCommandOptions)`, func() {
+			workspaceActivityOptionsTemplateModel := &schematicsv1.WorkspaceActivityOptionsTemplate{
+				Target: []string{"testString"},
+				TfVars: []string{"testString"},
+			}
+
+			planWorkspaceCommandOptions := &schematicsv1.PlanWorkspaceCommandOptions{
+				WID: core.StringPtr("testString"),
+				RefreshToken: core.StringPtr("testString"),
+				ActionOptions: workspaceActivityOptionsTemplateModel,
+				DelegatedToken: core.StringPtr("testString"),
+			}
+
+			workspaceActivityPlanResult, response, err := schematicsService.PlanWorkspaceCommand(planWorkspaceCommandOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(workspaceActivityPlanResult).ToNot(BeNil())
+		})
+	})
+
+	Describe(`RefreshWorkspaceCommand - Perform a Schematics `refresh` job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RefreshWorkspaceCommand(refreshWorkspaceCommandOptions *RefreshWorkspaceCommandOptions)`, func() {
+			refreshWorkspaceCommandOptions := &schematicsv1.RefreshWorkspaceCommandOptions{
+				WID: core.StringPtr("testString"),
+				RefreshToken: core.StringPtr("testString"),
+				DelegatedToken: core.StringPtr("testString"),
+			}
+
+			workspaceActivityRefreshResult, response, err := schematicsService.RefreshWorkspaceCommand(refreshWorkspaceCommandOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(workspaceActivityRefreshResult).ToNot(BeNil())
+		})
+	})
+
+	Describe(`RunWorkspaceCommands - Run Terraform Commands`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RunWorkspaceCommands(runWorkspaceCommandsOptions *RunWorkspaceCommandsOptions)`, func() {
+			terraformCommandModel := &schematicsv1.TerraformCommand{
+				Command: core.StringPtr("testString"),
+				CommandParams: core.StringPtr("testString"),
+				CommandName: core.StringPtr("testString"),
+				CommandDesc: core.StringPtr("testString"),
+				CommandOnError: core.StringPtr("testString"),
+				CommandDependsOn: core.StringPtr("testString"),
+				CommandStatus: core.StringPtr("testString"),
+			}
+
+			runWorkspaceCommandsOptions := &schematicsv1.RunWorkspaceCommandsOptions{
+				WID: core.StringPtr("testString"),
+				RefreshToken: core.StringPtr("testString"),
+				Commands: []schematicsv1.TerraformCommand{*terraformCommandModel},
+				OperationName: core.StringPtr("testString"),
+				Description: core.StringPtr("testString"),
+			}
+
+			workspaceActivityCommandResult, response, err := schematicsService.RunWorkspaceCommands(runWorkspaceCommandsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceActivityCommandResult).ToNot(BeNil())
 		})
 	})
 
@@ -2032,39 +2066,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`ListJobLogs - Get job logs`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListJobLogs(listJobLogsOptions *ListJobLogsOptions)`, func() {
-			listJobLogsOptions := &schematicsv1.ListJobLogsOptions{
-				JobID: core.StringPtr("testString"),
-			}
-
-			jobLog, response, err := schematicsService.ListJobLogs(listJobLogsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(jobLog).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetJobFiles - Get output files from the Job record`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetJobFiles(getJobFilesOptions *GetJobFilesOptions)`, func() {
-			getJobFilesOptions := &schematicsv1.GetJobFilesOptions{
-				JobID: core.StringPtr("testString"),
-				FileType: core.StringPtr("template_repo"),
-			}
-
-			jobFileData, response, err := schematicsService.GetJobFiles(getJobFilesOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(jobFileData).ToNot(BeNil())
-		})
-	})
-
 	Describe(`CreateWorkspaceDeletionJob - Delete one or more workspace`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -2097,23 +2098,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(workspaceJobResponse).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListBlueprint - List blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListBlueprint(listBlueprintOptions *ListBlueprintOptions)`, func() {
-			listBlueprintOptions := &schematicsv1.ListBlueprintOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-			}
-
-			blueprintList, response, err := schematicsService.ListBlueprint(listBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(blueprintList).ToNot(BeNil())
 		})
 	})
 
@@ -2240,6 +2224,23 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(blueprint).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListBlueprint - List blueprint`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListBlueprint(listBlueprintOptions *ListBlueprintOptions)`, func() {
+			listBlueprintOptions := &schematicsv1.ListBlueprintOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+			}
+
+			blueprintList, response, err := schematicsService.ListBlueprint(listBlueprintOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(blueprintList).ToNot(BeNil())
 		})
 	})
 
@@ -2372,25 +2373,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`ListInventories - List inventory definitions`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListInventories(listInventoriesOptions *ListInventoriesOptions)`, func() {
-			listInventoriesOptions := &schematicsv1.ListInventoriesOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Sort: core.StringPtr("testString"),
-				Profile: core.StringPtr("ids"),
-			}
-
-			inventoryResourceRecordList, response, err := schematicsService.ListInventories(listInventoriesOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(inventoryResourceRecordList).ToNot(BeNil())
-		})
-	})
-
 	Describe(`CreateInventory - Create an inventory definition`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -2409,64 +2391,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(inventoryResourceRecord).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetInventory - Get an inventory definition`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetInventory(getInventoryOptions *GetInventoryOptions)`, func() {
-			getInventoryOptions := &schematicsv1.GetInventoryOptions{
-				InventoryID: core.StringPtr("testString"),
-				Profile: core.StringPtr("summary"),
-			}
-
-			inventoryResourceRecord, response, err := schematicsService.GetInventory(getInventoryOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(inventoryResourceRecord).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ReplaceInventory - Update an inventory definition`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ReplaceInventory(replaceInventoryOptions *ReplaceInventoryOptions)`, func() {
-			replaceInventoryOptions := &schematicsv1.ReplaceInventoryOptions{
-				InventoryID: core.StringPtr("testString"),
-				Name: core.StringPtr("testString"),
-				Description: core.StringPtr("testString"),
-				Location: core.StringPtr("us-south"),
-				ResourceGroup: core.StringPtr("testString"),
-				InventoriesIni: core.StringPtr("testString"),
-				ResourceQueries: []string{"testString"},
-			}
-
-			inventoryResourceRecord, response, err := schematicsService.ReplaceInventory(replaceInventoryOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(inventoryResourceRecord).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListResourceQuery - List resource queries`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListResourceQuery(listResourceQueryOptions *ListResourceQueryOptions)`, func() {
-			listResourceQueryOptions := &schematicsv1.ListResourceQueryOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Sort: core.StringPtr("testString"),
-				Profile: core.StringPtr("ids"),
-			}
-
-			resourceQueryRecordList, response, err := schematicsService.ListResourceQuery(listResourceQueryOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(resourceQueryRecordList).ToNot(BeNil())
 		})
 	})
 
@@ -2500,6 +2424,39 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`ExecuteResourceQuery - Run the resource query`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ExecuteResourceQuery(executeResourceQueryOptions *ExecuteResourceQueryOptions)`, func() {
+			executeResourceQueryOptions := &schematicsv1.ExecuteResourceQueryOptions{
+				QueryID: core.StringPtr("testString"),
+			}
+
+			resourceQueryResponseRecord, response, err := schematicsService.ExecuteResourceQuery(executeResourceQueryOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(resourceQueryResponseRecord).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetInventory - Get an inventory definition`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInventory(getInventoryOptions *GetInventoryOptions)`, func() {
+			getInventoryOptions := &schematicsv1.GetInventoryOptions{
+				InventoryID: core.StringPtr("testString"),
+				Profile: core.StringPtr("summary"),
+			}
+
+			inventoryResourceRecord, response, err := schematicsService.GetInventory(getInventoryOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(inventoryResourceRecord).ToNot(BeNil())
+		})
+	})
+
 	Describe(`GetResourcesQuery - Get resources query`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -2513,6 +2470,66 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(resourceQueryRecord).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListInventories - List inventory definitions`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInventories(listInventoriesOptions *ListInventoriesOptions)`, func() {
+			listInventoriesOptions := &schematicsv1.ListInventoriesOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Sort: core.StringPtr("testString"),
+				Profile: core.StringPtr("ids"),
+			}
+
+			inventoryResourceRecordList, response, err := schematicsService.ListInventories(listInventoriesOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(inventoryResourceRecordList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListResourceQuery - List resource queries`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListResourceQuery(listResourceQueryOptions *ListResourceQueryOptions)`, func() {
+			listResourceQueryOptions := &schematicsv1.ListResourceQueryOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Sort: core.StringPtr("testString"),
+				Profile: core.StringPtr("ids"),
+			}
+
+			resourceQueryRecordList, response, err := schematicsService.ListResourceQuery(listResourceQueryOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(resourceQueryRecordList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ReplaceInventory - Update an inventory definition`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ReplaceInventory(replaceInventoryOptions *ReplaceInventoryOptions)`, func() {
+			replaceInventoryOptions := &schematicsv1.ReplaceInventoryOptions{
+				InventoryID: core.StringPtr("testString"),
+				Name: core.StringPtr("testString"),
+				Description: core.StringPtr("testString"),
+				Location: core.StringPtr("us-south"),
+				ResourceGroup: core.StringPtr("testString"),
+				InventoriesIni: core.StringPtr("testString"),
+				ResourceQueries: []string{"testString"},
+			}
+
+			inventoryResourceRecord, response, err := schematicsService.ReplaceInventory(replaceInventoryOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(inventoryResourceRecord).ToNot(BeNil())
 		})
 	})
 
@@ -2544,133 +2561,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(resourceQueryRecord).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ExecuteResourceQuery - Run the resource query`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ExecuteResourceQuery(executeResourceQueryOptions *ExecuteResourceQueryOptions)`, func() {
-			executeResourceQueryOptions := &schematicsv1.ExecuteResourceQueryOptions{
-				QueryID: core.StringPtr("testString"),
-			}
-
-			resourceQueryResponseRecord, response, err := schematicsService.ExecuteResourceQuery(executeResourceQueryOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(resourceQueryResponseRecord).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListAgent - Get all registered/unregistered agents in the Account`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListAgent(listAgentOptions *ListAgentOptions)`, func() {
-			listAgentOptions := &schematicsv1.ListAgentOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Profile: core.StringPtr("summary"),
-				Filter: core.StringPtr("all"),
-			}
-
-			agentList, response, err := schematicsService.ListAgent(listAgentOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(agentList).ToNot(BeNil())
-		})
-	})
-
-	Describe(`RegisterAgent - Register the agent with schematics`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`RegisterAgent(registerAgentOptions *RegisterAgentOptions)`, func() {
-			agentUserStateModel := &schematicsv1.AgentUserState{
-				State: core.StringPtr("enable"),
-			}
-
-			registerAgentOptions := &schematicsv1.RegisterAgentOptions{
-				Name: core.StringPtr("MyDevAgent"),
-				AgentLocation: core.StringPtr("us-south"),
-				Location: core.StringPtr("us-south"),
-				ProfileID: core.StringPtr("testString"),
-				Description: core.StringPtr("Register agent"),
-				ResourceGroup: core.StringPtr("testString"),
-				Tags: []string{"testString"},
-				UserState: agentUserStateModel,
-			}
-
-			agent, response, err := schematicsService.RegisterAgent(registerAgentOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(201))
-			Expect(agent).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetAgent - Get the registered agent details`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetAgent(getAgentOptions *GetAgentOptions)`, func() {
-			getAgentOptions := &schematicsv1.GetAgentOptions{
-				AgentID: core.StringPtr("testString"),
-				Profile: core.StringPtr("summary"),
-			}
-
-			agent, response, err := schematicsService.GetAgent(getAgentOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(agent).ToNot(BeNil())
-		})
-	})
-
-	Describe(`UpdateAgentRegistration - Update the agent registration`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`UpdateAgentRegistration(updateAgentRegistrationOptions *UpdateAgentRegistrationOptions)`, func() {
-			agentUserStateModel := &schematicsv1.AgentUserState{
-				State: core.StringPtr("enable"),
-			}
-
-			updateAgentRegistrationOptions := &schematicsv1.UpdateAgentRegistrationOptions{
-				AgentID: core.StringPtr("testString"),
-				Name: core.StringPtr("MyDevAgent"),
-				AgentLocation: core.StringPtr("us-south"),
-				Location: core.StringPtr("us-south"),
-				ProfileID: core.StringPtr("testString"),
-				Description: core.StringPtr("Register agent"),
-				ResourceGroup: core.StringPtr("testString"),
-				Tags: []string{"testString"},
-				UserState: agentUserStateModel,
-			}
-
-			agent, response, err := schematicsService.UpdateAgentRegistration(updateAgentRegistrationOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(201))
-			Expect(agent).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListAgentData - List agents`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListAgentData(listAgentDataOptions *ListAgentDataOptions)`, func() {
-			listAgentDataOptions := &schematicsv1.ListAgentDataOptions{
-				XFeatureAgents: core.BoolPtr(true),
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Profile: core.StringPtr("summary"),
-				Filter: core.StringPtr("all"),
-			}
-
-			agentDataList, response, err := schematicsService.ListAgentData(listAgentDataOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(agentDataList).ToNot(BeNil())
 		})
 	})
 
@@ -2735,7 +2625,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			}
 
 			createAgentDataOptions := &schematicsv1.CreateAgentDataOptions{
-				XFeatureAgents: core.BoolPtr(true),
 				Name: core.StringPtr("MyDevAgent"),
 				ResourceGroup: core.StringPtr("Default"),
 				Version: core.StringPtr("v1.0.0"),
@@ -2757,6 +2646,40 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`DeployAgentJob - Run the agent deployment job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeployAgentJob(deployAgentJobOptions *DeployAgentJobOptions)`, func() {
+			deployAgentJobOptions := &schematicsv1.DeployAgentJobOptions{
+				AgentID: core.StringPtr("testString"),
+				Force: core.BoolPtr(true),
+			}
+
+			agentDeployJob, response, err := schematicsService.DeployAgentJob(deployAgentJobOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(agentDeployJob).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetAgent - Get the registered agent details`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetAgent(getAgentOptions *GetAgentOptions)`, func() {
+			getAgentOptions := &schematicsv1.GetAgentOptions{
+				AgentID: core.StringPtr("testString"),
+				Profile: core.StringPtr("summary"),
+			}
+
+			agent, response, err := schematicsService.GetAgent(getAgentOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(agent).ToNot(BeNil())
+		})
+	})
+
 	Describe(`GetAgentData - Get agent details`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -2764,7 +2687,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		It(`GetAgentData(getAgentDataOptions *GetAgentDataOptions)`, func() {
 			getAgentDataOptions := &schematicsv1.GetAgentDataOptions{
 				AgentID: core.StringPtr("testString"),
-				XFeatureAgents: core.BoolPtr(true),
 				Profile: core.StringPtr("summary"),
 			}
 
@@ -2772,6 +2694,153 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(agentData).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetDeployAgentJob - Get agent deployment job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetDeployAgentJob(getDeployAgentJobOptions *GetDeployAgentJobOptions)`, func() {
+			getDeployAgentJobOptions := &schematicsv1.GetDeployAgentJobOptions{
+				AgentID: core.StringPtr("testString"),
+			}
+
+			agentDeployJob, response, err := schematicsService.GetDeployAgentJob(getDeployAgentJobOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(agentDeployJob).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetHealthCheckAgentJob - Get agent health check job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetHealthCheckAgentJob(getHealthCheckAgentJobOptions *GetHealthCheckAgentJobOptions)`, func() {
+			getHealthCheckAgentJobOptions := &schematicsv1.GetHealthCheckAgentJobOptions{
+				AgentID: core.StringPtr("testString"),
+			}
+
+			agentHealthJob, response, err := schematicsService.GetHealthCheckAgentJob(getHealthCheckAgentJobOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(agentHealthJob).ToNot(BeNil())
+		})
+	})
+
+	Describe(`GetPrsAgentJob - Get pre-requisite scanner job status`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetPrsAgentJob(getPrsAgentJobOptions *GetPrsAgentJobOptions)`, func() {
+			getPrsAgentJobOptions := &schematicsv1.GetPrsAgentJobOptions{
+				AgentID: core.StringPtr("testString"),
+			}
+
+			agentPrsJob, response, err := schematicsService.GetPrsAgentJob(getPrsAgentJobOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(agentPrsJob).ToNot(BeNil())
+		})
+	})
+
+	Describe(`HealthCheckAgentJob - Run agent health check`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`HealthCheckAgentJob(healthCheckAgentJobOptions *HealthCheckAgentJobOptions)`, func() {
+			healthCheckAgentJobOptions := &schematicsv1.HealthCheckAgentJobOptions{
+				AgentID: core.StringPtr("testString"),
+				Force: core.BoolPtr(true),
+			}
+
+			agentHealthJob, response, err := schematicsService.HealthCheckAgentJob(healthCheckAgentJobOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(agentHealthJob).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListAgent - Get all registered/unregistered agents in the Account`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListAgent(listAgentOptions *ListAgentOptions)`, func() {
+			listAgentOptions := &schematicsv1.ListAgentOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Profile: core.StringPtr("summary"),
+				Filter: core.StringPtr("all"),
+			}
+
+			agentList, response, err := schematicsService.ListAgent(listAgentOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(agentList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListAgentData - List agents`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListAgentData(listAgentDataOptions *ListAgentDataOptions)`, func() {
+			listAgentDataOptions := &schematicsv1.ListAgentDataOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Profile: core.StringPtr("summary"),
+				Filter: core.StringPtr("all"),
+			}
+
+			agentDataList, response, err := schematicsService.ListAgentData(listAgentDataOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(agentDataList).ToNot(BeNil())
+		})
+	})
+
+	Describe(`PrsAgentJob - Run pre-requisite scanner job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`PrsAgentJob(prsAgentJobOptions *PrsAgentJobOptions)`, func() {
+			prsAgentJobOptions := &schematicsv1.PrsAgentJobOptions{
+				AgentID: core.StringPtr("testString"),
+				Force: core.BoolPtr(true),
+			}
+
+			agentPrsJob, response, err := schematicsService.PrsAgentJob(prsAgentJobOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(agentPrsJob).ToNot(BeNil())
+		})
+	})
+
+	Describe(`RegisterAgent - Register the agent with schematics`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RegisterAgent(registerAgentOptions *RegisterAgentOptions)`, func() {
+			agentUserStateModel := &schematicsv1.AgentUserState{
+				State: core.StringPtr("enable"),
+			}
+
+			registerAgentOptions := &schematicsv1.RegisterAgentOptions{
+				Name: core.StringPtr("MyDevAgent"),
+				AgentLocation: core.StringPtr("us-south"),
+				Location: core.StringPtr("us-south"),
+				ProfileID: core.StringPtr("testString"),
+				Description: core.StringPtr("Register agent"),
+				ResourceGroup: core.StringPtr("testString"),
+				Tags: []string{"testString"},
+				UserState: agentUserStateModel,
+			}
+
+			agent, response, err := schematicsService.RegisterAgent(registerAgentOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(agent).ToNot(BeNil())
 		})
 	})
 
@@ -2837,7 +2906,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 
 			updateAgentDataOptions := &schematicsv1.UpdateAgentDataOptions{
 				AgentID: core.StringPtr("testString"),
-				XFeatureAgents: core.BoolPtr(true),
 				Name: core.StringPtr("MyDevAgent"),
 				ResourceGroup: core.StringPtr("Default"),
 				Version: core.StringPtr("v1.0.0"),
@@ -2859,102 +2927,31 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`GetPrsAgentJob - Get pre-requisite scanner job status`, func() {
+	Describe(`UpdateAgentRegistration - Update the agent registration`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
 		})
-		It(`GetPrsAgentJob(getPrsAgentJobOptions *GetPrsAgentJobOptions)`, func() {
-			getPrsAgentJobOptions := &schematicsv1.GetPrsAgentJobOptions{
-				AgentID: core.StringPtr("testString"),
+		It(`UpdateAgentRegistration(updateAgentRegistrationOptions *UpdateAgentRegistrationOptions)`, func() {
+			agentUserStateModel := &schematicsv1.AgentUserState{
+				State: core.StringPtr("enable"),
 			}
 
-			agentPrsJob, response, err := schematicsService.GetPrsAgentJob(getPrsAgentJobOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentPrsJob).ToNot(BeNil())
-		})
-	})
-
-	Describe(`PrsAgentJob - Run pre-requisite scanner job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`PrsAgentJob(prsAgentJobOptions *PrsAgentJobOptions)`, func() {
-			prsAgentJobOptions := &schematicsv1.PrsAgentJobOptions{
+			updateAgentRegistrationOptions := &schematicsv1.UpdateAgentRegistrationOptions{
 				AgentID: core.StringPtr("testString"),
-				Force: core.BoolPtr(true),
+				Name: core.StringPtr("MyDevAgent"),
+				AgentLocation: core.StringPtr("us-south"),
+				Location: core.StringPtr("us-south"),
+				ProfileID: core.StringPtr("testString"),
+				Description: core.StringPtr("Register agent"),
+				ResourceGroup: core.StringPtr("testString"),
+				Tags: []string{"testString"},
+				UserState: agentUserStateModel,
 			}
 
-			agentPrsJob, response, err := schematicsService.PrsAgentJob(prsAgentJobOptions)
+			agent, response, err := schematicsService.UpdateAgentRegistration(updateAgentRegistrationOptions)
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentPrsJob).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetHealthCheckAgentJob - Get agent health check job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetHealthCheckAgentJob(getHealthCheckAgentJobOptions *GetHealthCheckAgentJobOptions)`, func() {
-			getHealthCheckAgentJobOptions := &schematicsv1.GetHealthCheckAgentJobOptions{
-				AgentID: core.StringPtr("testString"),
-			}
-
-			agentHealthJob, response, err := schematicsService.GetHealthCheckAgentJob(getHealthCheckAgentJobOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentHealthJob).ToNot(BeNil())
-		})
-	})
-
-	Describe(`HealthCheckAgentJob - Run agent health check`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`HealthCheckAgentJob(healthCheckAgentJobOptions *HealthCheckAgentJobOptions)`, func() {
-			healthCheckAgentJobOptions := &schematicsv1.HealthCheckAgentJobOptions{
-				AgentID: core.StringPtr("testString"),
-				Force: core.BoolPtr(true),
-			}
-
-			agentHealthJob, response, err := schematicsService.HealthCheckAgentJob(healthCheckAgentJobOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentHealthJob).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetDeployAgentJob - Get agent deployment job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetDeployAgentJob(getDeployAgentJobOptions *GetDeployAgentJobOptions)`, func() {
-			getDeployAgentJobOptions := &schematicsv1.GetDeployAgentJobOptions{
-				AgentID: core.StringPtr("testString"),
-			}
-
-			agentDeployJob, response, err := schematicsService.GetDeployAgentJob(getDeployAgentJobOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentDeployJob).ToNot(BeNil())
-		})
-	})
-
-	Describe(`DeployAgentJob - Run the agent deployment job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`DeployAgentJob(deployAgentJobOptions *DeployAgentJobOptions)`, func() {
-			deployAgentJobOptions := &schematicsv1.DeployAgentJobOptions{
-				AgentID: core.StringPtr("testString"),
-				Force: core.BoolPtr(true),
-			}
-
-			agentDeployJob, response, err := schematicsService.DeployAgentJob(deployAgentJobOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentDeployJob).ToNot(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(agent).ToNot(BeNil())
 		})
 	})
 
@@ -2971,6 +2968,26 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(kmsSettings).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListKms - List KMS instances`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListKms(listKmsOptions *ListKmsOptions)`, func() {
+			listKmsOptions := &schematicsv1.ListKmsOptions{
+				EncryptionScheme: core.StringPtr("testString"),
+				Location: core.StringPtr("testString"),
+				ResourceGroup: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(100)),
+				Sort: core.StringPtr("testString"),
+			}
+
+			kmsDiscovery, response, err := schematicsService.ListKms(listKmsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(kmsDiscovery).ToNot(BeNil())
 		})
 	})
 
@@ -3003,44 +3020,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(kmsSettings).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListKms - List KMS instances`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListKms(listKmsOptions *ListKmsOptions)`, func() {
-			listKmsOptions := &schematicsv1.ListKmsOptions{
-				EncryptionScheme: core.StringPtr("testString"),
-				Location: core.StringPtr("testString"),
-				ResourceGroup: core.StringPtr("testString"),
-				Limit: core.Int64Ptr(int64(100)),
-				Sort: core.StringPtr("testString"),
-			}
-
-			kmsDiscovery, response, err := schematicsService.ListKms(listKmsOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(kmsDiscovery).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListPolicy - List policies`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListPolicy(listPolicyOptions *ListPolicyOptions)`, func() {
-			listPolicyOptions := &schematicsv1.ListPolicyOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-				Profile: core.StringPtr("summary"),
-			}
-
-			policyList, response, err := schematicsService.ListPolicy(listPolicyOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(policyList).ToNot(BeNil())
 		})
 	})
 
@@ -3117,6 +3096,24 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(policy).ToNot(BeNil())
+		})
+	})
+
+	Describe(`ListPolicy - List policies`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListPolicy(listPolicyOptions *ListPolicyOptions)`, func() {
+			listPolicyOptions := &schematicsv1.ListPolicyOptions{
+				Offset: core.Int64Ptr(int64(0)),
+				Limit: core.Int64Ptr(int64(100)),
+				Profile: core.StringPtr("summary"),
+			}
+
+			policyList, response, err := schematicsService.ListPolicy(listPolicyOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(policyList).ToNot(BeNil())
 		})
 	})
 
@@ -3215,23 +3212,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`DeleteWorkspaceActivity - Stop the workspace job`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`DeleteWorkspaceActivity(deleteWorkspaceActivityOptions *DeleteWorkspaceActivityOptions)`, func() {
-			deleteWorkspaceActivityOptions := &schematicsv1.DeleteWorkspaceActivityOptions{
-				WID: core.StringPtr("testString"),
-				ActivityID: core.StringPtr("testString"),
-			}
-
-			workspaceActivityApplyResult, response, err := schematicsService.DeleteWorkspaceActivity(deleteWorkspaceActivityOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(workspaceActivityApplyResult).ToNot(BeNil())
-		})
-	})
-
 	Describe(`DeleteJob - Stop the running Job, and delete the Job`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -3247,6 +3227,23 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			response, err := schematicsService.DeleteJob(deleteJobOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
+		})
+	})
+
+	Describe(`DeleteWorkspaceActivity - Stop the workspace job`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteWorkspaceActivity(deleteWorkspaceActivityOptions *DeleteWorkspaceActivityOptions)`, func() {
+			deleteWorkspaceActivityOptions := &schematicsv1.DeleteWorkspaceActivityOptions{
+				WID: core.StringPtr("testString"),
+				ActivityID: core.StringPtr("testString"),
+			}
+
+			workspaceActivityApplyResult, response, err := schematicsService.DeleteWorkspaceActivity(deleteWorkspaceActivityOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(workspaceActivityApplyResult).ToNot(BeNil())
 		})
 	})
 
@@ -3323,7 +3320,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		It(`DeleteAgentData(deleteAgentDataOptions *DeleteAgentDataOptions)`, func() {
 			deleteAgentDataOptions := &schematicsv1.DeleteAgentDataOptions{
 				AgentID: core.StringPtr("testString"),
-				XFeatureAgents: core.BoolPtr(true),
 			}
 
 			response, err := schematicsService.DeleteAgentData(deleteAgentDataOptions)
