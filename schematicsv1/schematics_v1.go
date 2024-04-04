@@ -4002,517 +4002,6 @@ func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatusWithContext(ctx con
 	return
 }
 
-// CreateBlueprint : Create a blueprint
-// Deploying an IBM Cloud Schematics Blueprint environment and cloud resources by using a blueprint template is a
-// two-step process. The first step is create a blueprint configuration in Schematics, the second step deploys the
-// configuration by using blueprint apply operation. </br></br> Create an IBM Cloud Schematics Blueprint that points to
-// the blueprint configuration where your blueprint template are stored. The blueprint config specifies the Git source
-// and release of the blueprint template, input files, and any input values that are used to create cloud resources.
-// Blueprint creates a blueprint module resource in Schematics for each module definition in the template. Blueprint
-// module resources are initialized with the Terraform module source from the Git repository specified in the module
-// definition, and module inputs. </br></br>Blueprint apply create, or update resources in a blueprint environment. For
-// more information about apply blueprint configuration changes to an environment, see [blueprint
-// apply](https://cloud.ibm.com/docs/schematics?topic=schematics-apply-blueprint&interface=api).
-//
-//   <h3>Authorization</h3>
-//
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions, see [Schematics service access
-//   roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
-func (schematics *SchematicsV1) CreateBlueprint(createBlueprintOptions *CreateBlueprintOptions) (result *Blueprint, response *core.DetailedResponse, err error) {
-	return schematics.CreateBlueprintWithContext(context.Background(), createBlueprintOptions)
-}
-
-// CreateBlueprintWithContext is an alternate form of the CreateBlueprint method which supports a Context parameter
-func (schematics *SchematicsV1) CreateBlueprintWithContext(ctx context.Context, createBlueprintOptions *CreateBlueprintOptions) (result *Blueprint, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(createBlueprintOptions, "createBlueprintOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(createBlueprintOptions, "createBlueprintOptions")
-	if err != nil {
-		return
-	}
-
-	builder := core.NewRequestBuilder(core.POST)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/blueprints`, nil)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range createBlueprintOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "CreateBlueprint")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-
-	body := make(map[string]interface{})
-	if createBlueprintOptions.Name != nil {
-		body["name"] = createBlueprintOptions.Name
-	}
-	if createBlueprintOptions.SchemaVersion != nil {
-		body["schema_version"] = createBlueprintOptions.SchemaVersion
-	}
-	if createBlueprintOptions.Source != nil {
-		body["source"] = createBlueprintOptions.Source
-	}
-	if createBlueprintOptions.Config != nil {
-		body["config"] = createBlueprintOptions.Config
-	}
-	if createBlueprintOptions.Description != nil {
-		body["description"] = createBlueprintOptions.Description
-	}
-	if createBlueprintOptions.ResourceGroup != nil {
-		body["resource_group"] = createBlueprintOptions.ResourceGroup
-	}
-	if createBlueprintOptions.Tags != nil {
-		body["tags"] = createBlueprintOptions.Tags
-	}
-	if createBlueprintOptions.Location != nil {
-		body["location"] = createBlueprintOptions.Location
-	}
-	if createBlueprintOptions.Inputs != nil {
-		body["inputs"] = createBlueprintOptions.Inputs
-	}
-	if createBlueprintOptions.Settings != nil {
-		body["settings"] = createBlueprintOptions.Settings
-	}
-	if createBlueprintOptions.Flow != nil {
-		body["flow"] = createBlueprintOptions.Flow
-	}
-	if createBlueprintOptions.UserState != nil {
-		body["user_state"] = createBlueprintOptions.UserState
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = schematics.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBlueprint)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// DeleteBlueprint : Delete a blueprint
-// Deleting a blueprint environment is a two stage process that first destroys all the associated cloud resources and
-// second deletes the blueprint configuration in IBM Cloud Schematics. </br> </br>For more information about destroy
-// blueprint and delete blueprint, see [destroying blueprint
-// environment](https://cloud.ibm.com/docs/schematics?topic=schematics-destroy-blueprint&interface=api) and [deleting
-// blueprint configuration](https://cloud.ibm.com/docs/schematics?topic=schematics-delete-blueprint&interface=api).
-//
-//   <h3>Authorization</h3>
-//
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions, see [Schematics service access
-//   roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
-func (schematics *SchematicsV1) DeleteBlueprint(deleteBlueprintOptions *DeleteBlueprintOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteBlueprintWithContext(context.Background(), deleteBlueprintOptions)
-}
-
-// DeleteBlueprintWithContext is an alternate form of the DeleteBlueprint method which supports a Context parameter
-func (schematics *SchematicsV1) DeleteBlueprintWithContext(ctx context.Context, deleteBlueprintOptions *DeleteBlueprintOptions) (response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(deleteBlueprintOptions, "deleteBlueprintOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(deleteBlueprintOptions, "deleteBlueprintOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"blueprint_id": *deleteBlueprintOptions.BlueprintID,
-	}
-
-	builder := core.NewRequestBuilder(core.DELETE)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/blueprints/{blueprint_id}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range deleteBlueprintOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "DeleteBlueprint")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	if deleteBlueprintOptions.Profile != nil {
-		builder.AddQuery("profile", fmt.Sprint(*deleteBlueprintOptions.Profile))
-	}
-	if deleteBlueprintOptions.Destroy != nil {
-		builder.AddQuery("destroy", fmt.Sprint(*deleteBlueprintOptions.Destroy))
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	response, err = schematics.Service.Request(request, nil)
-
-	return
-}
-
-// GetBlueprint : Get a blueprint
-// Retrieve detailed information for a blueprint in your IBM Cloud account. For more information about displaying
-// blueprint example, see [displaying
-// blueprint](https://cloud.ibm.com/docs/schematics?topic=schematics-list-blueprint&interface=api).
-//
-//   <h3>Authorization</h3>
-//
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions, see [Schematics service access
-//   roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
-func (schematics *SchematicsV1) GetBlueprint(getBlueprintOptions *GetBlueprintOptions) (result *Blueprint, response *core.DetailedResponse, err error) {
-	return schematics.GetBlueprintWithContext(context.Background(), getBlueprintOptions)
-}
-
-// GetBlueprintWithContext is an alternate form of the GetBlueprint method which supports a Context parameter
-func (schematics *SchematicsV1) GetBlueprintWithContext(ctx context.Context, getBlueprintOptions *GetBlueprintOptions) (result *Blueprint, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getBlueprintOptions, "getBlueprintOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(getBlueprintOptions, "getBlueprintOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"blueprint_id": *getBlueprintOptions.BlueprintID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/blueprints/{blueprint_id}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range getBlueprintOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "GetBlueprint")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	if getBlueprintOptions.Profile != nil {
-		builder.AddQuery("profile", fmt.Sprint(*getBlueprintOptions.Profile))
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = schematics.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBlueprint)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ListBlueprint : List blueprint
-// Retrieve a list of Schematics Blueprints from your IBM Cloud account that you have access to. The list of blueprints
-// that is returned depends on the API endpoint that you use. For example, if you use an API endpoint for a geography,
-// such as North America, only blueprints that are created in us-south or us-east are returned. </b> </b> For more
-// information about supported API endpoints, see [API
-// endpoints](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
-//
-//   <h3>Authorization</h3>
-//
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions, see [Schematics service access
-//   roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
-func (schematics *SchematicsV1) ListBlueprint(listBlueprintOptions *ListBlueprintOptions) (result *BlueprintList, response *core.DetailedResponse, err error) {
-	return schematics.ListBlueprintWithContext(context.Background(), listBlueprintOptions)
-}
-
-// ListBlueprintWithContext is an alternate form of the ListBlueprint method which supports a Context parameter
-func (schematics *SchematicsV1) ListBlueprintWithContext(ctx context.Context, listBlueprintOptions *ListBlueprintOptions) (result *BlueprintList, response *core.DetailedResponse, err error) {
-	err = core.ValidateStruct(listBlueprintOptions, "listBlueprintOptions")
-	if err != nil {
-		return
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/blueprints`, nil)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range listBlueprintOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "ListBlueprint")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	if listBlueprintOptions.Offset != nil {
-		builder.AddQuery("offset", fmt.Sprint(*listBlueprintOptions.Offset))
-	}
-	if listBlueprintOptions.Limit != nil {
-		builder.AddQuery("limit", fmt.Sprint(*listBlueprintOptions.Limit))
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = schematics.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBlueprintList)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// ReplaceBlueprint : Update a blueprint
-// Use this API to update or replace the entire blueprint, including the blueprint configuration or module resources
-// that your blueprint points to. For more information about update blueprint example, see [Update blueprint
-// configuration](https://cloud.ibm.com/docs/schematics?topic=schematics-update-blueprint&interface=api).
-//
-//   <h3>Authorization</h3>
-//
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions, see [Schematics service access
-//   roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
-func (schematics *SchematicsV1) ReplaceBlueprint(replaceBlueprintOptions *ReplaceBlueprintOptions) (result *Blueprint, response *core.DetailedResponse, err error) {
-	return schematics.ReplaceBlueprintWithContext(context.Background(), replaceBlueprintOptions)
-}
-
-// ReplaceBlueprintWithContext is an alternate form of the ReplaceBlueprint method which supports a Context parameter
-func (schematics *SchematicsV1) ReplaceBlueprintWithContext(ctx context.Context, replaceBlueprintOptions *ReplaceBlueprintOptions) (result *Blueprint, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(replaceBlueprintOptions, "replaceBlueprintOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(replaceBlueprintOptions, "replaceBlueprintOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"blueprint_id": *replaceBlueprintOptions.BlueprintID,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/blueprints/{blueprint_id}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range replaceBlueprintOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "ReplaceBlueprint")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-	builder.AddHeader("Content-Type", "application/json")
-
-	if replaceBlueprintOptions.Profile != nil {
-		builder.AddQuery("profile", fmt.Sprint(*replaceBlueprintOptions.Profile))
-	}
-
-	body := make(map[string]interface{})
-	if replaceBlueprintOptions.Name != nil {
-		body["name"] = replaceBlueprintOptions.Name
-	}
-	if replaceBlueprintOptions.SchemaVersion != nil {
-		body["schema_version"] = replaceBlueprintOptions.SchemaVersion
-	}
-	if replaceBlueprintOptions.Source != nil {
-		body["source"] = replaceBlueprintOptions.Source
-	}
-	if replaceBlueprintOptions.Config != nil {
-		body["config"] = replaceBlueprintOptions.Config
-	}
-	if replaceBlueprintOptions.Description != nil {
-		body["description"] = replaceBlueprintOptions.Description
-	}
-	if replaceBlueprintOptions.ResourceGroup != nil {
-		body["resource_group"] = replaceBlueprintOptions.ResourceGroup
-	}
-	if replaceBlueprintOptions.Tags != nil {
-		body["tags"] = replaceBlueprintOptions.Tags
-	}
-	if replaceBlueprintOptions.Location != nil {
-		body["location"] = replaceBlueprintOptions.Location
-	}
-	if replaceBlueprintOptions.Inputs != nil {
-		body["inputs"] = replaceBlueprintOptions.Inputs
-	}
-	if replaceBlueprintOptions.Settings != nil {
-		body["settings"] = replaceBlueprintOptions.Settings
-	}
-	if replaceBlueprintOptions.Flow != nil {
-		body["flow"] = replaceBlueprintOptions.Flow
-	}
-	if replaceBlueprintOptions.UserState != nil {
-		body["user_state"] = replaceBlueprintOptions.UserState
-	}
-	_, err = builder.SetBodyContentJSON(body)
-	if err != nil {
-		return
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = schematics.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBlueprint)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// UploadTemplateTarBlueprint : Upload a TAR file to a blueprint
-// Update your blueprint configuration by uploading tape archive file (.tar) file from your local machine.
-//
-//   <h3>Authorization</h3>
-//
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions, see [Schematics service access
-//   roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
-func (schematics *SchematicsV1) UploadTemplateTarBlueprint(uploadTemplateTarBlueprintOptions *UploadTemplateTarBlueprintOptions) (result *BlueprintTemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
-	return schematics.UploadTemplateTarBlueprintWithContext(context.Background(), uploadTemplateTarBlueprintOptions)
-}
-
-// UploadTemplateTarBlueprintWithContext is an alternate form of the UploadTemplateTarBlueprint method which supports a Context parameter
-func (schematics *SchematicsV1) UploadTemplateTarBlueprintWithContext(ctx context.Context, uploadTemplateTarBlueprintOptions *UploadTemplateTarBlueprintOptions) (result *BlueprintTemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(uploadTemplateTarBlueprintOptions, "uploadTemplateTarBlueprintOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(uploadTemplateTarBlueprintOptions, "uploadTemplateTarBlueprintOptions")
-	if err != nil {
-		return
-	}
-	if (uploadTemplateTarBlueprintOptions.File == nil) {
-		err = fmt.Errorf("file must be supplied")
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"blueprint_id": *uploadTemplateTarBlueprintOptions.BlueprintID,
-	}
-
-	builder := core.NewRequestBuilder(core.PUT)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/blueprints/{blueprint_id}/template_repo_upload`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range uploadTemplateTarBlueprintOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "UploadTemplateTarBlueprint")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	if uploadTemplateTarBlueprintOptions.File != nil {
-		builder.AddFormData("file", "filename",
-			core.StringNilMapper(uploadTemplateTarBlueprintOptions.FileContentType), uploadTemplateTarBlueprintOptions.File)
-	}
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = schematics.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBlueprintTemplateRepoTarUploadResponse)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
 // CreateInventory : Create an inventory definition
 // Create an IBM Cloud Schematics inventory as a single IBM Cloud resource where you want to run Ansible playbook by
 // using Schematics actions. For more information, about inventory host groups, refer to [creating static and dynamic
@@ -5596,6 +5085,57 @@ func (schematics *SchematicsV1) DeleteAgentDataWithContext(ctx context.Context, 
 	return
 }
 
+// DeleteAgentResources : Delete resources provisioned by agent
+// Use this API to destroy the resources provisioned for running an agent.
+func (schematics *SchematicsV1) DeleteAgentResources(deleteAgentResourcesOptions *DeleteAgentResourcesOptions) (response *core.DetailedResponse, err error) {
+	return schematics.DeleteAgentResourcesWithContext(context.Background(), deleteAgentResourcesOptions)
+}
+
+// DeleteAgentResourcesWithContext is an alternate form of the DeleteAgentResources method which supports a Context parameter
+func (schematics *SchematicsV1) DeleteAgentResourcesWithContext(ctx context.Context, deleteAgentResourcesOptions *DeleteAgentResourcesOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteAgentResourcesOptions, "deleteAgentResourcesOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteAgentResourcesOptions, "deleteAgentResourcesOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"agent_id": *deleteAgentResourcesOptions.AgentID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/resources`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteAgentResourcesOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("schematics", "V1", "DeleteAgentResources")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteAgentResourcesOptions.RefreshToken != nil {
+		builder.AddHeader("refresh_token", fmt.Sprint(*deleteAgentResourcesOptions.RefreshToken))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = schematics.Service.Request(request, nil)
+
+	return
+}
+
 // DeployAgentJob : Run the agent deployment job
 // Use run agent deployment job API to execute the agent deployment job based on the agent ID. For more information
 // about supported API endpoints, see [API endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
@@ -6503,6 +6043,9 @@ func (schematics *SchematicsV1) UpdateAgentDataWithContext(ctx context.Context, 
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
+	if updateAgentDataOptions.RefreshToken != nil {
+		builder.AddHeader("refresh_token", fmt.Sprint(*updateAgentDataOptions.RefreshToken))
+	}
 
 	body := make(map[string]interface{})
 	if updateAgentDataOptions.Name != nil {
@@ -6897,7 +6440,7 @@ func (schematics *SchematicsV1) UpdateKmsSettingsWithContext(ctx context.Context
 
 // CreatePolicy : Create a policy account
 // Use this API to create a policy using Schematics to select one or more Schematics objects (such as, Workspaces,
-// Action, Blueprint) to deliver targeted Schematics feature. For more information about frequently asked questions, see
+// Action) to deliver targeted Schematics feature. For more information about frequently asked questions, see
 // [FAQ](https://cloud.ibm.com/docs/schematics?topic=schematics-faqs-agent) and [Troubleshooting
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found).
 //
@@ -8010,11 +7553,10 @@ type AgentAssignmentPolicyParameter struct {
 	// Types of schematics object selector.
 	SelectorKind *string `json:"selector_kind,omitempty"`
 
-	// The static selectors of schematics object ids (workspace, action or blueprint) for the Schematics policy.
+	// The static selectors of schematics object ids (workspace or action) for the Schematics policy.
 	SelectorIds []string `json:"selector_ids,omitempty"`
 
-	// The selectors to dynamically list of schematics object ids (workspace, action or blueprint) for the Schematics
-	// policy.
+	// The selectors to dynamically list of schematics object ids (workspace or action) for the Schematics policy.
 	SelectorScope []PolicyObjectSelector `json:"selector_scope,omitempty"`
 }
 
@@ -8113,6 +7655,9 @@ type AgentData struct {
 
 	// Agent health check.
 	RecentHealthJob *AgentDataRecentHealthJob `json:"recent_health_job,omitempty"`
+
+	// destroy resource provisoned by agent deploy method.
+	RecentDestroyJob *AgentDataRecentDestroyJob `json:"recent_destroy_job,omitempty"`
 }
 
 // Constants associated with the AgentData.SchematicsLocation property.
@@ -8228,6 +7773,10 @@ func UnmarshalAgentData(m map[string]json.RawMessage, result interface{}) (err e
 		return
 	}
 	err = core.UnmarshalModel(m, "recent_health_job", &obj.RecentHealthJob, UnmarshalAgentDataRecentHealthJob)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "recent_destroy_job", &obj.RecentDestroyJob, UnmarshalAgentDataRecentDestroyJob)
 	if err != nil {
 		return
 	}
@@ -8478,6 +8027,85 @@ func UnmarshalAgentDataRecentDeployJob(m map[string]json.RawMessage, result inte
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "is_redeployed", &obj.IsRedeployed)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AgentDataRecentDestroyJob : destroy resource provisoned by agent deploy method.
+type AgentDataRecentDestroyJob struct {
+	// Id of the agent.
+	AgentID *string `json:"agent_id,omitempty"`
+
+	// Job Id.
+	JobID *string `json:"job_id,omitempty"`
+
+	// The agent resources destroy job updation time.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+
+	// Email address of user who ran the agent resources destroy job.
+	UpdatedBy *string `json:"updated_by,omitempty"`
+
+	// Agent version.
+	AgentVersion *string `json:"agent_version,omitempty"`
+
+	// Status of Jobs.
+	StatusCode *string `json:"status_code,omitempty"`
+
+	// The outcome of the agent resources destroy job, in a formatted log string.
+	StatusMessage *string `json:"status_message,omitempty"`
+
+	// URL to the full agent resources destroy job logs.
+	LogURL *string `json:"log_url,omitempty"`
+}
+
+// Constants associated with the AgentDataRecentDestroyJob.StatusCode property.
+// Status of Jobs.
+const (
+	AgentDataRecentDestroyJob_StatusCode_JobCancelled = "job_cancelled"
+	AgentDataRecentDestroyJob_StatusCode_JobFailed = "job_failed"
+	AgentDataRecentDestroyJob_StatusCode_JobFinished = "job_finished"
+	AgentDataRecentDestroyJob_StatusCode_JobInProgress = "job_in_progress"
+	AgentDataRecentDestroyJob_StatusCode_JobPending = "job_pending"
+	AgentDataRecentDestroyJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
+	AgentDataRecentDestroyJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
+	AgentDataRecentDestroyJob_StatusCode_JobStopped = "job_stopped"
+)
+
+// UnmarshalAgentDataRecentDestroyJob unmarshals an instance of AgentDataRecentDestroyJob from the specified map of raw messages.
+func UnmarshalAgentDataRecentDestroyJob(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AgentDataRecentDestroyJob)
+	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
 		return
 	}
@@ -8826,7 +8454,7 @@ func UnmarshalAgentHealthJob(m map[string]json.RawMessage, result interface{}) (
 
 // AgentInfo : Agent name, Agent id and associated policy ID information.
 type AgentInfo struct {
-	// ID of the Agent bound to the schematics object (workspace, action, blueprint).
+	// ID of the Agent bound to the schematics object (workspace, action).
 	ID *string `json:"id,omitempty"`
 
 	// Name of the Agent bound to the schematics object.
@@ -9410,1160 +9038,6 @@ func UnmarshalBastionResourceDefinition(m map[string]json.RawMessage, result int
 	return
 }
 
-// Blueprint : Blueprint details with user inputs and system generated data.
-type Blueprint struct {
-	// Blueprint name (unique for an account).
-	Name *string `json:"name" validate:"required"`
-
-	// Schema version.
-	SchemaVersion *string `json:"schema_version,omitempty"`
-
-	// Source of templates, playbooks, or controls.
-	Source *ExternalSource `json:"source,omitempty"`
-
-	// Blueprint input configuration definition.
-	Config []BlueprintConfigItem `json:"config,omitempty"`
-
-	// Blueprint description.
-	Description *string `json:"description,omitempty"`
-
-	// Resource-group name for the blueprint.  By default, blueprint will be created in Default Resource Group.
-	ResourceGroup *string `json:"resource_group,omitempty"`
-
-	// Blueprint instance tags.
-	Tags []string `json:"tags,omitempty"`
-
-	// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-	// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-	// provisioned using Schematics.
-	Location *string `json:"location,omitempty"`
-
-	// Additional inputs configuration for the blueprint.
-	Inputs []VariableData `json:"inputs,omitempty"`
-
-	// Input environemnt settings for blueprint.
-	Settings []VariableData `json:"settings,omitempty"`
-
-	// Output variables for the blueprint.
-	Outputs []VariableData `json:"outputs,omitempty"`
-
-	// Components of the blueprint.
-	Modules []BlueprintModule `json:"modules,omitempty"`
-
-	// Flow definitions for all the blueprint command.
-	Flow *BlueprintFlow `json:"flow,omitempty"`
-
-	// System generated blueprint Id.
-	BlueprintID *string `json:"blueprint_id,omitempty"`
-
-	// Blueprint CRN.
-	Crn *string `json:"crn,omitempty"`
-
-	// Account id.
-	Account *string `json:"account,omitempty"`
-
-	// Blueprint creation time.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// User who created the blueprint.
-	CreatedBy *string `json:"created_by,omitempty"`
-
-	// Blueprint updation time.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// User who updated the blueprint.
-	UpdatedBy *string `json:"updated_by,omitempty"`
-
-	// System lock status.
-	SysLock *SystemLock `json:"sys_lock,omitempty"`
-
-	// User defined status of the Schematics object.
-	UserState *UserState `json:"user_state,omitempty"`
-
-	// Computed state of the blueprint.
-	State *BlueprintState `json:"state,omitempty"`
-}
-
-// Constants associated with the Blueprint.Location property.
-// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-// provisioned using Schematics.
-const (
-	Blueprint_Location_EuDe = "eu-de"
-	Blueprint_Location_EuGb = "eu-gb"
-	Blueprint_Location_UsEast = "us-east"
-	Blueprint_Location_UsSouth = "us-south"
-)
-
-// NewBlueprint : Instantiate Blueprint (Generic Model Constructor)
-func (*SchematicsV1) NewBlueprint(name string) (_model *Blueprint, err error) {
-	_model = &Blueprint{
-		Name: core.StringPtr(name),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-// UnmarshalBlueprint unmarshals an instance of Blueprint from the specified map of raw messages.
-func UnmarshalBlueprint(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(Blueprint)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "schema_version", &obj.SchemaVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalExternalSource)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "config", &obj.Config, UnmarshalBlueprintConfigItem)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalVariableData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "modules", &obj.Modules, UnmarshalBlueprintModule)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "flow", &obj.Flow, UnmarshalBlueprintFlow)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "blueprint_id", &obj.BlueprintID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "account", &obj.Account)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "sys_lock", &obj.SysLock, UnmarshalSystemLock)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalUserState)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "state", &obj.State, UnmarshalBlueprintState)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintConfigItem : Blueprint configuration item.
-type BlueprintConfigItem struct {
-	// Name of the blueprint configuration item.
-	Name *string `json:"name,omitempty"`
-
-	// Description for the blueprint configuration item.
-	Description *string `json:"description,omitempty"`
-
-	// Source of templates, playbooks, or controls.
-	Source *ExternalSource `json:"source,omitempty"`
-
-	// Input variables and values for the blueprint configuration item.
-	Inputs []VariableData `json:"inputs,omitempty"`
-}
-
-// UnmarshalBlueprintConfigItem unmarshals an instance of BlueprintConfigItem from the specified map of raw messages.
-func UnmarshalBlueprintConfigItem(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintConfigItem)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalExternalSource)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintFlow : Flow definitions for all the blueprint command.
-type BlueprintFlow struct {
-	// Blueprint flow specification.
-	Specs []BlueprintFlowSpecsItem `json:"specs,omitempty"`
-}
-
-// UnmarshalBlueprintFlow unmarshals an instance of BlueprintFlow from the specified map of raw messages.
-func UnmarshalBlueprintFlow(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintFlow)
-	err = core.UnmarshalModel(m, "specs", &obj.Specs, UnmarshalBlueprintFlowSpecsItem)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintFlowSpecsItem : BlueprintFlowSpecsItem struct
-type BlueprintFlowSpecsItem struct {
-	// Schematics job command name.
-	CommandName *string `json:"command_name,omitempty"`
-
-	// Type of blueprint flow specification.
-	FlowType *string `json:"flow_type,omitempty"`
-
-	// Ordered items in the simple sequence.
-	SequenceFlow []BlueprintFlowSpecsItemSequenceFlowItem `json:"sequence_flow,omitempty"`
-
-	// Placeholder for conditional flow.
-	ConditionalFlow *string `json:"conditional_flow,omitempty"`
-}
-
-// Constants associated with the BlueprintFlowSpecsItem.CommandName property.
-// Schematics job command name.
-const (
-	BlueprintFlowSpecsItem_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	BlueprintFlowSpecsItem_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	BlueprintFlowSpecsItem_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	BlueprintFlowSpecsItem_CommandName_BlueprintDelete = "blueprint_delete"
-	BlueprintFlowSpecsItem_CommandName_BlueprintDestroy = "blueprint_destroy"
-	BlueprintFlowSpecsItem_CommandName_BlueprintInstall = "blueprint_install"
-	BlueprintFlowSpecsItem_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	BlueprintFlowSpecsItem_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	BlueprintFlowSpecsItem_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	BlueprintFlowSpecsItem_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	BlueprintFlowSpecsItem_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	BlueprintFlowSpecsItem_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	BlueprintFlowSpecsItem_CommandName_BlueprintUpdateInit = "blueprint_update_init"
-	BlueprintFlowSpecsItem_CommandName_CreateAction = "create_action"
-	BlueprintFlowSpecsItem_CommandName_CreateCart = "create_cart"
-	BlueprintFlowSpecsItem_CommandName_CreateEnvironment = "create_environment"
-	BlueprintFlowSpecsItem_CommandName_CreateWorkspace = "create_workspace"
-	BlueprintFlowSpecsItem_CommandName_DeleteAction = "delete_action"
-	BlueprintFlowSpecsItem_CommandName_DeleteEnvironment = "delete_environment"
-	BlueprintFlowSpecsItem_CommandName_DeleteWorkspace = "delete_workspace"
-	BlueprintFlowSpecsItem_CommandName_EnvironmentCreateInit = "environment_create_init"
-	BlueprintFlowSpecsItem_CommandName_EnvironmentInstall = "environment_install"
-	BlueprintFlowSpecsItem_CommandName_EnvironmentUninstall = "environment_uninstall"
-	BlueprintFlowSpecsItem_CommandName_EnvironmentUpdateInit = "environment_update_init"
-	BlueprintFlowSpecsItem_CommandName_PatchAction = "patch_action"
-	BlueprintFlowSpecsItem_CommandName_PatchWorkspace = "patch_workspace"
-	BlueprintFlowSpecsItem_CommandName_PutAction = "put_action"
-	BlueprintFlowSpecsItem_CommandName_PutEnvironment = "put_environment"
-	BlueprintFlowSpecsItem_CommandName_PutWorkspace = "put_workspace"
-	BlueprintFlowSpecsItem_CommandName_RepositoryProcess = "repository_process"
-	BlueprintFlowSpecsItem_CommandName_SystemKeyDelete = "system_key_delete"
-	BlueprintFlowSpecsItem_CommandName_SystemKeyDisable = "system_key_disable"
-	BlueprintFlowSpecsItem_CommandName_SystemKeyEnable = "system_key_enable"
-	BlueprintFlowSpecsItem_CommandName_SystemKeyRestore = "system_key_restore"
-	BlueprintFlowSpecsItem_CommandName_SystemKeyRotate = "system_key_rotate"
-	BlueprintFlowSpecsItem_CommandName_TerraformCommands = "terraform_commands"
-	BlueprintFlowSpecsItem_CommandName_WorkspaceApply = "workspace_apply"
-	BlueprintFlowSpecsItem_CommandName_WorkspaceDestroy = "workspace_destroy"
-	BlueprintFlowSpecsItem_CommandName_WorkspacePlan = "workspace_plan"
-	BlueprintFlowSpecsItem_CommandName_WorkspaceRefresh = "workspace_refresh"
-)
-
-// Constants associated with the BlueprintFlowSpecsItem.FlowType property.
-// Type of blueprint flow specification.
-const (
-	BlueprintFlowSpecsItem_FlowType_ConditionalFlow = "conditional_flow"
-	BlueprintFlowSpecsItem_FlowType_SequenceFlow = "sequence_flow"
-)
-
-// UnmarshalBlueprintFlowSpecsItem unmarshals an instance of BlueprintFlowSpecsItem from the specified map of raw messages.
-func UnmarshalBlueprintFlowSpecsItem(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintFlowSpecsItem)
-	err = core.UnmarshalPrimitive(m, "command_name", &obj.CommandName)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "flow_type", &obj.FlowType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "sequence_flow", &obj.SequenceFlow, UnmarshalBlueprintFlowSpecsItemSequenceFlowItem)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "conditional_flow", &obj.ConditionalFlow)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintFlowSpecsItemSequenceFlowItem : BlueprintFlowSpecsItemSequenceFlowItem struct
-type BlueprintFlowSpecsItemSequenceFlowItem struct {
-	// Sequence number in the order or execution.
-	SequenceNumber *int64 `json:"sequence_number,omitempty"`
-
-	// Name of the layer or module to run this command.
-	ItemName *string `json:"item_name,omitempty"`
-}
-
-// UnmarshalBlueprintFlowSpecsItemSequenceFlowItem unmarshals an instance of BlueprintFlowSpecsItemSequenceFlowItem from the specified map of raw messages.
-func UnmarshalBlueprintFlowSpecsItemSequenceFlowItem(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintFlowSpecsItemSequenceFlowItem)
-	err = core.UnmarshalPrimitive(m, "sequence_number", &obj.SequenceNumber)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "item_name", &obj.ItemName)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintList : List of Blueprints.
-type BlueprintList struct {
-	// Total number of blueprint records.
-	TotalCount *int64 `json:"total_count,omitempty"`
-
-	// Number of blueprint records returned.
-	Limit *int64 `json:"limit,omitempty"`
-
-	// Skipped number of blueprint records.
-	Offset *int64 `json:"offset" validate:"required"`
-
-	// List of blueprints.
-	Blueprints []BlueprintLite `json:"blueprints,omitempty"`
-}
-
-// UnmarshalBlueprintList unmarshals an instance of BlueprintList from the specified map of raw messages.
-func UnmarshalBlueprintList(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintList)
-	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "blueprints", &obj.Blueprints, UnmarshalBlueprintLite)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintLite : Blueprint summary profile.
-type BlueprintLite struct {
-	// Blueprint name (unique for an account).
-	Name *string `json:"name,omitempty"`
-
-	SourceType *string `json:"source_type,omitempty"`
-
-	// Source of templates, playbooks, or controls.
-	Source *ExternalSourceLite `json:"source,omitempty"`
-
-	// Blueprint description.
-	Description *string `json:"description,omitempty"`
-
-	// Resource-group name for the blueprint.  By default, blueprint will be created in Default Resource Group.
-	ResourceGroup *string `json:"resource_group,omitempty"`
-
-	// Blueprint tags.
-	Tags []string `json:"tags,omitempty"`
-
-	// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-	// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-	// provisioned using Schematics.
-	Location *string `json:"location,omitempty"`
-
-	// System generated blueprint Id.
-	ID *string `json:"id,omitempty"`
-
-	// Blueprint CRN.
-	Crn *string `json:"crn,omitempty"`
-
-	// Account id for the blueprint.
-	Account *string `json:"account,omitempty"`
-
-	// Blueprint creation time.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// User who created the Cart order.
-	CreatedBy *string `json:"created_by,omitempty"`
-
-	// Blueprint updation time.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// User who updated the Cart order.
-	UpdatedBy *string `json:"updated_by,omitempty"`
-
-	// System lock status.
-	SysLock *SystemLock `json:"sys_lock,omitempty"`
-
-	// User defined status of the Schematics object.
-	UserState *UserState `json:"user_state,omitempty"`
-
-	// Computed state of the blueprint.
-	State *BlueprintLiteState `json:"state,omitempty"`
-}
-
-// Constants associated with the BlueprintLite.Location property.
-// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-// provisioned using Schematics.
-const (
-	BlueprintLite_Location_EuDe = "eu-de"
-	BlueprintLite_Location_EuGb = "eu-gb"
-	BlueprintLite_Location_UsEast = "us-east"
-	BlueprintLite_Location_UsSouth = "us-south"
-)
-
-// UnmarshalBlueprintLite unmarshals an instance of BlueprintLite from the specified map of raw messages.
-func UnmarshalBlueprintLite(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintLite)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "source_type", &obj.SourceType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalExternalSourceLite)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "account", &obj.Account)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "sys_lock", &obj.SysLock, UnmarshalSystemLock)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalUserState)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "state", &obj.State, UnmarshalBlueprintLiteState)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintLiteState : Computed state of the blueprint.
-type BlueprintLiteState struct {
-	// User-defined states
-	//   * `Blueprint_Create_Init` When Create Blueprint POST API is invoked and CreateBlueprint process is initiated.
-	//   * `Blueprint_Create_InProgress` When Create Blueprint process is in progress.
-	//   * `Blueprint_Create_Success` Repos are downloaded and underlying objects are created
-	//   * `Blueprint_Create_Failed` Failed to create Blueprint or underlying schematics objects.
-	StatusCode *string `json:"status_code,omitempty"`
-
-	// Automation status message - to be displayed along with the status_code.
-	StatusMessage *string `json:"status_message,omitempty"`
-
-	// Status of overall Blueprint.
-	SummaryStatus *string `json:"summary_status,omitempty"`
-
-	// Status of Blueprint Spec.
-	ConfigStatus *string `json:"config_status,omitempty"`
-
-	// Status of Blueprint Plan.
-	PlanStatus *string `json:"plan_status,omitempty"`
-
-	// Status of Blueprint Run Job.
-	RunStatus *string `json:"run_status,omitempty"`
-
-	// Status of Blueprint Resource.
-	ResourceStatus *string `json:"resource_status,omitempty"`
-}
-
-// Constants associated with the BlueprintLiteState.StatusCode property.
-// User-defined states
-//   * `Blueprint_Create_Init` When Create Blueprint POST API is invoked and CreateBlueprint process is initiated.
-//   * `Blueprint_Create_InProgress` When Create Blueprint process is in progress.
-//   * `Blueprint_Create_Success` Repos are downloaded and underlying objects are created
-//   * `Blueprint_Create_Failed` Failed to create Blueprint or underlying schematics objects.
-const (
-	BlueprintLiteState_StatusCode_BlueprintCreateFailed = "Blueprint_Create_Failed"
-	BlueprintLiteState_StatusCode_BlueprintCreateInit = "Blueprint_Create_Init"
-	BlueprintLiteState_StatusCode_BlueprintCreateInprogress = "Blueprint_Create_InProgress"
-	BlueprintLiteState_StatusCode_BlueprintCreateSuccess = "Blueprint_Create_Success"
-)
-
-// Constants associated with the BlueprintLiteState.SummaryStatus property.
-// Status of overall Blueprint.
-const (
-	BlueprintLiteState_SummaryStatus_BlueprintError = "Blueprint_Error"
-	BlueprintLiteState_SummaryStatus_BlueprintInprogress = "Blueprint_InProgress"
-	BlueprintLiteState_SummaryStatus_BlueprintNormal = "Blueprint_Normal"
-	BlueprintLiteState_SummaryStatus_BlueprintPending = "Blueprint_Pending"
-)
-
-// Constants associated with the BlueprintLiteState.ConfigStatus property.
-// Status of Blueprint Spec.
-const (
-	BlueprintLiteState_ConfigStatus_BlueprintConfigDelete = "Blueprint_Config_Delete"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigDeleteError = "Blueprint_Config_Delete_Error"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigDeleted = "Blueprint_Config_Deleted"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigDeleting = "Blueprint_Config_Deleting"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigDraft = "Blueprint_Config_Draft"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigError = "Blueprint_Config_Error"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigSaved = "Blueprint_Config_Saved"
-	BlueprintLiteState_ConfigStatus_BlueprintConfigSaving = "Blueprint_Config_Saving"
-)
-
-// Constants associated with the BlueprintLiteState.PlanStatus property.
-// Status of Blueprint Plan.
-const (
-	BlueprintLiteState_PlanStatus_BlueprintPlan = "Blueprint_Plan"
-	BlueprintLiteState_PlanStatus_BlueprintPlanDelete = "Blueprint_Plan_Delete"
-	BlueprintLiteState_PlanStatus_BlueprintPlanDeleteError = "Blueprint_Plan_Delete_Error"
-	BlueprintLiteState_PlanStatus_BlueprintPlanDeleting = "Blueprint_Plan_Deleting"
-	BlueprintLiteState_PlanStatus_BlueprintPlanError = "Blueprint_Plan_Error"
-	BlueprintLiteState_PlanStatus_BlueprintPlanNone = "Blueprint_Plan_None"
-	BlueprintLiteState_PlanStatus_BlueprintPlanPartial = "Blueprint_Plan_Partial"
-	BlueprintLiteState_PlanStatus_BlueprintPlanned = "Blueprint_Planned"
-	BlueprintLiteState_PlanStatus_BlueprintPlanning = "Blueprint_Planning"
-)
-
-// Constants associated with the BlueprintLiteState.RunStatus property.
-// Status of Blueprint Run Job.
-const (
-	BlueprintLiteState_RunStatus_BlueprintRunApply = "Blueprint_Run_Apply"
-	BlueprintLiteState_RunStatus_BlueprintRunApplyComplete = "Blueprint_Run_Apply_Complete"
-	BlueprintLiteState_RunStatus_BlueprintRunApplyError = "Blueprint_Run_Apply_Error"
-	BlueprintLiteState_RunStatus_BlueprintRunApplyInprogress = "Blueprint_Run_Apply_Inprogress"
-	BlueprintLiteState_RunStatus_BlueprintRunDestroy = "Blueprint_Run_Destroy"
-	BlueprintLiteState_RunStatus_BlueprintRunDestroyComplete = "Blueprint_Run_Destroy_Complete"
-	BlueprintLiteState_RunStatus_BlueprintRunDestroyError = "Blueprint_Run_Destroy_Error"
-	BlueprintLiteState_RunStatus_BlueprintRunDestroyInprogress = "Blueprint_Run_Destroy_Inprogress"
-	BlueprintLiteState_RunStatus_BlueprintRunPlan = "Blueprint_Run_Plan"
-	BlueprintLiteState_RunStatus_BlueprintRunPlanComplete = "Blueprint_Run_Plan_Complete"
-	BlueprintLiteState_RunStatus_BlueprintRunPlanError = "Blueprint_Run_Plan_Error"
-	BlueprintLiteState_RunStatus_BlueprintRunPlanInprogress = "Blueprint_Run_Plan_Inprogress"
-)
-
-// Constants associated with the BlueprintLiteState.ResourceStatus property.
-// Status of Blueprint Resource.
-const (
-	BlueprintLiteState_ResourceStatus_BlueprintResourceActive = "Blueprint_Resource_Active"
-	BlueprintLiteState_ResourceStatus_BlueprintResourceDrifted = "Blueprint_Resource_Drifted"
-	BlueprintLiteState_ResourceStatus_BlueprintResourceError = "Blueprint_Resource_Error"
-	BlueprintLiteState_ResourceStatus_BlueprintResourceTainted = "Blueprint_Resource_Tainted"
-	BlueprintLiteState_ResourceStatus_BlueprintResourceUntainted = "Blueprint_Resource_Untainted"
-)
-
-// UnmarshalBlueprintLiteState unmarshals an instance of BlueprintLiteState from the specified map of raw messages.
-func UnmarshalBlueprintLiteState(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintLiteState)
-	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "summary_status", &obj.SummaryStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "config_status", &obj.ConfigStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "plan_status", &obj.PlanStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "run_status", &obj.RunStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "resource_status", &obj.ResourceStatus)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintModule : Component for the Blueprint.
-type BlueprintModule struct {
-	// Module id.
-	ModuleID *string `json:"module_id,omitempty"`
-
-	// Name of the Schematics automation resource.
-	ModuleType *string `json:"module_type,omitempty"`
-
-	// Name of the module.
-	Name *string `json:"name,omitempty"`
-
-	// Layer for the module.
-	Layer *string `json:"layer,omitempty"`
-
-	// Source of templates, playbooks, or controls.
-	Source *ExternalSource `json:"source,omitempty"`
-
-	// Array of injectable terraform blocks.
-	Injectors []InjectTerraformTemplateItem `json:"injectors,omitempty"`
-
-	// Tags used by the module.
-	Tags *string `json:"tags,omitempty"`
-
-	// The description of the module.
-	Description *string `json:"description,omitempty"`
-
-	// The timestamp when the module was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// The user ID that created the module.
-	CreatedBy *string `json:"created_by,omitempty"`
-
-	// The timestamp when the module was updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// The user ID that updated the module.
-	UpdatedBy *string `json:"updated_by,omitempty"`
-
-	// The Terraform version of the module that was used to run your Terraform code.
-	Version []string `json:"version,omitempty"`
-
-	// Status of the module.
-	Status *string `json:"status,omitempty"`
-
-	// Location of the module.
-	Location *string `json:"location,omitempty"`
-
-	// Inputs used by the module.
-	Inputs []VariableData `json:"inputs,omitempty"`
-
-	// Environment settings for the module.
-	Settings []VariableData `json:"settings,omitempty"`
-
-	// True, when the blueprint module settings is updated or changed.
-	Updated *bool `json:"updated,omitempty"`
-
-	// True, when there are deletions in the blueprint module settings.
-	Deleted *bool `json:"deleted,omitempty"`
-
-	// Outputs from the module.
-	Outputs []BlueprintVariableData `json:"outputs,omitempty"`
-
-	// Status of the last job executed by the module.
-	LastJob *BlueprintModuleLastJob `json:"last_job,omitempty"`
-}
-
-// Constants associated with the BlueprintModule.ModuleType property.
-// Name of the Schematics automation resource.
-const (
-	BlueprintModule_ModuleType_Action = "action"
-	BlueprintModule_ModuleType_Blueprint = "blueprint"
-	BlueprintModule_ModuleType_Environment = "environment"
-	BlueprintModule_ModuleType_System = "system"
-	BlueprintModule_ModuleType_Workspace = "workspace"
-)
-
-// UnmarshalBlueprintModule unmarshals an instance of BlueprintModule from the specified map of raw messages.
-func UnmarshalBlueprintModule(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintModule)
-	err = core.UnmarshalPrimitive(m, "module_id", &obj.ModuleID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "module_type", &obj.ModuleType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "layer", &obj.Layer)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalExternalSource)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "injectors", &obj.Injectors, UnmarshalInjectTerraformTemplateItem)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated", &obj.Updated)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "deleted", &obj.Deleted)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalBlueprintVariableData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "last_job", &obj.LastJob, UnmarshalBlueprintModuleLastJob)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintModuleLastJob : Status of the last job executed by the module.
-type BlueprintModuleLastJob struct {
-	// Name of the Schematics automation resource.
-	CommandObject *string `json:"command_object,omitempty"`
-
-	// Name of the command object id, maps to workspace_name or action_name.
-	CommandObjectName *string `json:"command_object_name,omitempty"`
-
-	// Module command object id, maps to workspace_id or action_id.
-	CommandObjectID *string `json:"command_object_id,omitempty"`
-
-	// Schematics job command name.
-	CommandName *string `json:"command_name,omitempty"`
-
-	// Status of Jobs.
-	JobStatus *string `json:"job_status,omitempty"`
-}
-
-// Constants associated with the BlueprintModuleLastJob.CommandObject property.
-// Name of the Schematics automation resource.
-const (
-	BlueprintModuleLastJob_CommandObject_Action = "action"
-	BlueprintModuleLastJob_CommandObject_Blueprint = "blueprint"
-	BlueprintModuleLastJob_CommandObject_Environment = "environment"
-	BlueprintModuleLastJob_CommandObject_System = "system"
-	BlueprintModuleLastJob_CommandObject_Workspace = "workspace"
-)
-
-// Constants associated with the BlueprintModuleLastJob.CommandName property.
-// Schematics job command name.
-const (
-	BlueprintModuleLastJob_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	BlueprintModuleLastJob_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	BlueprintModuleLastJob_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	BlueprintModuleLastJob_CommandName_BlueprintDelete = "blueprint_delete"
-	BlueprintModuleLastJob_CommandName_BlueprintDestroy = "blueprint_destroy"
-	BlueprintModuleLastJob_CommandName_BlueprintInstall = "blueprint_install"
-	BlueprintModuleLastJob_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	BlueprintModuleLastJob_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	BlueprintModuleLastJob_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	BlueprintModuleLastJob_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	BlueprintModuleLastJob_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	BlueprintModuleLastJob_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	BlueprintModuleLastJob_CommandName_BlueprintUpdateInit = "blueprint_update_init"
-	BlueprintModuleLastJob_CommandName_CreateAction = "create_action"
-	BlueprintModuleLastJob_CommandName_CreateCart = "create_cart"
-	BlueprintModuleLastJob_CommandName_CreateEnvironment = "create_environment"
-	BlueprintModuleLastJob_CommandName_CreateWorkspace = "create_workspace"
-	BlueprintModuleLastJob_CommandName_DeleteAction = "delete_action"
-	BlueprintModuleLastJob_CommandName_DeleteEnvironment = "delete_environment"
-	BlueprintModuleLastJob_CommandName_DeleteWorkspace = "delete_workspace"
-	BlueprintModuleLastJob_CommandName_EnvironmentCreateInit = "environment_create_init"
-	BlueprintModuleLastJob_CommandName_EnvironmentInstall = "environment_install"
-	BlueprintModuleLastJob_CommandName_EnvironmentUninstall = "environment_uninstall"
-	BlueprintModuleLastJob_CommandName_EnvironmentUpdateInit = "environment_update_init"
-	BlueprintModuleLastJob_CommandName_PatchAction = "patch_action"
-	BlueprintModuleLastJob_CommandName_PatchWorkspace = "patch_workspace"
-	BlueprintModuleLastJob_CommandName_PutAction = "put_action"
-	BlueprintModuleLastJob_CommandName_PutEnvironment = "put_environment"
-	BlueprintModuleLastJob_CommandName_PutWorkspace = "put_workspace"
-	BlueprintModuleLastJob_CommandName_RepositoryProcess = "repository_process"
-	BlueprintModuleLastJob_CommandName_SystemKeyDelete = "system_key_delete"
-	BlueprintModuleLastJob_CommandName_SystemKeyDisable = "system_key_disable"
-	BlueprintModuleLastJob_CommandName_SystemKeyEnable = "system_key_enable"
-	BlueprintModuleLastJob_CommandName_SystemKeyRestore = "system_key_restore"
-	BlueprintModuleLastJob_CommandName_SystemKeyRotate = "system_key_rotate"
-	BlueprintModuleLastJob_CommandName_TerraformCommands = "terraform_commands"
-	BlueprintModuleLastJob_CommandName_WorkspaceApply = "workspace_apply"
-	BlueprintModuleLastJob_CommandName_WorkspaceDestroy = "workspace_destroy"
-	BlueprintModuleLastJob_CommandName_WorkspacePlan = "workspace_plan"
-	BlueprintModuleLastJob_CommandName_WorkspaceRefresh = "workspace_refresh"
-)
-
-// Constants associated with the BlueprintModuleLastJob.JobStatus property.
-// Status of Jobs.
-const (
-	BlueprintModuleLastJob_JobStatus_JobCancelled = "job_cancelled"
-	BlueprintModuleLastJob_JobStatus_JobFailed = "job_failed"
-	BlueprintModuleLastJob_JobStatus_JobFinished = "job_finished"
-	BlueprintModuleLastJob_JobStatus_JobInProgress = "job_in_progress"
-	BlueprintModuleLastJob_JobStatus_JobPending = "job_pending"
-	BlueprintModuleLastJob_JobStatus_JobReadyToExecute = "job_ready_to_execute"
-	BlueprintModuleLastJob_JobStatus_JobStopInProgress = "job_stop_in_progress"
-	BlueprintModuleLastJob_JobStatus_JobStopped = "job_stopped"
-)
-
-// UnmarshalBlueprintModuleLastJob unmarshals an instance of BlueprintModuleLastJob from the specified map of raw messages.
-func UnmarshalBlueprintModuleLastJob(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintModuleLastJob)
-	err = core.UnmarshalPrimitive(m, "command_object", &obj.CommandObject)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "command_object_name", &obj.CommandObjectName)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "command_object_id", &obj.CommandObjectID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "command_name", &obj.CommandName)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "job_status", &obj.JobStatus)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintState : Computed state of the blueprint.
-type BlueprintState struct {
-	// User-defined states
-	//   * `Blueprint_Create_Init` When Create Blueprint POST API is invoked and CreateBlueprint process is initiated.
-	//   * `Blueprint_Create_InProgress` When Create Blueprint process is in progress.
-	//   * `Blueprint_Create_Success` Repos are downloaded and underlying objects are created
-	//   * `Blueprint_Create_Failed` Failed to create Blueprint or underlying schematics objects.
-	StatusCode *string `json:"status_code,omitempty"`
-
-	// Automation status message - to be displayed along with the status_code.
-	StatusMessage *string `json:"status_message,omitempty"`
-
-	// Status of overall Blueprint.
-	SummaryStatus *string `json:"summary_status,omitempty"`
-
-	// Status of Blueprint Spec.
-	ConfigStatus *string `json:"config_status,omitempty"`
-
-	// Status of Blueprint Plan.
-	PlanStatus *string `json:"plan_status,omitempty"`
-
-	// Status of Blueprint Run Job.
-	RunStatus *string `json:"run_status,omitempty"`
-
-	// Status of Blueprint Resource.
-	ResourceStatus *string `json:"resource_status,omitempty"`
-}
-
-// Constants associated with the BlueprintState.StatusCode property.
-// User-defined states
-//   * `Blueprint_Create_Init` When Create Blueprint POST API is invoked and CreateBlueprint process is initiated.
-//   * `Blueprint_Create_InProgress` When Create Blueprint process is in progress.
-//   * `Blueprint_Create_Success` Repos are downloaded and underlying objects are created
-//   * `Blueprint_Create_Failed` Failed to create Blueprint or underlying schematics objects.
-const (
-	BlueprintState_StatusCode_BlueprintCreateFailed = "Blueprint_Create_Failed"
-	BlueprintState_StatusCode_BlueprintCreateInit = "Blueprint_Create_Init"
-	BlueprintState_StatusCode_BlueprintCreateInprogress = "Blueprint_Create_InProgress"
-	BlueprintState_StatusCode_BlueprintCreateSuccess = "Blueprint_Create_Success"
-)
-
-// Constants associated with the BlueprintState.SummaryStatus property.
-// Status of overall Blueprint.
-const (
-	BlueprintState_SummaryStatus_BlueprintError = "Blueprint_Error"
-	BlueprintState_SummaryStatus_BlueprintInprogress = "Blueprint_InProgress"
-	BlueprintState_SummaryStatus_BlueprintNormal = "Blueprint_Normal"
-	BlueprintState_SummaryStatus_BlueprintPending = "Blueprint_Pending"
-)
-
-// Constants associated with the BlueprintState.ConfigStatus property.
-// Status of Blueprint Spec.
-const (
-	BlueprintState_ConfigStatus_BlueprintConfigDelete = "Blueprint_Config_Delete"
-	BlueprintState_ConfigStatus_BlueprintConfigDeleteError = "Blueprint_Config_Delete_Error"
-	BlueprintState_ConfigStatus_BlueprintConfigDeleted = "Blueprint_Config_Deleted"
-	BlueprintState_ConfigStatus_BlueprintConfigDeleting = "Blueprint_Config_Deleting"
-	BlueprintState_ConfigStatus_BlueprintConfigDraft = "Blueprint_Config_Draft"
-	BlueprintState_ConfigStatus_BlueprintConfigError = "Blueprint_Config_Error"
-	BlueprintState_ConfigStatus_BlueprintConfigSaved = "Blueprint_Config_Saved"
-	BlueprintState_ConfigStatus_BlueprintConfigSaving = "Blueprint_Config_Saving"
-)
-
-// Constants associated with the BlueprintState.PlanStatus property.
-// Status of Blueprint Plan.
-const (
-	BlueprintState_PlanStatus_BlueprintPlan = "Blueprint_Plan"
-	BlueprintState_PlanStatus_BlueprintPlanDelete = "Blueprint_Plan_Delete"
-	BlueprintState_PlanStatus_BlueprintPlanDeleteError = "Blueprint_Plan_Delete_Error"
-	BlueprintState_PlanStatus_BlueprintPlanDeleting = "Blueprint_Plan_Deleting"
-	BlueprintState_PlanStatus_BlueprintPlanError = "Blueprint_Plan_Error"
-	BlueprintState_PlanStatus_BlueprintPlanNone = "Blueprint_Plan_None"
-	BlueprintState_PlanStatus_BlueprintPlanPartial = "Blueprint_Plan_Partial"
-	BlueprintState_PlanStatus_BlueprintPlanned = "Blueprint_Planned"
-	BlueprintState_PlanStatus_BlueprintPlanning = "Blueprint_Planning"
-)
-
-// Constants associated with the BlueprintState.RunStatus property.
-// Status of Blueprint Run Job.
-const (
-	BlueprintState_RunStatus_BlueprintRunApply = "Blueprint_Run_Apply"
-	BlueprintState_RunStatus_BlueprintRunApplyComplete = "Blueprint_Run_Apply_Complete"
-	BlueprintState_RunStatus_BlueprintRunApplyError = "Blueprint_Run_Apply_Error"
-	BlueprintState_RunStatus_BlueprintRunApplyInprogress = "Blueprint_Run_Apply_Inprogress"
-	BlueprintState_RunStatus_BlueprintRunDestroy = "Blueprint_Run_Destroy"
-	BlueprintState_RunStatus_BlueprintRunDestroyComplete = "Blueprint_Run_Destroy_Complete"
-	BlueprintState_RunStatus_BlueprintRunDestroyError = "Blueprint_Run_Destroy_Error"
-	BlueprintState_RunStatus_BlueprintRunDestroyInprogress = "Blueprint_Run_Destroy_Inprogress"
-	BlueprintState_RunStatus_BlueprintRunPlan = "Blueprint_Run_Plan"
-	BlueprintState_RunStatus_BlueprintRunPlanComplete = "Blueprint_Run_Plan_Complete"
-	BlueprintState_RunStatus_BlueprintRunPlanError = "Blueprint_Run_Plan_Error"
-	BlueprintState_RunStatus_BlueprintRunPlanInprogress = "Blueprint_Run_Plan_Inprogress"
-)
-
-// Constants associated with the BlueprintState.ResourceStatus property.
-// Status of Blueprint Resource.
-const (
-	BlueprintState_ResourceStatus_BlueprintResourceActive = "Blueprint_Resource_Active"
-	BlueprintState_ResourceStatus_BlueprintResourceDrifted = "Blueprint_Resource_Drifted"
-	BlueprintState_ResourceStatus_BlueprintResourceError = "Blueprint_Resource_Error"
-	BlueprintState_ResourceStatus_BlueprintResourceTainted = "Blueprint_Resource_Tainted"
-	BlueprintState_ResourceStatus_BlueprintResourceUntainted = "Blueprint_Resource_Untainted"
-)
-
-// UnmarshalBlueprintState unmarshals an instance of BlueprintState from the specified map of raw messages.
-func UnmarshalBlueprintState(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintState)
-	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "summary_status", &obj.SummaryStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "config_status", &obj.ConfigStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "plan_status", &obj.PlanStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "run_status", &obj.RunStatus)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "resource_status", &obj.ResourceStatus)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintTemplateRepoTarUploadResponse : Response after uploading Blueprint Template in tar file format.
-type BlueprintTemplateRepoTarUploadResponse struct {
-	// Tar file value.
-	FileValue *string `json:"file_value,omitempty"`
-
-	// Has received tar file?.
-	HasReceivedFile *bool `json:"has_received_file,omitempty"`
-}
-
-// UnmarshalBlueprintTemplateRepoTarUploadResponse unmarshals an instance of BlueprintTemplateRepoTarUploadResponse from the specified map of raw messages.
-func UnmarshalBlueprintTemplateRepoTarUploadResponse(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintTemplateRepoTarUploadResponse)
-	err = core.UnmarshalPrimitive(m, "file_value", &obj.FileValue)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "has_received_file", &obj.HasReceivedFile)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// BlueprintVariableData : User editable variable data & system generated reference to value.
-type BlueprintVariableData struct {
-	// Name of the variable.
-	Name *string `json:"name,omitempty"`
-
-	// Value for the variable or reference to the value.
-	Value *string `json:"value,omitempty"`
-
-	// Reference link to the variable value By default the expression will point to self.value.
-	Link *string `json:"link,omitempty"`
-}
-
-// UnmarshalBlueprintVariableData unmarshals an instance of BlueprintVariableData from the specified map of raw messages.
-func UnmarshalBlueprintVariableData(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(BlueprintVariableData)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "link", &obj.Link)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // CartOrderData : Schematics Cart Order Data.
 type CartOrderData struct {
 	// Name of the property.
@@ -10826,94 +9300,6 @@ func UnmarshalCatalogSource(m map[string]json.RawMessage, result interface{}) (e
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "launch_url", &obj.LaunchURL)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// CatalogSourceLite : The connection details to the IBM Cloud Catalog source.
-type CatalogSourceLite struct {
-	// The name of the private catalog.
-	CatalogName *string `json:"catalog_name,omitempty"`
-
-	// The ID of a private catalog.
-	CatalogID *string `json:"catalog_id,omitempty"`
-
-	// The name of an offering in the IBM Cloud Catalog.
-	OfferingName *string `json:"offering_name,omitempty"`
-
-	// The version of the software template that you chose to install from the IBM Cloud catalog.
-	OfferingVersion *string `json:"offering_version,omitempty"`
-
-	// The type of an offering, in the IBM Cloud Catalog.
-	OfferingKind *string `json:"offering_kind,omitempty"`
-
-	// Offering Target Kind.
-	OfferingTargetKind *string `json:"offering_target_kind,omitempty"`
-
-	// The ID of an offering in the IBM Cloud Catalog.
-	OfferingID *string `json:"offering_id,omitempty"`
-
-	// The ID of an offering version the IBM Cloud Catalog.
-	OfferingVersionID *string `json:"offering_version_id,omitempty"`
-
-	// Offering version flavour name.
-	OfferingVersionFlavourName *string `json:"offering_version_flavour_name,omitempty"`
-
-	// The ID of the software template that you chose to install from the IBM Cloud catalog. This software is provisioned
-	// with Schematics.
-	ItemID *string `json:"item_id,omitempty"`
-
-	// The name of the software that you chose to install from the IBM Cloud catalog.
-	ItemName *string `json:"item_name,omitempty"`
-}
-
-// UnmarshalCatalogSourceLite unmarshals an instance of CatalogSourceLite from the specified map of raw messages.
-func UnmarshalCatalogSourceLite(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CatalogSourceLite)
-	err = core.UnmarshalPrimitive(m, "catalog_name", &obj.CatalogName)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "catalog_id", &obj.CatalogID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_name", &obj.OfferingName)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_version", &obj.OfferingVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_kind", &obj.OfferingKind)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_target_kind", &obj.OfferingTargetKind)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_id", &obj.OfferingID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_version_id", &obj.OfferingVersionID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "offering_version_flavour_name", &obj.OfferingVersionFlavourName)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "item_id", &obj.ItemID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "item_name", &obj.ItemName)
 	if err != nil {
 		return
 	}
@@ -11379,146 +9765,6 @@ func (options *CreateAgentDataOptions) SetHeaders(param map[string]string) *Crea
 	return options
 }
 
-// CreateBlueprintOptions : The CreateBlueprint options.
-type CreateBlueprintOptions struct {
-	// Blueprint name (unique for an account).
-	Name *string `json:"name" validate:"required"`
-
-	// Schema version.
-	SchemaVersion *string `json:"schema_version,omitempty"`
-
-	// Source of templates, playbooks, or controls.
-	Source *ExternalSource `json:"source,omitempty"`
-
-	// Blueprint input configuration definition.
-	Config []BlueprintConfigItem `json:"config,omitempty"`
-
-	// Blueprint description.
-	Description *string `json:"description,omitempty"`
-
-	// Resource-group name for the blueprint.  By default, blueprint will be created in Default Resource Group.
-	ResourceGroup *string `json:"resource_group,omitempty"`
-
-	// Blueprint instance tags.
-	Tags []string `json:"tags,omitempty"`
-
-	// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-	// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-	// provisioned using Schematics.
-	Location *string `json:"location,omitempty"`
-
-	// Additional inputs configuration for the blueprint.
-	Inputs []VariableData `json:"inputs,omitempty"`
-
-	// Input environemnt settings for blueprint.
-	Settings []VariableData `json:"settings,omitempty"`
-
-	// Flow definitions for all the blueprint command.
-	Flow *BlueprintFlow `json:"flow,omitempty"`
-
-	// User defined status of the Schematics object.
-	UserState *UserState `json:"user_state,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// Constants associated with the CreateBlueprintOptions.Location property.
-// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-// provisioned using Schematics.
-const (
-	CreateBlueprintOptions_Location_EuDe = "eu-de"
-	CreateBlueprintOptions_Location_EuGb = "eu-gb"
-	CreateBlueprintOptions_Location_UsEast = "us-east"
-	CreateBlueprintOptions_Location_UsSouth = "us-south"
-)
-
-// NewCreateBlueprintOptions : Instantiate CreateBlueprintOptions
-func (*SchematicsV1) NewCreateBlueprintOptions(name string) *CreateBlueprintOptions {
-	return &CreateBlueprintOptions{
-		Name: core.StringPtr(name),
-	}
-}
-
-// SetName : Allow user to set Name
-func (_options *CreateBlueprintOptions) SetName(name string) *CreateBlueprintOptions {
-	_options.Name = core.StringPtr(name)
-	return _options
-}
-
-// SetSchemaVersion : Allow user to set SchemaVersion
-func (_options *CreateBlueprintOptions) SetSchemaVersion(schemaVersion string) *CreateBlueprintOptions {
-	_options.SchemaVersion = core.StringPtr(schemaVersion)
-	return _options
-}
-
-// SetSource : Allow user to set Source
-func (_options *CreateBlueprintOptions) SetSource(source *ExternalSource) *CreateBlueprintOptions {
-	_options.Source = source
-	return _options
-}
-
-// SetConfig : Allow user to set Config
-func (_options *CreateBlueprintOptions) SetConfig(config []BlueprintConfigItem) *CreateBlueprintOptions {
-	_options.Config = config
-	return _options
-}
-
-// SetDescription : Allow user to set Description
-func (_options *CreateBlueprintOptions) SetDescription(description string) *CreateBlueprintOptions {
-	_options.Description = core.StringPtr(description)
-	return _options
-}
-
-// SetResourceGroup : Allow user to set ResourceGroup
-func (_options *CreateBlueprintOptions) SetResourceGroup(resourceGroup string) *CreateBlueprintOptions {
-	_options.ResourceGroup = core.StringPtr(resourceGroup)
-	return _options
-}
-
-// SetTags : Allow user to set Tags
-func (_options *CreateBlueprintOptions) SetTags(tags []string) *CreateBlueprintOptions {
-	_options.Tags = tags
-	return _options
-}
-
-// SetLocation : Allow user to set Location
-func (_options *CreateBlueprintOptions) SetLocation(location string) *CreateBlueprintOptions {
-	_options.Location = core.StringPtr(location)
-	return _options
-}
-
-// SetInputs : Allow user to set Inputs
-func (_options *CreateBlueprintOptions) SetInputs(inputs []VariableData) *CreateBlueprintOptions {
-	_options.Inputs = inputs
-	return _options
-}
-
-// SetSettings : Allow user to set Settings
-func (_options *CreateBlueprintOptions) SetSettings(settings []VariableData) *CreateBlueprintOptions {
-	_options.Settings = settings
-	return _options
-}
-
-// SetFlow : Allow user to set Flow
-func (_options *CreateBlueprintOptions) SetFlow(flow *BlueprintFlow) *CreateBlueprintOptions {
-	_options.Flow = flow
-	return _options
-}
-
-// SetUserState : Allow user to set UserState
-func (_options *CreateBlueprintOptions) SetUserState(userState *UserState) *CreateBlueprintOptions {
-	_options.UserState = userState
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *CreateBlueprintOptions) SetHeaders(param map[string]string) *CreateBlueprintOptions {
-	options.Headers = param
-	return options
-}
-
 // CreateInventoryOptions : The CreateInventory options.
 type CreateInventoryOptions struct {
 	// The unique name of your Inventory definition. The name can be up to 128 characters long and can include alphanumeric
@@ -11679,7 +9925,6 @@ type CreateJobOptions struct {
 // Name of the Schematics automation resource.
 const (
 	CreateJobOptions_CommandObject_Action = "action"
-	CreateJobOptions_CommandObject_Blueprint = "blueprint"
 	CreateJobOptions_CommandObject_Environment = "environment"
 	CreateJobOptions_CommandObject_System = "system"
 	CreateJobOptions_CommandObject_Workspace = "workspace"
@@ -11690,32 +9935,14 @@ const (
 const (
 	CreateJobOptions_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
 	CreateJobOptions_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	CreateJobOptions_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	CreateJobOptions_CommandName_BlueprintDelete = "blueprint_delete"
-	CreateJobOptions_CommandName_BlueprintDestroy = "blueprint_destroy"
-	CreateJobOptions_CommandName_BlueprintInstall = "blueprint_install"
-	CreateJobOptions_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	CreateJobOptions_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	CreateJobOptions_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	CreateJobOptions_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	CreateJobOptions_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	CreateJobOptions_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	CreateJobOptions_CommandName_BlueprintUpdateInit = "blueprint_update_init"
 	CreateJobOptions_CommandName_CreateAction = "create_action"
 	CreateJobOptions_CommandName_CreateCart = "create_cart"
-	CreateJobOptions_CommandName_CreateEnvironment = "create_environment"
 	CreateJobOptions_CommandName_CreateWorkspace = "create_workspace"
 	CreateJobOptions_CommandName_DeleteAction = "delete_action"
-	CreateJobOptions_CommandName_DeleteEnvironment = "delete_environment"
 	CreateJobOptions_CommandName_DeleteWorkspace = "delete_workspace"
-	CreateJobOptions_CommandName_EnvironmentCreateInit = "environment_create_init"
-	CreateJobOptions_CommandName_EnvironmentInstall = "environment_install"
-	CreateJobOptions_CommandName_EnvironmentUninstall = "environment_uninstall"
-	CreateJobOptions_CommandName_EnvironmentUpdateInit = "environment_update_init"
 	CreateJobOptions_CommandName_PatchAction = "patch_action"
 	CreateJobOptions_CommandName_PatchWorkspace = "patch_workspace"
 	CreateJobOptions_CommandName_PutAction = "put_action"
-	CreateJobOptions_CommandName_PutEnvironment = "put_environment"
 	CreateJobOptions_CommandName_PutWorkspace = "put_workspace"
 	CreateJobOptions_CommandName_RepositoryProcess = "repository_process"
 	CreateJobOptions_CommandName_SystemKeyDelete = "system_key_delete"
@@ -12524,55 +10751,53 @@ func (options *DeleteAgentOptions) SetHeaders(param map[string]string) *DeleteAg
 	return options
 }
 
-// DeleteBlueprintOptions : The DeleteBlueprint options.
-type DeleteBlueprintOptions struct {
-	// Environment Id.  Use `GET /v2/blueprints` API to look up the order ids in your IBM Cloud account.
-	BlueprintID *string `json:"blueprint_id" validate:"required,ne="`
+// DeleteAgentResourcesOptions : The DeleteAgentResources options.
+type DeleteAgentResourcesOptions struct {
+	// Agent ID to get the details of agent.
+	AgentID *string `json:"agent_id" validate:"required,ne="`
 
-	// Level of details returned by the get method.
-	Profile *string `json:"profile,omitempty"`
-
-	// Destroy the resources before deleting the blueprint.
-	Destroy *bool `json:"destroy,omitempty"`
+	// The IAM refresh token for the user or service identity.
+	//
+	//   **Retrieving refresh token**:
+	//   * Use `export IBMCLOUD_API_KEY=<ibmcloud_api_key>`, and execute `curl -X POST
+	// "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+	// "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+	//   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+	// token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+	// key](/apidocs/iam-identity-token-api#create-api-key).
+	//
+	//   **Limitation**:
+	//   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+	//   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+	//   * When the IAM access token is about to expire, use the API key to create a new access token.
+	RefreshToken *string `json:"refresh_token" validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
-// Constants associated with the DeleteBlueprintOptions.Profile property.
-// Level of details returned by the get method.
-const (
-	DeleteBlueprintOptions_Profile_Ids = "ids"
-	DeleteBlueprintOptions_Profile_Summary = "summary"
-)
-
-// NewDeleteBlueprintOptions : Instantiate DeleteBlueprintOptions
-func (*SchematicsV1) NewDeleteBlueprintOptions(blueprintID string) *DeleteBlueprintOptions {
-	return &DeleteBlueprintOptions{
-		BlueprintID: core.StringPtr(blueprintID),
+// NewDeleteAgentResourcesOptions : Instantiate DeleteAgentResourcesOptions
+func (*SchematicsV1) NewDeleteAgentResourcesOptions(agentID string, refreshToken string) *DeleteAgentResourcesOptions {
+	return &DeleteAgentResourcesOptions{
+		AgentID: core.StringPtr(agentID),
+		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
 
-// SetBlueprintID : Allow user to set BlueprintID
-func (_options *DeleteBlueprintOptions) SetBlueprintID(blueprintID string) *DeleteBlueprintOptions {
-	_options.BlueprintID = core.StringPtr(blueprintID)
+// SetAgentID : Allow user to set AgentID
+func (_options *DeleteAgentResourcesOptions) SetAgentID(agentID string) *DeleteAgentResourcesOptions {
+	_options.AgentID = core.StringPtr(agentID)
 	return _options
 }
 
-// SetProfile : Allow user to set Profile
-func (_options *DeleteBlueprintOptions) SetProfile(profile string) *DeleteBlueprintOptions {
-	_options.Profile = core.StringPtr(profile)
-	return _options
-}
-
-// SetDestroy : Allow user to set Destroy
-func (_options *DeleteBlueprintOptions) SetDestroy(destroy bool) *DeleteBlueprintOptions {
-	_options.Destroy = core.BoolPtr(destroy)
+// SetRefreshToken : Allow user to set RefreshToken
+func (_options *DeleteAgentResourcesOptions) SetRefreshToken(refreshToken string) *DeleteAgentResourcesOptions {
+	_options.RefreshToken = core.StringPtr(refreshToken)
 	return _options
 }
 
 // SetHeaders : Allow user to set Headers
-func (options *DeleteBlueprintOptions) SetHeaders(param map[string]string) *DeleteBlueprintOptions {
+func (options *DeleteAgentResourcesOptions) SetHeaders(param map[string]string) *DeleteAgentResourcesOptions {
 	options.Headers = param
 	return options
 }
@@ -13190,48 +11415,6 @@ func UnmarshalExternalSource(m map[string]json.RawMessage, result interface{}) (
 	return
 }
 
-// ExternalSourceLite : Source of templates, playbooks, or controls.
-type ExternalSourceLite struct {
-	// Type of source for the Template.
-	SourceType *string `json:"source_type" validate:"required"`
-
-	// The connection details to the Git source repository.
-	Git *GitSourceLite `json:"git,omitempty"`
-
-	// The connection details to the IBM Cloud Catalog source.
-	Catalog *CatalogSourceLite `json:"catalog,omitempty"`
-}
-
-// Constants associated with the ExternalSourceLite.SourceType property.
-// Type of source for the Template.
-const (
-	ExternalSourceLite_SourceType_GitHub = "git_hub"
-	ExternalSourceLite_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	ExternalSourceLite_SourceType_GitLab = "git_lab"
-	ExternalSourceLite_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	ExternalSourceLite_SourceType_IbmGitLab = "ibm_git_lab"
-	ExternalSourceLite_SourceType_Local = "local"
-)
-
-// UnmarshalExternalSourceLite unmarshals an instance of ExternalSourceLite from the specified map of raw messages.
-func UnmarshalExternalSourceLite(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(ExternalSourceLite)
-	err = core.UnmarshalPrimitive(m, "source_type", &obj.SourceType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "git", &obj.Git, UnmarshalGitSourceLite)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "catalog", &obj.Catalog, UnmarshalCatalogSourceLite)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // GetActionOptions : The GetAction options.
 type GetActionOptions struct {
 	// Action Id.  Use GET /actions API to look up the Action Ids in your IBM Cloud account.
@@ -13410,50 +11593,6 @@ func (_options *GetAllWorkspaceInputsOptions) SetWID(wID string) *GetAllWorkspac
 
 // SetHeaders : Allow user to set Headers
 func (options *GetAllWorkspaceInputsOptions) SetHeaders(param map[string]string) *GetAllWorkspaceInputsOptions {
-	options.Headers = param
-	return options
-}
-
-// GetBlueprintOptions : The GetBlueprint options.
-type GetBlueprintOptions struct {
-	// Environment Id.  Use `GET /v2/blueprints` API to look up the order ids in your IBM Cloud account.
-	BlueprintID *string `json:"blueprint_id" validate:"required,ne="`
-
-	// Level of details returned by the get method.
-	Profile *string `json:"profile,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// Constants associated with the GetBlueprintOptions.Profile property.
-// Level of details returned by the get method.
-const (
-	GetBlueprintOptions_Profile_Ids = "ids"
-	GetBlueprintOptions_Profile_Summary = "summary"
-)
-
-// NewGetBlueprintOptions : Instantiate GetBlueprintOptions
-func (*SchematicsV1) NewGetBlueprintOptions(blueprintID string) *GetBlueprintOptions {
-	return &GetBlueprintOptions{
-		BlueprintID: core.StringPtr(blueprintID),
-	}
-}
-
-// SetBlueprintID : Allow user to set BlueprintID
-func (_options *GetBlueprintOptions) SetBlueprintID(blueprintID string) *GetBlueprintOptions {
-	_options.BlueprintID = core.StringPtr(blueprintID)
-	return _options
-}
-
-// SetProfile : Allow user to set Profile
-func (_options *GetBlueprintOptions) SetProfile(profile string) *GetBlueprintOptions {
-	_options.Profile = core.StringPtr(profile)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetBlueprintOptions) SetHeaders(param map[string]string) *GetBlueprintOptions {
 	options.Headers = param
 	return options
 }
@@ -14462,44 +12601,6 @@ func UnmarshalGitSource(m map[string]json.RawMessage, result interface{}) (err e
 	return
 }
 
-// GitSourceLite : The connection details to the Git source repository.
-type GitSourceLite struct {
-	// The URL to the Git repository that can be used to clone the template.
-	GitRepoURL *string `json:"git_repo_url,omitempty"`
-
-	// The name of the release tag that are used to fetch the Git repository.
-	GitRelease *string `json:"git_release,omitempty"`
-
-	// The name of the branch that are used to fetch the Git repository.
-	GitBranch *string `json:"git_branch,omitempty"`
-
-	// The name of the folder in the Git repository, that contains the template.
-	GitRepoFolder *string `json:"git_repo_folder,omitempty"`
-}
-
-// UnmarshalGitSourceLite unmarshals an instance of GitSourceLite from the specified map of raw messages.
-func UnmarshalGitSourceLite(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(GitSourceLite)
-	err = core.UnmarshalPrimitive(m, "git_repo_url", &obj.GitRepoURL)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "git_release", &obj.GitRelease)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "git_branch", &obj.GitBranch)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "git_repo_folder", &obj.GitRepoFolder)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // HealthCheckAgentJobOptions : The HealthCheckAgentJob options.
 type HealthCheckAgentJobOptions struct {
 	// Agent ID to get the details of agent.
@@ -14848,7 +12949,6 @@ type Job struct {
 // Name of the Schematics automation resource.
 const (
 	Job_CommandObject_Action = "action"
-	Job_CommandObject_Blueprint = "blueprint"
 	Job_CommandObject_Environment = "environment"
 	Job_CommandObject_System = "system"
 	Job_CommandObject_Workspace = "workspace"
@@ -14859,32 +12959,14 @@ const (
 const (
 	Job_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
 	Job_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	Job_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	Job_CommandName_BlueprintDelete = "blueprint_delete"
-	Job_CommandName_BlueprintDestroy = "blueprint_destroy"
-	Job_CommandName_BlueprintInstall = "blueprint_install"
-	Job_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	Job_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	Job_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	Job_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	Job_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	Job_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	Job_CommandName_BlueprintUpdateInit = "blueprint_update_init"
 	Job_CommandName_CreateAction = "create_action"
 	Job_CommandName_CreateCart = "create_cart"
-	Job_CommandName_CreateEnvironment = "create_environment"
 	Job_CommandName_CreateWorkspace = "create_workspace"
 	Job_CommandName_DeleteAction = "delete_action"
-	Job_CommandName_DeleteEnvironment = "delete_environment"
 	Job_CommandName_DeleteWorkspace = "delete_workspace"
-	Job_CommandName_EnvironmentCreateInit = "environment_create_init"
-	Job_CommandName_EnvironmentInstall = "environment_install"
-	Job_CommandName_EnvironmentUninstall = "environment_uninstall"
-	Job_CommandName_EnvironmentUpdateInit = "environment_update_init"
 	Job_CommandName_PatchAction = "patch_action"
 	Job_CommandName_PatchWorkspace = "patch_workspace"
 	Job_CommandName_PutAction = "put_action"
-	Job_CommandName_PutEnvironment = "put_environment"
 	Job_CommandName_PutWorkspace = "put_workspace"
 	Job_CommandName_RepositoryProcess = "repository_process"
 	Job_CommandName_SystemKeyDelete = "system_key_delete"
@@ -15400,7 +13482,6 @@ type JobDataWorkItemLastJob struct {
 // Name of the Schematics automation resource.
 const (
 	JobDataWorkItemLastJob_CommandObject_Action = "action"
-	JobDataWorkItemLastJob_CommandObject_Blueprint = "blueprint"
 	JobDataWorkItemLastJob_CommandObject_Environment = "environment"
 	JobDataWorkItemLastJob_CommandObject_System = "system"
 	JobDataWorkItemLastJob_CommandObject_Workspace = "workspace"
@@ -15411,32 +13492,14 @@ const (
 const (
 	JobDataWorkItemLastJob_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
 	JobDataWorkItemLastJob_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	JobDataWorkItemLastJob_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	JobDataWorkItemLastJob_CommandName_BlueprintDelete = "blueprint_delete"
-	JobDataWorkItemLastJob_CommandName_BlueprintDestroy = "blueprint_destroy"
-	JobDataWorkItemLastJob_CommandName_BlueprintInstall = "blueprint_install"
-	JobDataWorkItemLastJob_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	JobDataWorkItemLastJob_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	JobDataWorkItemLastJob_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	JobDataWorkItemLastJob_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	JobDataWorkItemLastJob_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	JobDataWorkItemLastJob_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	JobDataWorkItemLastJob_CommandName_BlueprintUpdateInit = "blueprint_update_init"
 	JobDataWorkItemLastJob_CommandName_CreateAction = "create_action"
 	JobDataWorkItemLastJob_CommandName_CreateCart = "create_cart"
-	JobDataWorkItemLastJob_CommandName_CreateEnvironment = "create_environment"
 	JobDataWorkItemLastJob_CommandName_CreateWorkspace = "create_workspace"
 	JobDataWorkItemLastJob_CommandName_DeleteAction = "delete_action"
-	JobDataWorkItemLastJob_CommandName_DeleteEnvironment = "delete_environment"
 	JobDataWorkItemLastJob_CommandName_DeleteWorkspace = "delete_workspace"
-	JobDataWorkItemLastJob_CommandName_EnvironmentCreateInit = "environment_create_init"
-	JobDataWorkItemLastJob_CommandName_EnvironmentInstall = "environment_install"
-	JobDataWorkItemLastJob_CommandName_EnvironmentUninstall = "environment_uninstall"
-	JobDataWorkItemLastJob_CommandName_EnvironmentUpdateInit = "environment_update_init"
 	JobDataWorkItemLastJob_CommandName_PatchAction = "patch_action"
 	JobDataWorkItemLastJob_CommandName_PatchWorkspace = "patch_workspace"
 	JobDataWorkItemLastJob_CommandName_PutAction = "put_action"
-	JobDataWorkItemLastJob_CommandName_PutEnvironment = "put_environment"
 	JobDataWorkItemLastJob_CommandName_PutWorkspace = "put_workspace"
 	JobDataWorkItemLastJob_CommandName_RepositoryProcess = "repository_process"
 	JobDataWorkItemLastJob_CommandName_SystemKeyDelete = "system_key_delete"
@@ -15612,9 +13675,6 @@ type JobFileData struct {
 // Constants associated with the JobFileData.FileType property.
 // The type of output file generated by the Job.
 const (
-	JobFileData_FileType_BlueprintCostJSON = "blueprint_cost_json"
-	JobFileData_FileType_BlueprintModulesCostJSON = "blueprint_modules_cost_json"
-	JobFileData_FileType_BlueprintModulesPlanJSON = "blueprint_modules_plan_json"
 	JobFileData_FileType_CostJSON = "cost_json"
 	JobFileData_FileType_DraftPlanJSON = "draft_plan_json"
 	JobFileData_FileType_GitFiles = "git_files"
@@ -15801,7 +13861,6 @@ type JobLite struct {
 // Name of the Schematics automation resource.
 const (
 	JobLite_CommandObject_Action = "action"
-	JobLite_CommandObject_Blueprint = "blueprint"
 	JobLite_CommandObject_Environment = "environment"
 	JobLite_CommandObject_System = "system"
 	JobLite_CommandObject_Workspace = "workspace"
@@ -15812,32 +13871,14 @@ const (
 const (
 	JobLite_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
 	JobLite_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	JobLite_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	JobLite_CommandName_BlueprintDelete = "blueprint_delete"
-	JobLite_CommandName_BlueprintDestroy = "blueprint_destroy"
-	JobLite_CommandName_BlueprintInstall = "blueprint_install"
-	JobLite_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	JobLite_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	JobLite_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	JobLite_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	JobLite_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	JobLite_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	JobLite_CommandName_BlueprintUpdateInit = "blueprint_update_init"
 	JobLite_CommandName_CreateAction = "create_action"
 	JobLite_CommandName_CreateCart = "create_cart"
-	JobLite_CommandName_CreateEnvironment = "create_environment"
 	JobLite_CommandName_CreateWorkspace = "create_workspace"
 	JobLite_CommandName_DeleteAction = "delete_action"
-	JobLite_CommandName_DeleteEnvironment = "delete_environment"
 	JobLite_CommandName_DeleteWorkspace = "delete_workspace"
-	JobLite_CommandName_EnvironmentCreateInit = "environment_create_init"
-	JobLite_CommandName_EnvironmentInstall = "environment_install"
-	JobLite_CommandName_EnvironmentUninstall = "environment_uninstall"
-	JobLite_CommandName_EnvironmentUpdateInit = "environment_update_init"
 	JobLite_CommandName_PatchAction = "patch_action"
 	JobLite_CommandName_PatchWorkspace = "patch_workspace"
 	JobLite_CommandName_PutAction = "put_action"
-	JobLite_CommandName_PutEnvironment = "put_environment"
 	JobLite_CommandName_PutWorkspace = "put_workspace"
 	JobLite_CommandName_RepositoryProcess = "repository_process"
 	JobLite_CommandName_SystemKeyDelete = "system_key_delete"
@@ -17427,46 +15468,6 @@ func (options *ListAgentOptions) SetHeaders(param map[string]string) *ListAgentO
 	return options
 }
 
-// ListBlueprintOptions : The ListBlueprint options.
-type ListBlueprintOptions struct {
-	// The starting position of the item in the list of items. For example, if you have three workspaces in your account,
-	// the first workspace is assigned position number 0, the second workspace is assigned position number 1, and so forth.
-	// If you have 6 workspaces and you want to list the details for workspaces `2-6`, enter 1. To limit the number of
-	// workspaces that is returned, use the `limit` option in addition to the `offset` option. Negative numbers are not
-	// supported and are ignored.
-	Offset *int64 `json:"offset,omitempty"`
-
-	// The maximum number of items that you want to list. The number must be a positive integer between 1 and 2000. If no
-	// value is provided, 100 is used by default.
-	Limit *int64 `json:"limit,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// NewListBlueprintOptions : Instantiate ListBlueprintOptions
-func (*SchematicsV1) NewListBlueprintOptions() *ListBlueprintOptions {
-	return &ListBlueprintOptions{}
-}
-
-// SetOffset : Allow user to set Offset
-func (_options *ListBlueprintOptions) SetOffset(offset int64) *ListBlueprintOptions {
-	_options.Offset = core.Int64Ptr(offset)
-	return _options
-}
-
-// SetLimit : Allow user to set Limit
-func (_options *ListBlueprintOptions) SetLimit(limit int64) *ListBlueprintOptions {
-	_options.Limit = core.Int64Ptr(limit)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *ListBlueprintOptions) SetHeaders(param map[string]string) *ListBlueprintOptions {
-	options.Headers = param
-	return options
-}
-
 // ListInventoriesOptions : The ListInventories options.
 type ListInventoriesOptions struct {
 	// The starting position of the item in the list of items. For example, if you have three workspaces in your account,
@@ -18636,7 +16637,6 @@ type PolicyObjectSelector struct {
 // Name of the Schematics automation resource.
 const (
 	PolicyObjectSelector_Kind_Action = "action"
-	PolicyObjectSelector_Kind_Blueprint = "blueprint"
 	PolicyObjectSelector_Kind_Environment = "environment"
 	PolicyObjectSelector_Kind_System = "system"
 	PolicyObjectSelector_Kind_Workspace = "workspace"
@@ -18681,11 +16681,10 @@ type PolicyObjects struct {
 	// Types of schematics object selector.
 	SelectorKind *string `json:"selector_kind,omitempty"`
 
-	// Static selectors of schematics object ids (agent, workspace, action or blueprint) for the Schematics policy.
+	// Static selectors of schematics object ids (agent, workspace or action) for the Schematics policy.
 	SelectorIds []string `json:"selector_ids,omitempty"`
 
-	// Selectors to dynamically list of schematics object ids (agent, workspace, action or blueprint) for the Schematics
-	// policy.
+	// Selectors to dynamically list of schematics object ids (agent, workspace or action) for the Schematics policy.
 	SelectorScope []PolicyObjectSelector `json:"selector_scope,omitempty"`
 }
 
@@ -19011,172 +17010,6 @@ func (_options *RegisterAgentOptions) SetUserState(userState *AgentUserState) *R
 
 // SetHeaders : Allow user to set Headers
 func (options *RegisterAgentOptions) SetHeaders(param map[string]string) *RegisterAgentOptions {
-	options.Headers = param
-	return options
-}
-
-// ReplaceBlueprintOptions : The ReplaceBlueprint options.
-type ReplaceBlueprintOptions struct {
-	// Environment Id.  Use `GET /v2/blueprints` API to look up the order ids in your IBM Cloud account.
-	BlueprintID *string `json:"blueprint_id" validate:"required,ne="`
-
-	// Blueprint name (unique for an account).
-	Name *string `json:"name" validate:"required"`
-
-	// Schema version.
-	SchemaVersion *string `json:"schema_version,omitempty"`
-
-	// Source of templates, playbooks, or controls.
-	Source *ExternalSource `json:"source,omitempty"`
-
-	// Blueprint input configuration definition.
-	Config []BlueprintConfigItem `json:"config,omitempty"`
-
-	// Blueprint description.
-	Description *string `json:"description,omitempty"`
-
-	// Resource-group name for the blueprint.  By default, blueprint will be created in Default Resource Group.
-	ResourceGroup *string `json:"resource_group,omitempty"`
-
-	// Blueprint instance tags.
-	Tags []string `json:"tags,omitempty"`
-
-	// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-	// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-	// provisioned using Schematics.
-	Location *string `json:"location,omitempty"`
-
-	// Additional inputs configuration for the blueprint.
-	Inputs []VariableData `json:"inputs,omitempty"`
-
-	// Input environemnt settings for blueprint.
-	Settings []VariableData `json:"settings,omitempty"`
-
-	// Flow definitions for all the blueprint command.
-	Flow *BlueprintFlow `json:"flow,omitempty"`
-
-	// User defined status of the Schematics object.
-	UserState *UserState `json:"user_state,omitempty"`
-
-	// Level of details returned by the get method.
-	Profile *string `json:"profile,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// Constants associated with the ReplaceBlueprintOptions.Location property.
-// List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
-// right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
-// provisioned using Schematics.
-const (
-	ReplaceBlueprintOptions_Location_EuDe = "eu-de"
-	ReplaceBlueprintOptions_Location_EuGb = "eu-gb"
-	ReplaceBlueprintOptions_Location_UsEast = "us-east"
-	ReplaceBlueprintOptions_Location_UsSouth = "us-south"
-)
-
-// Constants associated with the ReplaceBlueprintOptions.Profile property.
-// Level of details returned by the get method.
-const (
-	ReplaceBlueprintOptions_Profile_Ids = "ids"
-	ReplaceBlueprintOptions_Profile_Summary = "summary"
-)
-
-// NewReplaceBlueprintOptions : Instantiate ReplaceBlueprintOptions
-func (*SchematicsV1) NewReplaceBlueprintOptions(blueprintID string, name string) *ReplaceBlueprintOptions {
-	return &ReplaceBlueprintOptions{
-		BlueprintID: core.StringPtr(blueprintID),
-		Name: core.StringPtr(name),
-	}
-}
-
-// SetBlueprintID : Allow user to set BlueprintID
-func (_options *ReplaceBlueprintOptions) SetBlueprintID(blueprintID string) *ReplaceBlueprintOptions {
-	_options.BlueprintID = core.StringPtr(blueprintID)
-	return _options
-}
-
-// SetName : Allow user to set Name
-func (_options *ReplaceBlueprintOptions) SetName(name string) *ReplaceBlueprintOptions {
-	_options.Name = core.StringPtr(name)
-	return _options
-}
-
-// SetSchemaVersion : Allow user to set SchemaVersion
-func (_options *ReplaceBlueprintOptions) SetSchemaVersion(schemaVersion string) *ReplaceBlueprintOptions {
-	_options.SchemaVersion = core.StringPtr(schemaVersion)
-	return _options
-}
-
-// SetSource : Allow user to set Source
-func (_options *ReplaceBlueprintOptions) SetSource(source *ExternalSource) *ReplaceBlueprintOptions {
-	_options.Source = source
-	return _options
-}
-
-// SetConfig : Allow user to set Config
-func (_options *ReplaceBlueprintOptions) SetConfig(config []BlueprintConfigItem) *ReplaceBlueprintOptions {
-	_options.Config = config
-	return _options
-}
-
-// SetDescription : Allow user to set Description
-func (_options *ReplaceBlueprintOptions) SetDescription(description string) *ReplaceBlueprintOptions {
-	_options.Description = core.StringPtr(description)
-	return _options
-}
-
-// SetResourceGroup : Allow user to set ResourceGroup
-func (_options *ReplaceBlueprintOptions) SetResourceGroup(resourceGroup string) *ReplaceBlueprintOptions {
-	_options.ResourceGroup = core.StringPtr(resourceGroup)
-	return _options
-}
-
-// SetTags : Allow user to set Tags
-func (_options *ReplaceBlueprintOptions) SetTags(tags []string) *ReplaceBlueprintOptions {
-	_options.Tags = tags
-	return _options
-}
-
-// SetLocation : Allow user to set Location
-func (_options *ReplaceBlueprintOptions) SetLocation(location string) *ReplaceBlueprintOptions {
-	_options.Location = core.StringPtr(location)
-	return _options
-}
-
-// SetInputs : Allow user to set Inputs
-func (_options *ReplaceBlueprintOptions) SetInputs(inputs []VariableData) *ReplaceBlueprintOptions {
-	_options.Inputs = inputs
-	return _options
-}
-
-// SetSettings : Allow user to set Settings
-func (_options *ReplaceBlueprintOptions) SetSettings(settings []VariableData) *ReplaceBlueprintOptions {
-	_options.Settings = settings
-	return _options
-}
-
-// SetFlow : Allow user to set Flow
-func (_options *ReplaceBlueprintOptions) SetFlow(flow *BlueprintFlow) *ReplaceBlueprintOptions {
-	_options.Flow = flow
-	return _options
-}
-
-// SetUserState : Allow user to set UserState
-func (_options *ReplaceBlueprintOptions) SetUserState(userState *UserState) *ReplaceBlueprintOptions {
-	_options.UserState = userState
-	return _options
-}
-
-// SetProfile : Allow user to set Profile
-func (_options *ReplaceBlueprintOptions) SetProfile(profile string) *ReplaceBlueprintOptions {
-	_options.Profile = core.StringPtr(profile)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *ReplaceBlueprintOptions) SetHeaders(param map[string]string) *ReplaceBlueprintOptions {
 	options.Headers = param
 	return options
 }
@@ -19983,6 +17816,9 @@ type SchematicsLocations struct {
 
 	// The restricted region.
 	Restricted *bool `json:"restricted,omitempty"`
+
+	// The metadata of an agent.
+	AgentMetadata []AgentMetadataInfo `json:"agent_metadata,omitempty"`
 }
 
 // UnmarshalSchematicsLocations unmarshals an instance of SchematicsLocations from the specified map of raw messages.
@@ -20025,6 +17861,10 @@ func UnmarshalSchematicsLocations(m map[string]json.RawMessage, result interface
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "restricted", &obj.Restricted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "agent_metadata", &obj.AgentMetadata, UnmarshalAgentMetadataInfo)
 	if err != nil {
 		return
 	}
@@ -20149,7 +17989,6 @@ type ScopedResource struct {
 // Name of the Schematics automation resource.
 const (
 	ScopedResource_Kind_Action = "action"
-	ScopedResource_Kind_Blueprint = "blueprint"
 	ScopedResource_Kind_Environment = "environment"
 	ScopedResource_Kind_System = "system"
 	ScopedResource_Kind_Workspace = "workspace"
@@ -21472,6 +19311,22 @@ type UpdateAgentDataOptions struct {
 	// Schematics Agent key performance indicators.
 	AgentKpi *AgentKPIData `json:"agent_kpi,omitempty"`
 
+	// This IAM token is required only when trying to update an agent from one version to other.
+	//
+	//   **Retrieving refresh token**:
+	//   * Use `export IBMCLOUD_API_KEY=<ibmcloud_api_key>`, and execute `curl -X POST
+	// "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+	// "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+	//   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+	// token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+	// key](/apidocs/iam-identity-token-api#create-api-key).
+	//
+	//   **Limitation**:
+	//   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+	//   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+	//   * When the IAM access token is about to expire, use the API key to create a new access token.
+	RefreshToken *string `json:"refresh_token,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -21575,6 +19430,12 @@ func (_options *UpdateAgentDataOptions) SetUserState(userState *AgentUserState) 
 // SetAgentKpi : Allow user to set AgentKpi
 func (_options *UpdateAgentDataOptions) SetAgentKpi(agentKpi *AgentKPIData) *UpdateAgentDataOptions {
 	_options.AgentKpi = agentKpi
+	return _options
+}
+
+// SetRefreshToken : Allow user to set RefreshToken
+func (_options *UpdateAgentDataOptions) SetRefreshToken(refreshToken string) *UpdateAgentDataOptions {
+	_options.RefreshToken = core.StringPtr(refreshToken)
 	return _options
 }
 
@@ -21777,7 +19638,6 @@ type UpdateJobOptions struct {
 // Name of the Schematics automation resource.
 const (
 	UpdateJobOptions_CommandObject_Action = "action"
-	UpdateJobOptions_CommandObject_Blueprint = "blueprint"
 	UpdateJobOptions_CommandObject_Environment = "environment"
 	UpdateJobOptions_CommandObject_System = "system"
 	UpdateJobOptions_CommandObject_Workspace = "workspace"
@@ -21788,32 +19648,14 @@ const (
 const (
 	UpdateJobOptions_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
 	UpdateJobOptions_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	UpdateJobOptions_CommandName_BlueprintCreateInit = "blueprint_create_init"
-	UpdateJobOptions_CommandName_BlueprintDelete = "blueprint_delete"
-	UpdateJobOptions_CommandName_BlueprintDestroy = "blueprint_destroy"
-	UpdateJobOptions_CommandName_BlueprintInstall = "blueprint_install"
-	UpdateJobOptions_CommandName_BlueprintPlanApply = "blueprint_plan_apply"
-	UpdateJobOptions_CommandName_BlueprintPlanDestroy = "blueprint_plan_destroy"
-	UpdateJobOptions_CommandName_BlueprintPlanInit = "blueprint_plan_init"
-	UpdateJobOptions_CommandName_BlueprintRunApply = "blueprint_run_apply"
-	UpdateJobOptions_CommandName_BlueprintRunDestroy = "blueprint_run_destroy"
-	UpdateJobOptions_CommandName_BlueprintRunPlan = "blueprint_run_plan"
-	UpdateJobOptions_CommandName_BlueprintUpdateInit = "blueprint_update_init"
 	UpdateJobOptions_CommandName_CreateAction = "create_action"
 	UpdateJobOptions_CommandName_CreateCart = "create_cart"
-	UpdateJobOptions_CommandName_CreateEnvironment = "create_environment"
 	UpdateJobOptions_CommandName_CreateWorkspace = "create_workspace"
 	UpdateJobOptions_CommandName_DeleteAction = "delete_action"
-	UpdateJobOptions_CommandName_DeleteEnvironment = "delete_environment"
 	UpdateJobOptions_CommandName_DeleteWorkspace = "delete_workspace"
-	UpdateJobOptions_CommandName_EnvironmentCreateInit = "environment_create_init"
-	UpdateJobOptions_CommandName_EnvironmentInstall = "environment_install"
-	UpdateJobOptions_CommandName_EnvironmentUninstall = "environment_uninstall"
-	UpdateJobOptions_CommandName_EnvironmentUpdateInit = "environment_update_init"
 	UpdateJobOptions_CommandName_PatchAction = "patch_action"
 	UpdateJobOptions_CommandName_PatchWorkspace = "patch_workspace"
 	UpdateJobOptions_CommandName_PutAction = "put_action"
-	UpdateJobOptions_CommandName_PutEnvironment = "put_environment"
 	UpdateJobOptions_CommandName_PutWorkspace = "put_workspace"
 	UpdateJobOptions_CommandName_RepositoryProcess = "repository_process"
 	UpdateJobOptions_CommandName_SystemKeyDelete = "system_key_delete"
@@ -22336,52 +20178,6 @@ func (_options *UploadTemplateTarActionOptions) SetFileContentType(fileContentTy
 
 // SetHeaders : Allow user to set Headers
 func (options *UploadTemplateTarActionOptions) SetHeaders(param map[string]string) *UploadTemplateTarActionOptions {
-	options.Headers = param
-	return options
-}
-
-// UploadTemplateTarBlueprintOptions : The UploadTemplateTarBlueprint options.
-type UploadTemplateTarBlueprintOptions struct {
-	// Environment Id.  Use `GET /v2/blueprints` API to look up the order ids in your IBM Cloud account.
-	BlueprintID *string `json:"blueprint_id" validate:"required,ne="`
-
-	// Template tar file.
-	File io.ReadCloser `json:"file,omitempty"`
-
-	// The content type of file.
-	FileContentType *string `json:"file_content_type,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// NewUploadTemplateTarBlueprintOptions : Instantiate UploadTemplateTarBlueprintOptions
-func (*SchematicsV1) NewUploadTemplateTarBlueprintOptions(blueprintID string) *UploadTemplateTarBlueprintOptions {
-	return &UploadTemplateTarBlueprintOptions{
-		BlueprintID: core.StringPtr(blueprintID),
-	}
-}
-
-// SetBlueprintID : Allow user to set BlueprintID
-func (_options *UploadTemplateTarBlueprintOptions) SetBlueprintID(blueprintID string) *UploadTemplateTarBlueprintOptions {
-	_options.BlueprintID = core.StringPtr(blueprintID)
-	return _options
-}
-
-// SetFile : Allow user to set File
-func (_options *UploadTemplateTarBlueprintOptions) SetFile(file io.ReadCloser) *UploadTemplateTarBlueprintOptions {
-	_options.File = file
-	return _options
-}
-
-// SetFileContentType : Allow user to set FileContentType
-func (_options *UploadTemplateTarBlueprintOptions) SetFileContentType(fileContentType string) *UploadTemplateTarBlueprintOptions {
-	_options.FileContentType = core.StringPtr(fileContentType)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *UploadTemplateTarBlueprintOptions) SetHeaders(param map[string]string) *UploadTemplateTarBlueprintOptions {
 	options.Headers = param
 	return options
 }

@@ -2101,278 +2101,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`CreateBlueprint - Create a blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`CreateBlueprint(createBlueprintOptions *CreateBlueprintOptions)`, func() {
-			gitSourceModel := &schematicsv1.GitSource{
-				ComputedGitRepoURL: core.StringPtr("testString"),
-				GitRepoURL: core.StringPtr("testString"),
-				GitToken: core.StringPtr("testString"),
-				GitRepoFolder: core.StringPtr("testString"),
-				GitRelease: core.StringPtr("testString"),
-				GitBranch: core.StringPtr("testString"),
-			}
-
-			catalogSourceModel := &schematicsv1.CatalogSource{
-				CatalogName: core.StringPtr("testString"),
-				CatalogID: core.StringPtr("testString"),
-				OfferingName: core.StringPtr("testString"),
-				OfferingVersion: core.StringPtr("testString"),
-				OfferingKind: core.StringPtr("testString"),
-				OfferingTargetKind: core.StringPtr("testString"),
-				OfferingID: core.StringPtr("testString"),
-				OfferingVersionID: core.StringPtr("testString"),
-				OfferingVersionFlavourName: core.StringPtr("testString"),
-				OfferingRepoURL: core.StringPtr("testString"),
-				OfferingProvisionerWorkingDirectory: core.StringPtr("testString"),
-				DryRun: core.BoolPtr(true),
-				OwningAccount: core.StringPtr("testString"),
-				ItemIconURL: core.StringPtr("testString"),
-				ItemID: core.StringPtr("testString"),
-				ItemName: core.StringPtr("testString"),
-				ItemReadmeURL: core.StringPtr("testString"),
-				ItemURL: core.StringPtr("testString"),
-				LaunchURL: core.StringPtr("testString"),
-			}
-
-			externalSourceModel := &schematicsv1.ExternalSource{
-				SourceType: core.StringPtr("local"),
-				Git: gitSourceModel,
-				Catalog: catalogSourceModel,
-			}
-
-			variableMetadataModel := &schematicsv1.VariableMetadata{
-				Type: core.StringPtr("boolean"),
-				Aliases: []string{"testString"},
-				Description: core.StringPtr("testString"),
-				CloudDataType: core.StringPtr("testString"),
-				DefaultValue: core.StringPtr("testString"),
-				LinkStatus: core.StringPtr("normal"),
-				Secure: core.BoolPtr(true),
-				Immutable: core.BoolPtr(true),
-				Hidden: core.BoolPtr(true),
-				Required: core.BoolPtr(true),
-				Options: []string{"testString"},
-				MinValue: core.Int64Ptr(int64(38)),
-				MaxValue: core.Int64Ptr(int64(38)),
-				MinLength: core.Int64Ptr(int64(38)),
-				MaxLength: core.Int64Ptr(int64(38)),
-				Matches: core.StringPtr("testString"),
-				Position: core.Int64Ptr(int64(38)),
-				GroupBy: core.StringPtr("testString"),
-				Source: core.StringPtr("testString"),
-			}
-
-			variableDataModel := &schematicsv1.VariableData{
-				Name: core.StringPtr("testString"),
-				Value: core.StringPtr("testString"),
-				UseDefault: core.BoolPtr(true),
-				Metadata: variableMetadataModel,
-			}
-
-			blueprintConfigItemModel := &schematicsv1.BlueprintConfigItem{
-				Name: core.StringPtr("testString"),
-				Description: core.StringPtr("testString"),
-				Source: externalSourceModel,
-				Inputs: []schematicsv1.VariableData{*variableDataModel},
-			}
-
-			blueprintFlowModel := &schematicsv1.BlueprintFlow{
-			}
-
-			userStateModel := &schematicsv1.UserState{
-				State: core.StringPtr("draft"),
-				SetBy: core.StringPtr("testString"),
-				SetAt: CreateMockDateTime("2019-01-01T12:00:00.000Z"),
-			}
-
-			createBlueprintOptions := &schematicsv1.CreateBlueprintOptions{
-				Name: core.StringPtr("Toronto Dev Environtment"),
-				SchemaVersion: core.StringPtr("1.0"),
-				Source: externalSourceModel,
-				Config: []schematicsv1.BlueprintConfigItem{*blueprintConfigItemModel},
-				Description: core.StringPtr("Deploys dev environtment instance in Toronto Region"),
-				ResourceGroup: core.StringPtr("Default"),
-				Tags: []string{"blueprint:Tor-Dev"},
-				Location: core.StringPtr("us-south"),
-				Inputs: []schematicsv1.VariableData{*variableDataModel},
-				Settings: []schematicsv1.VariableData{*variableDataModel},
-				Flow: blueprintFlowModel,
-				UserState: userStateModel,
-			}
-
-			blueprint, response, err := schematicsService.CreateBlueprint(createBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(blueprint).ToNot(BeNil())
-		})
-	})
-
-	Describe(`GetBlueprint - Get a blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`GetBlueprint(getBlueprintOptions *GetBlueprintOptions)`, func() {
-			getBlueprintOptions := &schematicsv1.GetBlueprintOptions{
-				BlueprintID: core.StringPtr("testString"),
-				Profile: core.StringPtr("ids"),
-			}
-
-			blueprint, response, err := schematicsService.GetBlueprint(getBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(blueprint).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ListBlueprint - List blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ListBlueprint(listBlueprintOptions *ListBlueprintOptions)`, func() {
-			listBlueprintOptions := &schematicsv1.ListBlueprintOptions{
-				Offset: core.Int64Ptr(int64(0)),
-				Limit: core.Int64Ptr(int64(100)),
-			}
-
-			blueprintList, response, err := schematicsService.ListBlueprint(listBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(blueprintList).ToNot(BeNil())
-		})
-	})
-
-	Describe(`ReplaceBlueprint - Update a blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`ReplaceBlueprint(replaceBlueprintOptions *ReplaceBlueprintOptions)`, func() {
-			gitSourceModel := &schematicsv1.GitSource{
-				ComputedGitRepoURL: core.StringPtr("testString"),
-				GitRepoURL: core.StringPtr("testString"),
-				GitToken: core.StringPtr("testString"),
-				GitRepoFolder: core.StringPtr("testString"),
-				GitRelease: core.StringPtr("testString"),
-				GitBranch: core.StringPtr("testString"),
-			}
-
-			catalogSourceModel := &schematicsv1.CatalogSource{
-				CatalogName: core.StringPtr("testString"),
-				CatalogID: core.StringPtr("testString"),
-				OfferingName: core.StringPtr("testString"),
-				OfferingVersion: core.StringPtr("testString"),
-				OfferingKind: core.StringPtr("testString"),
-				OfferingTargetKind: core.StringPtr("testString"),
-				OfferingID: core.StringPtr("testString"),
-				OfferingVersionID: core.StringPtr("testString"),
-				OfferingVersionFlavourName: core.StringPtr("testString"),
-				OfferingRepoURL: core.StringPtr("testString"),
-				OfferingProvisionerWorkingDirectory: core.StringPtr("testString"),
-				DryRun: core.BoolPtr(true),
-				OwningAccount: core.StringPtr("testString"),
-				ItemIconURL: core.StringPtr("testString"),
-				ItemID: core.StringPtr("testString"),
-				ItemName: core.StringPtr("testString"),
-				ItemReadmeURL: core.StringPtr("testString"),
-				ItemURL: core.StringPtr("testString"),
-				LaunchURL: core.StringPtr("testString"),
-			}
-
-			externalSourceModel := &schematicsv1.ExternalSource{
-				SourceType: core.StringPtr("local"),
-				Git: gitSourceModel,
-				Catalog: catalogSourceModel,
-			}
-
-			variableMetadataModel := &schematicsv1.VariableMetadata{
-				Type: core.StringPtr("boolean"),
-				Aliases: []string{"testString"},
-				Description: core.StringPtr("testString"),
-				CloudDataType: core.StringPtr("testString"),
-				DefaultValue: core.StringPtr("testString"),
-				LinkStatus: core.StringPtr("normal"),
-				Secure: core.BoolPtr(true),
-				Immutable: core.BoolPtr(true),
-				Hidden: core.BoolPtr(true),
-				Required: core.BoolPtr(true),
-				Options: []string{"testString"},
-				MinValue: core.Int64Ptr(int64(38)),
-				MaxValue: core.Int64Ptr(int64(38)),
-				MinLength: core.Int64Ptr(int64(38)),
-				MaxLength: core.Int64Ptr(int64(38)),
-				Matches: core.StringPtr("testString"),
-				Position: core.Int64Ptr(int64(38)),
-				GroupBy: core.StringPtr("testString"),
-				Source: core.StringPtr("testString"),
-			}
-
-			variableDataModel := &schematicsv1.VariableData{
-				Name: core.StringPtr("testString"),
-				Value: core.StringPtr("testString"),
-				UseDefault: core.BoolPtr(true),
-				Metadata: variableMetadataModel,
-			}
-
-			blueprintConfigItemModel := &schematicsv1.BlueprintConfigItem{
-				Name: core.StringPtr("testString"),
-				Description: core.StringPtr("testString"),
-				Source: externalSourceModel,
-				Inputs: []schematicsv1.VariableData{*variableDataModel},
-			}
-
-			blueprintFlowModel := &schematicsv1.BlueprintFlow{
-			}
-
-			userStateModel := &schematicsv1.UserState{
-				State: core.StringPtr("draft"),
-				SetBy: core.StringPtr("testString"),
-				SetAt: CreateMockDateTime("2019-01-01T12:00:00.000Z"),
-			}
-
-			replaceBlueprintOptions := &schematicsv1.ReplaceBlueprintOptions{
-				BlueprintID: core.StringPtr("testString"),
-				Name: core.StringPtr("Toronto Dev Environtment"),
-				SchemaVersion: core.StringPtr("1.0"),
-				Source: externalSourceModel,
-				Config: []schematicsv1.BlueprintConfigItem{*blueprintConfigItemModel},
-				Description: core.StringPtr("Deploys dev environtment instance in Toronto Region"),
-				ResourceGroup: core.StringPtr("Default"),
-				Tags: []string{"blueprint:Tor-Dev"},
-				Location: core.StringPtr("us-south"),
-				Inputs: []schematicsv1.VariableData{*variableDataModel},
-				Settings: []schematicsv1.VariableData{*variableDataModel},
-				Flow: blueprintFlowModel,
-				UserState: userStateModel,
-				Profile: core.StringPtr("ids"),
-			}
-
-			blueprint, response, err := schematicsService.ReplaceBlueprint(replaceBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(blueprint).ToNot(BeNil())
-		})
-	})
-
-	Describe(`UploadTemplateTarBlueprint - Upload a TAR file to a blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`UploadTemplateTarBlueprint(uploadTemplateTarBlueprintOptions *UploadTemplateTarBlueprintOptions)`, func() {
-			uploadTemplateTarBlueprintOptions := &schematicsv1.UploadTemplateTarBlueprintOptions{
-				BlueprintID: core.StringPtr("testString"),
-				File: CreateMockReader("This is a mock file."),
-				FileContentType: core.StringPtr("testString"),
-			}
-
-			blueprintTemplateRepoTarUploadResponse, response, err := schematicsService.UploadTemplateTarBlueprint(uploadTemplateTarBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(blueprintTemplateRepoTarUploadResponse).ToNot(BeNil())
-		})
-	})
-
 	Describe(`CreateInventory - Create an inventory definition`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -2933,6 +2661,7 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 				AgentInputs: []schematicsv1.VariableData{*variableDataModel},
 				UserState: agentUserStateModel,
 				AgentKpi: agentKpiDataModel,
+				RefreshToken: core.StringPtr("testString"),
 			}
 
 			agentData, response, err := schematicsService.UpdateAgentData(updateAgentDataOptions)
@@ -3262,23 +2991,6 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 		})
 	})
 
-	Describe(`DeleteBlueprint - Delete a blueprint`, func() {
-		BeforeEach(func() {
-			shouldSkipTest()
-		})
-		It(`DeleteBlueprint(deleteBlueprintOptions *DeleteBlueprintOptions)`, func() {
-			deleteBlueprintOptions := &schematicsv1.DeleteBlueprintOptions{
-				BlueprintID: core.StringPtr("testString"),
-				Profile: core.StringPtr("ids"),
-				Destroy: core.BoolPtr(true),
-			}
-
-			response, err := schematicsService.DeleteBlueprint(deleteBlueprintOptions)
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(204))
-		})
-	})
-
 	Describe(`DeleteInventory - Delete an inventory definition`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
@@ -3340,6 +3052,22 @@ var _ = Describe(`SchematicsV1 Integration Tests`, func() {
 			response, err := schematicsService.DeleteAgentData(deleteAgentDataOptions)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
+		})
+	})
+
+	Describe(`DeleteAgentResources - Delete resources provisioned by agent`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteAgentResources(deleteAgentResourcesOptions *DeleteAgentResourcesOptions)`, func() {
+			deleteAgentResourcesOptions := &schematicsv1.DeleteAgentResourcesOptions{
+				AgentID: core.StringPtr("testString"),
+				RefreshToken: core.StringPtr("testString"),
+			}
+
+			response, err := schematicsService.DeleteAgentResources(deleteAgentResourcesOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
 		})
 	})
 
