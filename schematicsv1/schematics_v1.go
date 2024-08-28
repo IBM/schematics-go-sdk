@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.86.1-c3d7bcef-20240308-215042
+ * IBM OpenAPI SDK Code Generator Version: 3.83.0-adaf0721-20231212-210453
  */
 
 // Package schematicsv1 : Operations and models for the SchematicsV1 service
@@ -678,6 +678,9 @@ func (schematics *SchematicsV1) CreateWorkspaceWithContext(ctx context.Context, 
 	if createWorkspaceOptions.AgentID != nil {
 		body["agent_id"] = createWorkspaceOptions.AgentID
 	}
+	if createWorkspaceOptions.Settings != nil {
+		body["settings"] = createWorkspaceOptions.Settings
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -860,6 +863,9 @@ func (schematics *SchematicsV1) ReplaceWorkspaceWithContext(ctx context.Context,
 	}
 	if replaceWorkspaceOptions.AgentID != nil {
 		body["agent_id"] = replaceWorkspaceOptions.AgentID
+	}
+	if replaceWorkspaceOptions.Settings != nil {
+		body["settings"] = replaceWorkspaceOptions.Settings
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -1051,6 +1057,9 @@ func (schematics *SchematicsV1) UpdateWorkspaceWithContext(ctx context.Context, 
 	}
 	if updateWorkspaceOptions.AgentID != nil {
 		body["agent_id"] = updateWorkspaceOptions.AgentID
+	}
+	if updateWorkspaceOptions.Settings != nil {
+		body["settings"] = updateWorkspaceOptions.Settings
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -6970,6 +6979,9 @@ type Action struct {
 
 	// System lock status.
 	SysLock *SystemLock `json:"sys_lock,omitempty"`
+
+	// secrets manager reference to git token.
+	GitTokenRef *string `json:"git_token_ref,omitempty"`
 }
 
 // Constants associated with the Action.Location property.
@@ -7145,6 +7157,10 @@ func UnmarshalAction(m map[string]json.RawMessage, result interface{}) (err erro
 		return
 	}
 	err = core.UnmarshalModel(m, "sys_lock", &obj.SysLock, UnmarshalSystemLock)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "git_token_ref", &obj.GitTokenRef)
 	if err != nil {
 		return
 	}
@@ -10382,6 +10398,9 @@ type CreateWorkspaceOptions struct {
 	// agent id which is binded to with the workspace.
 	AgentID *string `json:"agent_id,omitempty"`
 
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
 	// The personal access token to authenticate with your private GitHub or GitLab repository and access your Terraform
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
@@ -10486,6 +10505,12 @@ func (_options *CreateWorkspaceOptions) SetAgentID(agentID string) *CreateWorksp
 	return _options
 }
 
+// SetSettings : Allow user to set Settings
+func (_options *CreateWorkspaceOptions) SetSettings(settings []VariableData) *CreateWorkspaceOptions {
+	_options.Settings = settings
+	return _options
+}
+
 // SetXGithubToken : Allow user to set XGithubToken
 func (_options *CreateWorkspaceOptions) SetXGithubToken(xGithubToken string) *CreateWorkspaceOptions {
 	_options.XGithubToken = core.StringPtr(xGithubToken)
@@ -10503,9 +10528,9 @@ type CredentialVariableData struct {
 	// The name of the credential variable.
 	Name *string `json:"name,omitempty"`
 
-	// The credential value for the variable or reference to the value. For example, `value = "<provide your ssh_key_value
-	// with \n>"`. **Note** The SSH key should contain `\n` at the end of the key details in case of command line or API
-	// calls.
+	// The credential value for the variable or reference to the value. **Note** The SSH key should contain three `\n` in
+	// the SSH key value as shown in the example for CLI or API calls. When using Bastion from API you need to add SSH key
+	// in both `credentials` and `bastion_credentials`.
 	Value *string `json:"value,omitempty"`
 
 	// True, will ignore the data in the value attribute, instead the data in metadata.default_value will be used.
@@ -17302,6 +17327,9 @@ type ReplaceWorkspaceOptions struct {
 	// agent id that process workspace jobs.
 	AgentID *string `json:"agent_id,omitempty"`
 
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
 	// The personal access token to authenticate with your private GitHub or GitLab repository and access your Terraform
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
@@ -17392,6 +17420,12 @@ func (_options *ReplaceWorkspaceOptions) SetWorkspaceStatusMsg(workspaceStatusMs
 // SetAgentID : Allow user to set AgentID
 func (_options *ReplaceWorkspaceOptions) SetAgentID(agentID string) *ReplaceWorkspaceOptions {
 	_options.AgentID = core.StringPtr(agentID)
+	return _options
+}
+
+// SetSettings : Allow user to set Settings
+func (_options *ReplaceWorkspaceOptions) SetSettings(settings []VariableData) *ReplaceWorkspaceOptions {
+	_options.Settings = settings
 	return _options
 }
 
@@ -20054,6 +20088,9 @@ type UpdateWorkspaceOptions struct {
 	// agent id that process workspace jobs.
 	AgentID *string `json:"agent_id,omitempty"`
 
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -20140,6 +20177,12 @@ func (_options *UpdateWorkspaceOptions) SetWorkspaceStatusMsg(workspaceStatusMsg
 // SetAgentID : Allow user to set AgentID
 func (_options *UpdateWorkspaceOptions) SetAgentID(agentID string) *UpdateWorkspaceOptions {
 	_options.AgentID = core.StringPtr(agentID)
+	return _options
+}
+
+// SetSettings : Allow user to set Settings
+func (_options *UpdateWorkspaceOptions) SetSettings(settings []VariableData) *UpdateWorkspaceOptions {
+	_options.Settings = settings
 	return _options
 }
 
@@ -21135,6 +21178,12 @@ type WorkspaceResponse struct {
 
 	// Agent name, Agent id and associated policy ID information.
 	Agent *AgentInfo `json:"agent,omitempty"`
+
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
+	// secrets manager reference to git token.
+	GitTokenRef *string `json:"git_token_ref,omitempty"`
 }
 
 // UnmarshalWorkspaceResponse unmarshals an instance of WorkspaceResponse from the specified map of raw messages.
@@ -21257,6 +21306,14 @@ func UnmarshalWorkspaceResponse(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalModel(m, "agent", &obj.Agent, UnmarshalAgentInfo)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "git_token_ref", &obj.GitTokenRef)
 	if err != nil {
 		return
 	}
