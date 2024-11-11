@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.86.1-c3d7bcef-20240308-215042
+ * IBM OpenAPI SDK Code Generator Version: 3.96.1-5136e54a-20241108-203028
  */
 
 // Package schematicsv1 : Operations and models for the SchematicsV1 service
@@ -69,22 +69,26 @@ func NewSchematicsV1UsingExternalConfig(options *SchematicsV1Options) (schematic
 	if options.Authenticator == nil {
 		options.Authenticator, err = core.GetAuthenticatorFromEnvironment(options.ServiceName)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "env-auth-error", common.GetComponentInfo())
 			return
 		}
 	}
 
 	schematics, err = NewSchematicsV1(options)
+	err = core.RepurposeSDKProblem(err, "new-client-error")
 	if err != nil {
 		return
 	}
 
 	err = schematics.Service.ConfigureService(options.ServiceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "client-config-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = schematics.Service.SetServiceURL(options.URL)
+		err = core.RepurposeSDKProblem(err, "url-set-error")
 	}
 	return
 }
@@ -98,12 +102,14 @@ func NewSchematicsV1(options *SchematicsV1Options) (service *SchematicsV1, err e
 
 	baseService, err := core.NewBaseService(serviceOptions)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "new-base-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = baseService.SetServiceURL(options.URL)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "set-url-error", common.GetComponentInfo())
 			return
 		}
 	}
@@ -117,7 +123,7 @@ func NewSchematicsV1(options *SchematicsV1Options) (service *SchematicsV1, err e
 
 // GetServiceURLForRegion returns the service URL to be used for the specified region
 func GetServiceURLForRegion(region string) (string, error) {
-	return "", fmt.Errorf("service does not support regional URLs")
+	return "", core.SDKErrorf(nil, "service does not support regional URLs", "no-regional-support", common.GetComponentInfo())
 }
 
 // Clone makes a copy of "schematics" suitable for processing requests.
@@ -132,7 +138,11 @@ func (schematics *SchematicsV1) Clone() *SchematicsV1 {
 
 // SetServiceURL sets the service URL
 func (schematics *SchematicsV1) SetServiceURL(url string) error {
-	return schematics.Service.SetServiceURL(url)
+	err := schematics.Service.SetServiceURL(url)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-set-error", common.GetComponentInfo())
+	}
+	return err
 }
 
 // GetServiceURL returns the service URL
@@ -176,13 +186,16 @@ func (schematics *SchematicsV1) DisableRetries() {
 //   see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListSchematicsLocation(listSchematicsLocationOptions *ListSchematicsLocationOptions) (result []SchematicsLocations, response *core.DetailedResponse, err error) {
-	return schematics.ListSchematicsLocationWithContext(context.Background(), listSchematicsLocationOptions)
+	result, response, err = schematics.ListSchematicsLocationWithContext(context.Background(), listSchematicsLocationOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListSchematicsLocationWithContext is an alternate form of the ListSchematicsLocation method which supports a Context parameter
 func (schematics *SchematicsV1) ListSchematicsLocationWithContext(ctx context.Context, listSchematicsLocationOptions *ListSchematicsLocationOptions) (result []SchematicsLocations, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listSchematicsLocationOptions, "listSchematicsLocationOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -191,6 +204,7 @@ func (schematics *SchematicsV1) ListSchematicsLocationWithContext(ctx context.Co
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/locations`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -206,17 +220,21 @@ func (schematics *SchematicsV1) ListSchematicsLocationWithContext(ctx context.Co
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse []json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_schematics_location", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSchematicsLocations)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -235,13 +253,16 @@ func (schematics *SchematicsV1) ListSchematicsLocationWithContext(ctx context.Co
 //   see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListLocations(listLocationsOptions *ListLocationsOptions) (result *SchematicsLocationsList, response *core.DetailedResponse, err error) {
-	return schematics.ListLocationsWithContext(context.Background(), listLocationsOptions)
+	result, response, err = schematics.ListLocationsWithContext(context.Background(), listLocationsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListLocationsWithContext is an alternate form of the ListLocations method which supports a Context parameter
 func (schematics *SchematicsV1) ListLocationsWithContext(ctx context.Context, listLocationsOptions *ListLocationsOptions) (result *SchematicsLocationsList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listLocationsOptions, "listLocationsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -250,6 +271,7 @@ func (schematics *SchematicsV1) ListLocationsWithContext(ctx context.Context, li
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/locations`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -265,17 +287,21 @@ func (schematics *SchematicsV1) ListLocationsWithContext(ctx context.Context, li
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_locations", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSchematicsLocationsList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -294,13 +320,16 @@ func (schematics *SchematicsV1) ListLocationsWithContext(ctx context.Context, li
 //   see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListResourceGroup(listResourceGroupOptions *ListResourceGroupOptions) (result []ResourceGroupResponse, response *core.DetailedResponse, err error) {
-	return schematics.ListResourceGroupWithContext(context.Background(), listResourceGroupOptions)
+	result, response, err = schematics.ListResourceGroupWithContext(context.Background(), listResourceGroupOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListResourceGroupWithContext is an alternate form of the ListResourceGroup method which supports a Context parameter
 func (schematics *SchematicsV1) ListResourceGroupWithContext(ctx context.Context, listResourceGroupOptions *ListResourceGroupOptions) (result []ResourceGroupResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listResourceGroupOptions, "listResourceGroupOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -309,6 +338,7 @@ func (schematics *SchematicsV1) ListResourceGroupWithContext(ctx context.Context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/resource_groups`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -324,17 +354,21 @@ func (schematics *SchematicsV1) ListResourceGroupWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse []json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_resource_group", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceGroupResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -347,13 +381,16 @@ func (schematics *SchematicsV1) ListResourceGroupWithContext(ctx context.Context
 // Retrieve detailed information about the IBM Cloud Schematics API version and the version of the provider plug-ins
 // that the API uses.
 func (schematics *SchematicsV1) GetSchematicsVersion(getSchematicsVersionOptions *GetSchematicsVersionOptions) (result *VersionResponse, response *core.DetailedResponse, err error) {
-	return schematics.GetSchematicsVersionWithContext(context.Background(), getSchematicsVersionOptions)
+	result, response, err = schematics.GetSchematicsVersionWithContext(context.Background(), getSchematicsVersionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetSchematicsVersionWithContext is an alternate form of the GetSchematicsVersion method which supports a Context parameter
 func (schematics *SchematicsV1) GetSchematicsVersionWithContext(ctx context.Context, getSchematicsVersionOptions *GetSchematicsVersionOptions) (result *VersionResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSchematicsVersionOptions, "getSchematicsVersionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -362,6 +399,7 @@ func (schematics *SchematicsV1) GetSchematicsVersionWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/version`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -377,17 +415,21 @@ func (schematics *SchematicsV1) GetSchematicsVersionWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_schematics_version", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVersionResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -407,17 +449,21 @@ func (schematics *SchematicsV1) GetSchematicsVersionWithContext(ctx context.Cont
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ProcessTemplateMetaData(processTemplateMetaDataOptions *ProcessTemplateMetaDataOptions) (result *TemplateMetaDataResponse, response *core.DetailedResponse, err error) {
-	return schematics.ProcessTemplateMetaDataWithContext(context.Background(), processTemplateMetaDataOptions)
+	result, response, err = schematics.ProcessTemplateMetaDataWithContext(context.Background(), processTemplateMetaDataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ProcessTemplateMetaDataWithContext is an alternate form of the ProcessTemplateMetaData method which supports a Context parameter
 func (schematics *SchematicsV1) ProcessTemplateMetaDataWithContext(ctx context.Context, processTemplateMetaDataOptions *ProcessTemplateMetaDataOptions) (result *TemplateMetaDataResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(processTemplateMetaDataOptions, "processTemplateMetaDataOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(processTemplateMetaDataOptions, "processTemplateMetaDataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -426,6 +472,7 @@ func (schematics *SchematicsV1) ProcessTemplateMetaDataWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/template_metadata_processor`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -458,22 +505,27 @@ func (schematics *SchematicsV1) ProcessTemplateMetaDataWithContext(ctx context.C
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "ProcessTemplateMetaData", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateMetaDataResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -496,13 +548,16 @@ func (schematics *SchematicsV1) ProcessTemplateMetaDataWithContext(ctx context.C
 //   see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListWorkspaces(listWorkspacesOptions *ListWorkspacesOptions) (result *WorkspaceResponseList, response *core.DetailedResponse, err error) {
-	return schematics.ListWorkspacesWithContext(context.Background(), listWorkspacesOptions)
+	result, response, err = schematics.ListWorkspacesWithContext(context.Background(), listWorkspacesOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListWorkspacesWithContext is an alternate form of the ListWorkspaces method which supports a Context parameter
 func (schematics *SchematicsV1) ListWorkspacesWithContext(ctx context.Context, listWorkspacesOptions *ListWorkspacesOptions) (result *WorkspaceResponseList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listWorkspacesOptions, "listWorkspacesOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -511,6 +566,7 @@ func (schematics *SchematicsV1) ListWorkspacesWithContext(ctx context.Context, l
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -539,17 +595,21 @@ func (schematics *SchematicsV1) ListWorkspacesWithContext(ctx context.Context, l
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_workspaces", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceResponseList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -596,17 +656,21 @@ func (schematics *SchematicsV1) ListWorkspacesWithContext(ctx context.Context, l
 //   see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateWorkspace(createWorkspaceOptions *CreateWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
-	return schematics.CreateWorkspaceWithContext(context.Background(), createWorkspaceOptions)
+	result, response, err = schematics.CreateWorkspaceWithContext(context.Background(), createWorkspaceOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateWorkspaceWithContext is an alternate form of the CreateWorkspace method which supports a Context parameter
 func (schematics *SchematicsV1) CreateWorkspaceWithContext(ctx context.Context, createWorkspaceOptions *CreateWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createWorkspaceOptions, "createWorkspaceOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createWorkspaceOptions, "createWorkspaceOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -615,6 +679,7 @@ func (schematics *SchematicsV1) CreateWorkspaceWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -678,24 +743,32 @@ func (schematics *SchematicsV1) CreateWorkspaceWithContext(ctx context.Context, 
 	if createWorkspaceOptions.AgentID != nil {
 		body["agent_id"] = createWorkspaceOptions.AgentID
 	}
+	if createWorkspaceOptions.Settings != nil {
+		body["settings"] = createWorkspaceOptions.Settings
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_workspace", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -713,17 +786,21 @@ func (schematics *SchematicsV1) CreateWorkspaceWithContext(ctx context.Context, 
 //  For more information, about Schematics access and permissions, see [Schematics service access
 //  roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetWorkspace(getWorkspaceOptions *GetWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceWithContext(context.Background(), getWorkspaceOptions)
+	result, response, err = schematics.GetWorkspaceWithContext(context.Background(), getWorkspaceOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceWithContext is an alternate form of the GetWorkspace method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceWithContext(ctx context.Context, getWorkspaceOptions *GetWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceOptions, "getWorkspaceOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceOptions, "getWorkspaceOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -736,6 +813,7 @@ func (schematics *SchematicsV1) GetWorkspaceWithContext(ctx context.Context, get
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -751,17 +829,21 @@ func (schematics *SchematicsV1) GetWorkspaceWithContext(ctx context.Context, get
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -784,17 +866,21 @@ func (schematics *SchematicsV1) GetWorkspaceWithContext(ctx context.Context, get
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ReplaceWorkspace(replaceWorkspaceOptions *ReplaceWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
-	return schematics.ReplaceWorkspaceWithContext(context.Background(), replaceWorkspaceOptions)
+	result, response, err = schematics.ReplaceWorkspaceWithContext(context.Background(), replaceWorkspaceOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ReplaceWorkspaceWithContext is an alternate form of the ReplaceWorkspace method which supports a Context parameter
 func (schematics *SchematicsV1) ReplaceWorkspaceWithContext(ctx context.Context, replaceWorkspaceOptions *ReplaceWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceWorkspaceOptions, "replaceWorkspaceOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceWorkspaceOptions, "replaceWorkspaceOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -807,6 +893,7 @@ func (schematics *SchematicsV1) ReplaceWorkspaceWithContext(ctx context.Context,
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -861,24 +948,32 @@ func (schematics *SchematicsV1) ReplaceWorkspaceWithContext(ctx context.Context,
 	if replaceWorkspaceOptions.AgentID != nil {
 		body["agent_id"] = replaceWorkspaceOptions.AgentID
 	}
+	if replaceWorkspaceOptions.Settings != nil {
+		body["settings"] = replaceWorkspaceOptions.Settings
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "replace_workspace", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -903,17 +998,21 @@ func (schematics *SchematicsV1) ReplaceWorkspaceWithContext(ctx context.Context,
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteWorkspace(deleteWorkspaceOptions *DeleteWorkspaceOptions) (result *string, response *core.DetailedResponse, err error) {
-	return schematics.DeleteWorkspaceWithContext(context.Background(), deleteWorkspaceOptions)
+	result, response, err = schematics.DeleteWorkspaceWithContext(context.Background(), deleteWorkspaceOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteWorkspaceWithContext is an alternate form of the DeleteWorkspace method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteWorkspaceWithContext(ctx context.Context, deleteWorkspaceOptions *DeleteWorkspaceOptions) (result *string, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteWorkspaceOptions, "deleteWorkspaceOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteWorkspaceOptions, "deleteWorkspaceOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -926,6 +1025,7 @@ func (schematics *SchematicsV1) DeleteWorkspaceWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -948,10 +1048,16 @@ func (schematics *SchematicsV1) DeleteWorkspaceWithContext(ctx context.Context, 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, &result)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_workspace", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -978,17 +1084,21 @@ func (schematics *SchematicsV1) DeleteWorkspaceWithContext(ctx context.Context, 
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateWorkspace(updateWorkspaceOptions *UpdateWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
-	return schematics.UpdateWorkspaceWithContext(context.Background(), updateWorkspaceOptions)
+	result, response, err = schematics.UpdateWorkspaceWithContext(context.Background(), updateWorkspaceOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateWorkspaceWithContext is an alternate form of the UpdateWorkspace method which supports a Context parameter
 func (schematics *SchematicsV1) UpdateWorkspaceWithContext(ctx context.Context, updateWorkspaceOptions *UpdateWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateWorkspaceOptions, "updateWorkspaceOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateWorkspaceOptions, "updateWorkspaceOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1001,6 +1111,7 @@ func (schematics *SchematicsV1) UpdateWorkspaceWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1052,24 +1163,32 @@ func (schematics *SchematicsV1) UpdateWorkspaceWithContext(ctx context.Context, 
 	if updateWorkspaceOptions.AgentID != nil {
 		body["agent_id"] = updateWorkspaceOptions.AgentID
 	}
+	if updateWorkspaceOptions.Settings != nil {
+		body["settings"] = updateWorkspaceOptions.Settings
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_workspace", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1082,7 +1201,9 @@ func (schematics *SchematicsV1) UpdateWorkspaceWithContext(ctx context.Context, 
 // Retrieve the `README.md` file of the Terraform of IBM Cloud catalog template that your workspace points to.
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceReadme(getWorkspaceReadmeOptions *GetWorkspaceReadmeOptions) (result *TemplateReadme, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceReadmeWithContext(context.Background(), getWorkspaceReadmeOptions)
+	result, response, err = schematics.GetWorkspaceReadmeWithContext(context.Background(), getWorkspaceReadmeOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceReadmeWithContext is an alternate form of the GetWorkspaceReadme method which supports a Context parameter
@@ -1091,10 +1212,12 @@ func (schematics *SchematicsV1) GetWorkspaceReadmeWithContext(ctx context.Contex
 	core.GetLogger().Warn("A deprecated operation has been invoked: GetWorkspaceReadme")
 	err = core.ValidateNotNil(getWorkspaceReadmeOptions, "getWorkspaceReadmeOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceReadmeOptions, "getWorkspaceReadmeOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1107,6 +1230,7 @@ func (schematics *SchematicsV1) GetWorkspaceReadmeWithContext(ctx context.Contex
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/templates/readme`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1129,17 +1253,21 @@ func (schematics *SchematicsV1) GetWorkspaceReadmeWithContext(ctx context.Contex
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_readme", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateReadme)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1159,21 +1287,25 @@ func (schematics *SchematicsV1) GetWorkspaceReadmeWithContext(ctx context.Contex
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) TemplateRepoUpload(templateRepoUploadOptions *TemplateRepoUploadOptions) (result *TemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
-	return schematics.TemplateRepoUploadWithContext(context.Background(), templateRepoUploadOptions)
+	result, response, err = schematics.TemplateRepoUploadWithContext(context.Background(), templateRepoUploadOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // TemplateRepoUploadWithContext is an alternate form of the TemplateRepoUpload method which supports a Context parameter
 func (schematics *SchematicsV1) TemplateRepoUploadWithContext(ctx context.Context, templateRepoUploadOptions *TemplateRepoUploadOptions) (result *TemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(templateRepoUploadOptions, "templateRepoUploadOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(templateRepoUploadOptions, "templateRepoUploadOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 	if (templateRepoUploadOptions.File == nil) {
-		err = fmt.Errorf("file must be supplied")
+		err = core.SDKErrorf(nil, "file must be supplied", "condition-not-met", common.GetComponentInfo())
 		return
 	}
 
@@ -1187,6 +1319,7 @@ func (schematics *SchematicsV1) TemplateRepoUploadWithContext(ctx context.Contex
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/template_data/{t_id}/template_repo_upload`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1207,17 +1340,21 @@ func (schematics *SchematicsV1) TemplateRepoUploadWithContext(ctx context.Contex
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "template_repo_upload", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateRepoTarUploadResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1236,17 +1373,21 @@ func (schematics *SchematicsV1) TemplateRepoUploadWithContext(ctx context.Contex
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetWorkspaceInputs(getWorkspaceInputsOptions *GetWorkspaceInputsOptions) (result *TemplateValues, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceInputsWithContext(context.Background(), getWorkspaceInputsOptions)
+	result, response, err = schematics.GetWorkspaceInputsWithContext(context.Background(), getWorkspaceInputsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceInputsWithContext is an alternate form of the GetWorkspaceInputs method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceInputsWithContext(ctx context.Context, getWorkspaceInputsOptions *GetWorkspaceInputsOptions) (result *TemplateValues, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceInputsOptions, "getWorkspaceInputsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceInputsOptions, "getWorkspaceInputsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1260,6 +1401,7 @@ func (schematics *SchematicsV1) GetWorkspaceInputsWithContext(ctx context.Contex
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/template_data/{t_id}/values`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1275,17 +1417,21 @@ func (schematics *SchematicsV1) GetWorkspaceInputsWithContext(ctx context.Contex
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_inputs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateValues)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1297,17 +1443,21 @@ func (schematics *SchematicsV1) GetWorkspaceInputsWithContext(ctx context.Contex
 // ReplaceWorkspaceInputs : Replace workspace input variables
 // Replace or Update the input variables for the template that your workspace points to.
 func (schematics *SchematicsV1) ReplaceWorkspaceInputs(replaceWorkspaceInputsOptions *ReplaceWorkspaceInputsOptions) (result *UserValues, response *core.DetailedResponse, err error) {
-	return schematics.ReplaceWorkspaceInputsWithContext(context.Background(), replaceWorkspaceInputsOptions)
+	result, response, err = schematics.ReplaceWorkspaceInputsWithContext(context.Background(), replaceWorkspaceInputsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ReplaceWorkspaceInputsWithContext is an alternate form of the ReplaceWorkspaceInputs method which supports a Context parameter
 func (schematics *SchematicsV1) ReplaceWorkspaceInputsWithContext(ctx context.Context, replaceWorkspaceInputsOptions *ReplaceWorkspaceInputsOptions) (result *UserValues, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceWorkspaceInputsOptions, "replaceWorkspaceInputsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceWorkspaceInputsOptions, "replaceWorkspaceInputsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1321,6 +1471,7 @@ func (schematics *SchematicsV1) ReplaceWorkspaceInputsWithContext(ctx context.Co
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/template_data/{t_id}/values`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1347,22 +1498,27 @@ func (schematics *SchematicsV1) ReplaceWorkspaceInputsWithContext(ctx context.Co
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "replace_workspace_inputs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalUserValues)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1381,17 +1537,21 @@ func (schematics *SchematicsV1) ReplaceWorkspaceInputsWithContext(ctx context.Co
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetAllWorkspaceInputs(getAllWorkspaceInputsOptions *GetAllWorkspaceInputsOptions) (result *WorkspaceTemplateValuesResponse, response *core.DetailedResponse, err error) {
-	return schematics.GetAllWorkspaceInputsWithContext(context.Background(), getAllWorkspaceInputsOptions)
+	result, response, err = schematics.GetAllWorkspaceInputsWithContext(context.Background(), getAllWorkspaceInputsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAllWorkspaceInputsWithContext is an alternate form of the GetAllWorkspaceInputs method which supports a Context parameter
 func (schematics *SchematicsV1) GetAllWorkspaceInputsWithContext(ctx context.Context, getAllWorkspaceInputsOptions *GetAllWorkspaceInputsOptions) (result *WorkspaceTemplateValuesResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getAllWorkspaceInputsOptions, "getAllWorkspaceInputsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getAllWorkspaceInputsOptions, "getAllWorkspaceInputsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1404,6 +1564,7 @@ func (schematics *SchematicsV1) GetAllWorkspaceInputsWithContext(ctx context.Con
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/templates/values`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1419,17 +1580,21 @@ func (schematics *SchematicsV1) GetAllWorkspaceInputsWithContext(ctx context.Con
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_all_workspace_inputs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceTemplateValuesResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1442,17 +1607,21 @@ func (schematics *SchematicsV1) GetAllWorkspaceInputsWithContext(ctx context.Con
 // Retrieve the metadata for all the workspace input variables that are declared in the template that your workspace
 // points to.
 func (schematics *SchematicsV1) GetWorkspaceInputMetadata(getWorkspaceInputMetadataOptions *GetWorkspaceInputMetadataOptions) (result []map[string]interface{}, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceInputMetadataWithContext(context.Background(), getWorkspaceInputMetadataOptions)
+	result, response, err = schematics.GetWorkspaceInputMetadataWithContext(context.Background(), getWorkspaceInputMetadataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceInputMetadataWithContext is an alternate form of the GetWorkspaceInputMetadata method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceInputMetadataWithContext(ctx context.Context, getWorkspaceInputMetadataOptions *GetWorkspaceInputMetadataOptions) (result []map[string]interface{}, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceInputMetadataOptions, "getWorkspaceInputMetadataOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceInputMetadataOptions, "getWorkspaceInputMetadataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1466,6 +1635,7 @@ func (schematics *SchematicsV1) GetWorkspaceInputMetadataWithContext(ctx context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/template_data/{t_id}/values_metadata`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1481,10 +1651,16 @@ func (schematics *SchematicsV1) GetWorkspaceInputMetadataWithContext(ctx context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, &result)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_input_metadata", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1493,17 +1669,21 @@ func (schematics *SchematicsV1) GetWorkspaceInputMetadataWithContext(ctx context
 // Retrieve a list of Terraform output variables. You define output values in your Terraform template to include
 // information that you want to make accessible for other Terraform templates.
 func (schematics *SchematicsV1) GetWorkspaceOutputs(getWorkspaceOutputsOptions *GetWorkspaceOutputsOptions) (result []OutputValuesInner, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceOutputsWithContext(context.Background(), getWorkspaceOutputsOptions)
+	result, response, err = schematics.GetWorkspaceOutputsWithContext(context.Background(), getWorkspaceOutputsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceOutputsWithContext is an alternate form of the GetWorkspaceOutputs method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceOutputsWithContext(ctx context.Context, getWorkspaceOutputsOptions *GetWorkspaceOutputsOptions) (result []OutputValuesInner, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceOutputsOptions, "getWorkspaceOutputsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceOutputsOptions, "getWorkspaceOutputsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1516,6 +1696,7 @@ func (schematics *SchematicsV1) GetWorkspaceOutputsWithContext(ctx context.Conte
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/output_values`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1531,17 +1712,21 @@ func (schematics *SchematicsV1) GetWorkspaceOutputsWithContext(ctx context.Conte
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse []json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_outputs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalOutputValuesInner)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1553,17 +1738,21 @@ func (schematics *SchematicsV1) GetWorkspaceOutputsWithContext(ctx context.Conte
 // GetWorkspaceResources : List workspace resources
 // Retrieve a list of IBM Cloud resources that you created with your workspace.
 func (schematics *SchematicsV1) GetWorkspaceResources(getWorkspaceResourcesOptions *GetWorkspaceResourcesOptions) (result []TemplateResources, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceResourcesWithContext(context.Background(), getWorkspaceResourcesOptions)
+	result, response, err = schematics.GetWorkspaceResourcesWithContext(context.Background(), getWorkspaceResourcesOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceResourcesWithContext is an alternate form of the GetWorkspaceResources method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceResourcesWithContext(ctx context.Context, getWorkspaceResourcesOptions *GetWorkspaceResourcesOptions) (result []TemplateResources, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceResourcesOptions, "getWorkspaceResourcesOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceResourcesOptions, "getWorkspaceResourcesOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1576,6 +1765,7 @@ func (schematics *SchematicsV1) GetWorkspaceResourcesWithContext(ctx context.Con
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/resources`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1591,17 +1781,21 @@ func (schematics *SchematicsV1) GetWorkspaceResourcesWithContext(ctx context.Con
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse []json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_resources", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateResources)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1626,7 +1820,9 @@ func (schematics *SchematicsV1) GetWorkspaceResourcesWithContext(ctx context.Con
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceState(getWorkspaceStateOptions *GetWorkspaceStateOptions) (result *StateStoreResponseList, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceStateWithContext(context.Background(), getWorkspaceStateOptions)
+	result, response, err = schematics.GetWorkspaceStateWithContext(context.Background(), getWorkspaceStateOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceStateWithContext is an alternate form of the GetWorkspaceState method which supports a Context parameter
@@ -1635,10 +1831,12 @@ func (schematics *SchematicsV1) GetWorkspaceStateWithContext(ctx context.Context
 	core.GetLogger().Warn("A deprecated operation has been invoked: GetWorkspaceState")
 	err = core.ValidateNotNil(getWorkspaceStateOptions, "getWorkspaceStateOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceStateOptions, "getWorkspaceStateOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1651,6 +1849,7 @@ func (schematics *SchematicsV1) GetWorkspaceStateWithContext(ctx context.Context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/state_stores`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1666,17 +1865,21 @@ func (schematics *SchematicsV1) GetWorkspaceStateWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_state", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalStateStoreResponseList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1693,7 +1896,9 @@ func (schematics *SchematicsV1) GetWorkspaceStateWithContext(ctx context.Context
 // resources.
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceTemplateState(getWorkspaceTemplateStateOptions *GetWorkspaceTemplateStateOptions) (result *TemplateStateStore, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceTemplateStateWithContext(context.Background(), getWorkspaceTemplateStateOptions)
+	result, response, err = schematics.GetWorkspaceTemplateStateWithContext(context.Background(), getWorkspaceTemplateStateOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceTemplateStateWithContext is an alternate form of the GetWorkspaceTemplateState method which supports a Context parameter
@@ -1702,10 +1907,12 @@ func (schematics *SchematicsV1) GetWorkspaceTemplateStateWithContext(ctx context
 	core.GetLogger().Warn("A deprecated operation has been invoked: GetWorkspaceTemplateState")
 	err = core.ValidateNotNil(getWorkspaceTemplateStateOptions, "getWorkspaceTemplateStateOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceTemplateStateOptions, "getWorkspaceTemplateStateOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1719,6 +1926,7 @@ func (schematics *SchematicsV1) GetWorkspaceTemplateStateWithContext(ctx context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/runtime_data/{t_id}/state_store`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1734,17 +1942,21 @@ func (schematics *SchematicsV1) GetWorkspaceTemplateStateWithContext(ctx context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_template_state", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateStateStore)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1765,7 +1977,9 @@ func (schematics *SchematicsV1) GetWorkspaceTemplateStateWithContext(ctx context
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceActivityLogs(getWorkspaceActivityLogsOptions *GetWorkspaceActivityLogsOptions) (result *WorkspaceActivityLogs, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceActivityLogsWithContext(context.Background(), getWorkspaceActivityLogsOptions)
+	result, response, err = schematics.GetWorkspaceActivityLogsWithContext(context.Background(), getWorkspaceActivityLogsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceActivityLogsWithContext is an alternate form of the GetWorkspaceActivityLogs method which supports a Context parameter
@@ -1774,10 +1988,12 @@ func (schematics *SchematicsV1) GetWorkspaceActivityLogsWithContext(ctx context.
 	core.GetLogger().Warn("A deprecated operation has been invoked: GetWorkspaceActivityLogs")
 	err = core.ValidateNotNil(getWorkspaceActivityLogsOptions, "getWorkspaceActivityLogsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceActivityLogsOptions, "getWorkspaceActivityLogsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1791,6 +2007,7 @@ func (schematics *SchematicsV1) GetWorkspaceActivityLogsWithContext(ctx context.
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/actions/{activity_id}/logs`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1806,17 +2023,21 @@ func (schematics *SchematicsV1) GetWorkspaceActivityLogsWithContext(ctx context.
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_activity_logs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityLogs)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1830,7 +2051,9 @@ func (schematics *SchematicsV1) GetWorkspaceActivityLogsWithContext(ctx context.
 // retrieve detailed logs for the latest job.
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceLogUrls(getWorkspaceLogUrlsOptions *GetWorkspaceLogUrlsOptions) (result *LogStoreResponseList, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceLogUrlsWithContext(context.Background(), getWorkspaceLogUrlsOptions)
+	result, response, err = schematics.GetWorkspaceLogUrlsWithContext(context.Background(), getWorkspaceLogUrlsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceLogUrlsWithContext is an alternate form of the GetWorkspaceLogUrls method which supports a Context parameter
@@ -1839,10 +2062,12 @@ func (schematics *SchematicsV1) GetWorkspaceLogUrlsWithContext(ctx context.Conte
 	core.GetLogger().Warn("A deprecated operation has been invoked: GetWorkspaceLogUrls")
 	err = core.ValidateNotNil(getWorkspaceLogUrlsOptions, "getWorkspaceLogUrlsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceLogUrlsOptions, "getWorkspaceLogUrlsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1855,6 +2080,7 @@ func (schematics *SchematicsV1) GetWorkspaceLogUrlsWithContext(ctx context.Conte
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/log_stores`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1870,17 +2096,21 @@ func (schematics *SchematicsV1) GetWorkspaceLogUrlsWithContext(ctx context.Conte
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_log_urls", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLogStoreResponseList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1899,17 +2129,21 @@ func (schematics *SchematicsV1) GetWorkspaceLogUrlsWithContext(ctx context.Conte
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetTemplateLogs(getTemplateLogsOptions *GetTemplateLogsOptions) (result *string, response *core.DetailedResponse, err error) {
-	return schematics.GetTemplateLogsWithContext(context.Background(), getTemplateLogsOptions)
+	result, response, err = schematics.GetTemplateLogsWithContext(context.Background(), getTemplateLogsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTemplateLogsWithContext is an alternate form of the GetTemplateLogs method which supports a Context parameter
 func (schematics *SchematicsV1) GetTemplateLogsWithContext(ctx context.Context, getTemplateLogsOptions *GetTemplateLogsOptions) (result *string, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTemplateLogsOptions, "getTemplateLogsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTemplateLogsOptions, "getTemplateLogsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1923,6 +2157,7 @@ func (schematics *SchematicsV1) GetTemplateLogsWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/runtime_data/{t_id}/log_store`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1951,10 +2186,16 @@ func (schematics *SchematicsV1) GetTemplateLogsWithContext(ctx context.Context, 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, &result)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_template_logs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1962,17 +2203,21 @@ func (schematics *SchematicsV1) GetTemplateLogsWithContext(ctx context.Context, 
 // GetTemplateActivityLog : Show logs for a workspace job
 // Show the Terraform logs for an job that ran against your workspace.
 func (schematics *SchematicsV1) GetTemplateActivityLog(getTemplateActivityLogOptions *GetTemplateActivityLogOptions) (result *string, response *core.DetailedResponse, err error) {
-	return schematics.GetTemplateActivityLogWithContext(context.Background(), getTemplateActivityLogOptions)
+	result, response, err = schematics.GetTemplateActivityLogWithContext(context.Background(), getTemplateActivityLogOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTemplateActivityLogWithContext is an alternate form of the GetTemplateActivityLog method which supports a Context parameter
 func (schematics *SchematicsV1) GetTemplateActivityLogWithContext(ctx context.Context, getTemplateActivityLogOptions *GetTemplateActivityLogOptions) (result *string, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTemplateActivityLogOptions, "getTemplateActivityLogOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTemplateActivityLogOptions, "getTemplateActivityLogOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1987,6 +2232,7 @@ func (schematics *SchematicsV1) GetTemplateActivityLogWithContext(ctx context.Co
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/runtime_data/{t_id}/log_store/actions/{activity_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2015,10 +2261,16 @@ func (schematics *SchematicsV1) GetTemplateActivityLogWithContext(ctx context.Co
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, &result)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_template_activity_log", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -2038,13 +2290,16 @@ func (schematics *SchematicsV1) GetTemplateActivityLogWithContext(ctx context.Co
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListActions(listActionsOptions *ListActionsOptions) (result *ActionList, response *core.DetailedResponse, err error) {
-	return schematics.ListActionsWithContext(context.Background(), listActionsOptions)
+	result, response, err = schematics.ListActionsWithContext(context.Background(), listActionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListActionsWithContext is an alternate form of the ListActions method which supports a Context parameter
 func (schematics *SchematicsV1) ListActionsWithContext(ctx context.Context, listActionsOptions *ListActionsOptions) (result *ActionList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listActionsOptions, "listActionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2053,6 +2308,7 @@ func (schematics *SchematicsV1) ListActionsWithContext(ctx context.Context, list
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/actions`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2081,17 +2337,21 @@ func (schematics *SchematicsV1) ListActionsWithContext(ctx context.Context, list
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_actions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalActionList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2125,17 +2385,21 @@ func (schematics *SchematicsV1) ListActionsWithContext(ctx context.Context, list
 //  see [Schematics service access roles and required
 // permissions](/docs/schematics?topic=schematics-access#action-permissions).
 func (schematics *SchematicsV1) CreateAction(createActionOptions *CreateActionOptions) (result *Action, response *core.DetailedResponse, err error) {
-	return schematics.CreateActionWithContext(context.Background(), createActionOptions)
+	result, response, err = schematics.CreateActionWithContext(context.Background(), createActionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateActionWithContext is an alternate form of the CreateAction method which supports a Context parameter
 func (schematics *SchematicsV1) CreateActionWithContext(ctx context.Context, createActionOptions *CreateActionOptions) (result *Action, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createActionOptions, "createActionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createActionOptions, "createActionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2144,6 +2408,7 @@ func (schematics *SchematicsV1) CreateActionWithContext(ctx context.Context, cre
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/actions`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2224,22 +2489,27 @@ func (schematics *SchematicsV1) CreateActionWithContext(ctx context.Context, cre
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_action", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAction)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2259,17 +2529,21 @@ func (schematics *SchematicsV1) CreateActionWithContext(ctx context.Context, cre
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#action-permissions).
 func (schematics *SchematicsV1) GetAction(getActionOptions *GetActionOptions) (result *Action, response *core.DetailedResponse, err error) {
-	return schematics.GetActionWithContext(context.Background(), getActionOptions)
+	result, response, err = schematics.GetActionWithContext(context.Background(), getActionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetActionWithContext is an alternate form of the GetAction method which supports a Context parameter
 func (schematics *SchematicsV1) GetActionWithContext(ctx context.Context, getActionOptions *GetActionOptions) (result *Action, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getActionOptions, "getActionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getActionOptions, "getActionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2282,6 +2556,7 @@ func (schematics *SchematicsV1) GetActionWithContext(ctx context.Context, getAct
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/actions/{action_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2301,17 +2576,21 @@ func (schematics *SchematicsV1) GetActionWithContext(ctx context.Context, getAct
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_action", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAction)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2334,17 +2613,21 @@ func (schematics *SchematicsV1) GetActionWithContext(ctx context.Context, getAct
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteAction(deleteActionOptions *DeleteActionOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteActionWithContext(context.Background(), deleteActionOptions)
+	response, err = schematics.DeleteActionWithContext(context.Background(), deleteActionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteActionWithContext is an alternate form of the DeleteAction method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteActionWithContext(ctx context.Context, deleteActionOptions *DeleteActionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteActionOptions, "deleteActionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteActionOptions, "deleteActionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2357,6 +2640,7 @@ func (schematics *SchematicsV1) DeleteActionWithContext(ctx context.Context, del
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/actions/{action_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2377,10 +2661,16 @@ func (schematics *SchematicsV1) DeleteActionWithContext(ctx context.Context, del
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_action", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -2405,17 +2695,21 @@ func (schematics *SchematicsV1) DeleteActionWithContext(ctx context.Context, del
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateAction(updateActionOptions *UpdateActionOptions) (result *Action, response *core.DetailedResponse, err error) {
-	return schematics.UpdateActionWithContext(context.Background(), updateActionOptions)
+	result, response, err = schematics.UpdateActionWithContext(context.Background(), updateActionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateActionWithContext is an alternate form of the UpdateAction method which supports a Context parameter
 func (schematics *SchematicsV1) UpdateActionWithContext(ctx context.Context, updateActionOptions *UpdateActionOptions) (result *Action, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateActionOptions, "updateActionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateActionOptions, "updateActionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2428,6 +2722,7 @@ func (schematics *SchematicsV1) UpdateActionWithContext(ctx context.Context, upd
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/actions/{action_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2508,22 +2803,27 @@ func (schematics *SchematicsV1) UpdateActionWithContext(ctx context.Context, upd
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_action", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAction)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2543,21 +2843,25 @@ func (schematics *SchematicsV1) UpdateActionWithContext(ctx context.Context, upd
 //  see [Schematics service access roles and required
 // permissions](/docs/schematics?topic=schematics-access#action-permissions).
 func (schematics *SchematicsV1) UploadTemplateTarAction(uploadTemplateTarActionOptions *UploadTemplateTarActionOptions) (result *TemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
-	return schematics.UploadTemplateTarActionWithContext(context.Background(), uploadTemplateTarActionOptions)
+	result, response, err = schematics.UploadTemplateTarActionWithContext(context.Background(), uploadTemplateTarActionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UploadTemplateTarActionWithContext is an alternate form of the UploadTemplateTarAction method which supports a Context parameter
 func (schematics *SchematicsV1) UploadTemplateTarActionWithContext(ctx context.Context, uploadTemplateTarActionOptions *UploadTemplateTarActionOptions) (result *TemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(uploadTemplateTarActionOptions, "uploadTemplateTarActionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(uploadTemplateTarActionOptions, "uploadTemplateTarActionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 	if (uploadTemplateTarActionOptions.File == nil) {
-		err = fmt.Errorf("file must be supplied")
+		err = core.SDKErrorf(nil, "file must be supplied", "condition-not-met", common.GetComponentInfo())
 		return
 	}
 
@@ -2570,6 +2874,7 @@ func (schematics *SchematicsV1) UploadTemplateTarActionWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/actions/{action_id}/template_repo_upload`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2590,17 +2895,21 @@ func (schematics *SchematicsV1) UploadTemplateTarActionWithContext(ctx context.C
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "upload_template_tar_action", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplateRepoTarUploadResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2613,17 +2922,21 @@ func (schematics *SchematicsV1) UploadTemplateTarActionWithContext(ctx context.C
 // Retrieve a list of all jobs that ran against a workspace. Jobs are generated when you use the `apply`, `plan`,
 // `destroy`, and `refresh`,   command API.
 func (schematics *SchematicsV1) ListWorkspaceActivities(listWorkspaceActivitiesOptions *ListWorkspaceActivitiesOptions) (result *WorkspaceActivities, response *core.DetailedResponse, err error) {
-	return schematics.ListWorkspaceActivitiesWithContext(context.Background(), listWorkspaceActivitiesOptions)
+	result, response, err = schematics.ListWorkspaceActivitiesWithContext(context.Background(), listWorkspaceActivitiesOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListWorkspaceActivitiesWithContext is an alternate form of the ListWorkspaceActivities method which supports a Context parameter
 func (schematics *SchematicsV1) ListWorkspaceActivitiesWithContext(ctx context.Context, listWorkspaceActivitiesOptions *ListWorkspaceActivitiesOptions) (result *WorkspaceActivities, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listWorkspaceActivitiesOptions, "listWorkspaceActivitiesOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listWorkspaceActivitiesOptions, "listWorkspaceActivitiesOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2636,6 +2949,7 @@ func (schematics *SchematicsV1) ListWorkspaceActivitiesWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/actions`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2658,17 +2972,21 @@ func (schematics *SchematicsV1) ListWorkspaceActivitiesWithContext(ctx context.C
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_workspace_activities", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivities)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2681,17 +2999,21 @@ func (schematics *SchematicsV1) ListWorkspaceActivitiesWithContext(ctx context.C
 // Get the details for a workspace job that ran against the workspace. This API returns the job status and a URL to the
 // log file that you can  retrieve by using the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
 func (schematics *SchematicsV1) GetWorkspaceActivity(getWorkspaceActivityOptions *GetWorkspaceActivityOptions) (result *WorkspaceActivity, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceActivityWithContext(context.Background(), getWorkspaceActivityOptions)
+	result, response, err = schematics.GetWorkspaceActivityWithContext(context.Background(), getWorkspaceActivityOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceActivityWithContext is an alternate form of the GetWorkspaceActivity method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceActivityWithContext(ctx context.Context, getWorkspaceActivityOptions *GetWorkspaceActivityOptions) (result *WorkspaceActivity, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceActivityOptions, "getWorkspaceActivityOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceActivityOptions, "getWorkspaceActivityOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2705,6 +3027,7 @@ func (schematics *SchematicsV1) GetWorkspaceActivityWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/actions/{activity_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2720,17 +3043,21 @@ func (schematics *SchematicsV1) GetWorkspaceActivityWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_activity", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivity)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2752,17 +3079,21 @@ func (schematics *SchematicsV1) GetWorkspaceActivityWithContext(ctx context.Cont
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteWorkspaceActivity(deleteWorkspaceActivityOptions *DeleteWorkspaceActivityOptions) (result *WorkspaceActivityApplyResult, response *core.DetailedResponse, err error) {
-	return schematics.DeleteWorkspaceActivityWithContext(context.Background(), deleteWorkspaceActivityOptions)
+	result, response, err = schematics.DeleteWorkspaceActivityWithContext(context.Background(), deleteWorkspaceActivityOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteWorkspaceActivityWithContext is an alternate form of the DeleteWorkspaceActivity method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteWorkspaceActivityWithContext(ctx context.Context, deleteWorkspaceActivityOptions *DeleteWorkspaceActivityOptions) (result *WorkspaceActivityApplyResult, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteWorkspaceActivityOptions, "deleteWorkspaceActivityOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteWorkspaceActivityOptions, "deleteWorkspaceActivityOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2776,6 +3107,7 @@ func (schematics *SchematicsV1) DeleteWorkspaceActivityWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/actions/{activity_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2791,17 +3123,21 @@ func (schematics *SchematicsV1) DeleteWorkspaceActivityWithContext(ctx context.C
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_workspace_activity", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityApplyResult)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2820,17 +3156,21 @@ func (schematics *SchematicsV1) DeleteWorkspaceActivityWithContext(ctx context.C
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) RunWorkspaceCommands(runWorkspaceCommandsOptions *RunWorkspaceCommandsOptions) (result *WorkspaceActivityCommandResult, response *core.DetailedResponse, err error) {
-	return schematics.RunWorkspaceCommandsWithContext(context.Background(), runWorkspaceCommandsOptions)
+	result, response, err = schematics.RunWorkspaceCommandsWithContext(context.Background(), runWorkspaceCommandsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // RunWorkspaceCommandsWithContext is an alternate form of the RunWorkspaceCommands method which supports a Context parameter
 func (schematics *SchematicsV1) RunWorkspaceCommandsWithContext(ctx context.Context, runWorkspaceCommandsOptions *RunWorkspaceCommandsOptions) (result *WorkspaceActivityCommandResult, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(runWorkspaceCommandsOptions, "runWorkspaceCommandsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(runWorkspaceCommandsOptions, "runWorkspaceCommandsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2843,6 +3183,7 @@ func (schematics *SchematicsV1) RunWorkspaceCommandsWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/commands`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2872,22 +3213,27 @@ func (schematics *SchematicsV1) RunWorkspaceCommandsWithContext(ctx context.Cont
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "run_workspace_commands", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityCommandResult)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2928,17 +3274,21 @@ func (schematics *SchematicsV1) RunWorkspaceCommandsWithContext(ctx context.Cont
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ApplyWorkspaceCommand(applyWorkspaceCommandOptions *ApplyWorkspaceCommandOptions) (result *WorkspaceActivityApplyResult, response *core.DetailedResponse, err error) {
-	return schematics.ApplyWorkspaceCommandWithContext(context.Background(), applyWorkspaceCommandOptions)
+	result, response, err = schematics.ApplyWorkspaceCommandWithContext(context.Background(), applyWorkspaceCommandOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ApplyWorkspaceCommandWithContext is an alternate form of the ApplyWorkspaceCommand method which supports a Context parameter
 func (schematics *SchematicsV1) ApplyWorkspaceCommandWithContext(ctx context.Context, applyWorkspaceCommandOptions *ApplyWorkspaceCommandOptions) (result *WorkspaceActivityApplyResult, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(applyWorkspaceCommandOptions, "applyWorkspaceCommandOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(applyWorkspaceCommandOptions, "applyWorkspaceCommandOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2951,6 +3301,7 @@ func (schematics *SchematicsV1) ApplyWorkspaceCommandWithContext(ctx context.Con
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/apply`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2977,22 +3328,27 @@ func (schematics *SchematicsV1) ApplyWorkspaceCommandWithContext(ctx context.Con
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "apply_workspace_command", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityApplyResult)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3022,17 +3378,21 @@ func (schematics *SchematicsV1) ApplyWorkspaceCommandWithContext(ctx context.Con
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DestroyWorkspaceCommand(destroyWorkspaceCommandOptions *DestroyWorkspaceCommandOptions) (result *WorkspaceActivityDestroyResult, response *core.DetailedResponse, err error) {
-	return schematics.DestroyWorkspaceCommandWithContext(context.Background(), destroyWorkspaceCommandOptions)
+	result, response, err = schematics.DestroyWorkspaceCommandWithContext(context.Background(), destroyWorkspaceCommandOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DestroyWorkspaceCommandWithContext is an alternate form of the DestroyWorkspaceCommand method which supports a Context parameter
 func (schematics *SchematicsV1) DestroyWorkspaceCommandWithContext(ctx context.Context, destroyWorkspaceCommandOptions *DestroyWorkspaceCommandOptions) (result *WorkspaceActivityDestroyResult, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(destroyWorkspaceCommandOptions, "destroyWorkspaceCommandOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(destroyWorkspaceCommandOptions, "destroyWorkspaceCommandOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3045,6 +3405,7 @@ func (schematics *SchematicsV1) DestroyWorkspaceCommandWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/destroy`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3071,22 +3432,27 @@ func (schematics *SchematicsV1) DestroyWorkspaceCommandWithContext(ctx context.C
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "destroy_workspace_command", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityDestroyResult)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3116,17 +3482,21 @@ func (schematics *SchematicsV1) DestroyWorkspaceCommandWithContext(ctx context.C
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) PlanWorkspaceCommand(planWorkspaceCommandOptions *PlanWorkspaceCommandOptions) (result *WorkspaceActivityPlanResult, response *core.DetailedResponse, err error) {
-	return schematics.PlanWorkspaceCommandWithContext(context.Background(), planWorkspaceCommandOptions)
+	result, response, err = schematics.PlanWorkspaceCommandWithContext(context.Background(), planWorkspaceCommandOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // PlanWorkspaceCommandWithContext is an alternate form of the PlanWorkspaceCommand method which supports a Context parameter
 func (schematics *SchematicsV1) PlanWorkspaceCommandWithContext(ctx context.Context, planWorkspaceCommandOptions *PlanWorkspaceCommandOptions) (result *WorkspaceActivityPlanResult, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(planWorkspaceCommandOptions, "planWorkspaceCommandOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(planWorkspaceCommandOptions, "planWorkspaceCommandOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3139,6 +3509,7 @@ func (schematics *SchematicsV1) PlanWorkspaceCommandWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/plan`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3165,22 +3536,27 @@ func (schematics *SchematicsV1) PlanWorkspaceCommandWithContext(ctx context.Cont
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "plan_workspace_command", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityPlanResult)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3202,17 +3578,21 @@ func (schematics *SchematicsV1) PlanWorkspaceCommandWithContext(ctx context.Cont
 //  see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) RefreshWorkspaceCommand(refreshWorkspaceCommandOptions *RefreshWorkspaceCommandOptions) (result *WorkspaceActivityRefreshResult, response *core.DetailedResponse, err error) {
-	return schematics.RefreshWorkspaceCommandWithContext(context.Background(), refreshWorkspaceCommandOptions)
+	result, response, err = schematics.RefreshWorkspaceCommandWithContext(context.Background(), refreshWorkspaceCommandOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // RefreshWorkspaceCommandWithContext is an alternate form of the RefreshWorkspaceCommand method which supports a Context parameter
 func (schematics *SchematicsV1) RefreshWorkspaceCommandWithContext(ctx context.Context, refreshWorkspaceCommandOptions *RefreshWorkspaceCommandOptions) (result *WorkspaceActivityRefreshResult, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(refreshWorkspaceCommandOptions, "refreshWorkspaceCommandOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(refreshWorkspaceCommandOptions, "refreshWorkspaceCommandOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3225,6 +3605,7 @@ func (schematics *SchematicsV1) RefreshWorkspaceCommandWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspaces/{w_id}/refresh`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3246,17 +3627,21 @@ func (schematics *SchematicsV1) RefreshWorkspaceCommandWithContext(ctx context.C
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "refresh_workspace_command", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceActivityRefreshResult)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3277,13 +3662,16 @@ func (schematics *SchematicsV1) RefreshWorkspaceCommandWithContext(ctx context.C
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListJobs(listJobsOptions *ListJobsOptions) (result *JobList, response *core.DetailedResponse, err error) {
-	return schematics.ListJobsWithContext(context.Background(), listJobsOptions)
+	result, response, err = schematics.ListJobsWithContext(context.Background(), listJobsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListJobsWithContext is an alternate form of the ListJobs method which supports a Context parameter
 func (schematics *SchematicsV1) ListJobsWithContext(ctx context.Context, listJobsOptions *ListJobsOptions) (result *JobList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listJobsOptions, "listJobsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3292,6 +3680,7 @@ func (schematics *SchematicsV1) ListJobsWithContext(ctx context.Context, listJob
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3335,17 +3724,21 @@ func (schematics *SchematicsV1) ListJobsWithContext(ctx context.Context, listJob
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_jobs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalJobList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3358,17 +3751,21 @@ func (schematics *SchematicsV1) ListJobsWithContext(ctx context.Context, listJob
 // Create & launch the Schematics job. It can be used to launch an Ansible playbook against a target hosts.  The job
 // displays a list of jobs with the status as `pending`, `in_progess`, `success`, or `failed`.
 func (schematics *SchematicsV1) CreateJob(createJobOptions *CreateJobOptions) (result *Job, response *core.DetailedResponse, err error) {
-	return schematics.CreateJobWithContext(context.Background(), createJobOptions)
+	result, response, err = schematics.CreateJobWithContext(context.Background(), createJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateJobWithContext is an alternate form of the CreateJob method which supports a Context parameter
 func (schematics *SchematicsV1) CreateJobWithContext(ctx context.Context, createJobOptions *CreateJobOptions) (result *Job, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createJobOptions, "createJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createJobOptions, "createJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3377,6 +3774,7 @@ func (schematics *SchematicsV1) CreateJobWithContext(ctx context.Context, create
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3442,22 +3840,27 @@ func (schematics *SchematicsV1) CreateJobWithContext(ctx context.Context, create
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3476,17 +3879,21 @@ func (schematics *SchematicsV1) CreateJobWithContext(ctx context.Context, create
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetJob(getJobOptions *GetJobOptions) (result *Job, response *core.DetailedResponse, err error) {
-	return schematics.GetJobWithContext(context.Background(), getJobOptions)
+	result, response, err = schematics.GetJobWithContext(context.Background(), getJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetJobWithContext is an alternate form of the GetJob method which supports a Context parameter
 func (schematics *SchematicsV1) GetJobWithContext(ctx context.Context, getJobOptions *GetJobOptions) (result *Job, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getJobOptions, "getJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getJobOptions, "getJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3499,6 +3906,7 @@ func (schematics *SchematicsV1) GetJobWithContext(ctx context.Context, getJobOpt
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs/{job_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3518,17 +3926,21 @@ func (schematics *SchematicsV1) GetJobWithContext(ctx context.Context, getJobOpt
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3548,17 +3960,21 @@ func (schematics *SchematicsV1) GetJobWithContext(ctx context.Context, getJobOpt
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateJob(updateJobOptions *UpdateJobOptions) (result *Job, response *core.DetailedResponse, err error) {
-	return schematics.UpdateJobWithContext(context.Background(), updateJobOptions)
+	result, response, err = schematics.UpdateJobWithContext(context.Background(), updateJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateJobWithContext is an alternate form of the UpdateJob method which supports a Context parameter
 func (schematics *SchematicsV1) UpdateJobWithContext(ctx context.Context, updateJobOptions *UpdateJobOptions) (result *Job, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateJobOptions, "updateJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateJobOptions, "updateJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3571,6 +3987,7 @@ func (schematics *SchematicsV1) UpdateJobWithContext(ctx context.Context, update
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs/{job_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3636,22 +4053,27 @@ func (schematics *SchematicsV1) UpdateJobWithContext(ctx context.Context, update
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3672,17 +4094,21 @@ func (schematics *SchematicsV1) UpdateJobWithContext(ctx context.Context, update
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteJob(deleteJobOptions *DeleteJobOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteJobWithContext(context.Background(), deleteJobOptions)
+	response, err = schematics.DeleteJobWithContext(context.Background(), deleteJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteJobWithContext is an alternate form of the DeleteJob method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteJobWithContext(ctx context.Context, deleteJobOptions *DeleteJobOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteJobOptions, "deleteJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteJobOptions, "deleteJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3695,6 +4121,7 @@ func (schematics *SchematicsV1) DeleteJobWithContext(ctx context.Context, delete
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs/{job_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3718,10 +4145,16 @@ func (schematics *SchematicsV1) DeleteJobWithContext(ctx context.Context, delete
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -3731,17 +4164,21 @@ func (schematics *SchematicsV1) DeleteJobWithContext(ctx context.Context, delete
 // information, about Schematics access and permissions, see [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListJobLogs(listJobLogsOptions *ListJobLogsOptions) (result *JobLog, response *core.DetailedResponse, err error) {
-	return schematics.ListJobLogsWithContext(context.Background(), listJobLogsOptions)
+	result, response, err = schematics.ListJobLogsWithContext(context.Background(), listJobLogsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListJobLogsWithContext is an alternate form of the ListJobLogs method which supports a Context parameter
 func (schematics *SchematicsV1) ListJobLogsWithContext(ctx context.Context, listJobLogsOptions *ListJobLogsOptions) (result *JobLog, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listJobLogsOptions, "listJobLogsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listJobLogsOptions, "listJobLogsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3754,6 +4191,7 @@ func (schematics *SchematicsV1) ListJobLogsWithContext(ctx context.Context, list
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs/{job_id}/logs`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3769,17 +4207,21 @@ func (schematics *SchematicsV1) ListJobLogsWithContext(ctx context.Context, list
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_job_logs", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalJobLog)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3793,17 +4235,21 @@ func (schematics *SchematicsV1) ListJobLogsWithContext(ctx context.Context, list
 // download the output files, see [Download Schematics
 // Job](https://cloud.ibm.com/docs/schematics?topic=schematics-job-download).
 func (schematics *SchematicsV1) GetJobFiles(getJobFilesOptions *GetJobFilesOptions) (result *JobFileData, response *core.DetailedResponse, err error) {
-	return schematics.GetJobFilesWithContext(context.Background(), getJobFilesOptions)
+	result, response, err = schematics.GetJobFilesWithContext(context.Background(), getJobFilesOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetJobFilesWithContext is an alternate form of the GetJobFiles method which supports a Context parameter
 func (schematics *SchematicsV1) GetJobFilesWithContext(ctx context.Context, getJobFilesOptions *GetJobFilesOptions) (result *JobFileData, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getJobFilesOptions, "getJobFilesOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getJobFilesOptions, "getJobFilesOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3816,6 +4262,7 @@ func (schematics *SchematicsV1) GetJobFilesWithContext(ctx context.Context, getJ
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/jobs/{job_id}/files`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3833,17 +4280,21 @@ func (schematics *SchematicsV1) GetJobFilesWithContext(ctx context.Context, getJ
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_job_files", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalJobFileData)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3863,17 +4314,21 @@ func (schematics *SchematicsV1) GetJobFilesWithContext(ctx context.Context, getJ
 //    [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateWorkspaceDeletionJob(createWorkspaceDeletionJobOptions *CreateWorkspaceDeletionJobOptions) (result *WorkspaceBulkDeleteResponse, response *core.DetailedResponse, err error) {
-	return schematics.CreateWorkspaceDeletionJobWithContext(context.Background(), createWorkspaceDeletionJobOptions)
+	result, response, err = schematics.CreateWorkspaceDeletionJobWithContext(context.Background(), createWorkspaceDeletionJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateWorkspaceDeletionJobWithContext is an alternate form of the CreateWorkspaceDeletionJob method which supports a Context parameter
 func (schematics *SchematicsV1) CreateWorkspaceDeletionJobWithContext(ctx context.Context, createWorkspaceDeletionJobOptions *CreateWorkspaceDeletionJobOptions) (result *WorkspaceBulkDeleteResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createWorkspaceDeletionJobOptions, "createWorkspaceDeletionJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createWorkspaceDeletionJobOptions, "createWorkspaceDeletionJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3882,6 +4337,7 @@ func (schematics *SchematicsV1) CreateWorkspaceDeletionJobWithContext(ctx contex
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspace_jobs`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3911,22 +4367,27 @@ func (schematics *SchematicsV1) CreateWorkspaceDeletionJobWithContext(ctx contex
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_workspace_deletion_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceBulkDeleteResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -3945,17 +4406,21 @@ func (schematics *SchematicsV1) CreateWorkspaceDeletionJobWithContext(ctx contex
 //    [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatus(getWorkspaceDeletionJobStatusOptions *GetWorkspaceDeletionJobStatusOptions) (result *WorkspaceJobResponse, response *core.DetailedResponse, err error) {
-	return schematics.GetWorkspaceDeletionJobStatusWithContext(context.Background(), getWorkspaceDeletionJobStatusOptions)
+	result, response, err = schematics.GetWorkspaceDeletionJobStatusWithContext(context.Background(), getWorkspaceDeletionJobStatusOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetWorkspaceDeletionJobStatusWithContext is an alternate form of the GetWorkspaceDeletionJobStatus method which supports a Context parameter
 func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatusWithContext(ctx context.Context, getWorkspaceDeletionJobStatusOptions *GetWorkspaceDeletionJobStatusOptions) (result *WorkspaceJobResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getWorkspaceDeletionJobStatusOptions, "getWorkspaceDeletionJobStatusOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getWorkspaceDeletionJobStatusOptions, "getWorkspaceDeletionJobStatusOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3968,6 +4433,7 @@ func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatusWithContext(ctx con
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v1/workspace_jobs/{wj_id}/status`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -3983,17 +4449,21 @@ func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatusWithContext(ctx con
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_workspace_deletion_job_status", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalWorkspaceJobResponse)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4015,13 +4485,16 @@ func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatusWithContext(ctx con
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListInventories(listInventoriesOptions *ListInventoriesOptions) (result *InventoryResourceRecordList, response *core.DetailedResponse, err error) {
-	return schematics.ListInventoriesWithContext(context.Background(), listInventoriesOptions)
+	result, response, err = schematics.ListInventoriesWithContext(context.Background(), listInventoriesOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListInventoriesWithContext is an alternate form of the ListInventories method which supports a Context parameter
 func (schematics *SchematicsV1) ListInventoriesWithContext(ctx context.Context, listInventoriesOptions *ListInventoriesOptions) (result *InventoryResourceRecordList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listInventoriesOptions, "listInventoriesOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4030,6 +4503,7 @@ func (schematics *SchematicsV1) ListInventoriesWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/inventories`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4058,17 +4532,21 @@ func (schematics *SchematicsV1) ListInventoriesWithContext(ctx context.Context, 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_inventories", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInventoryResourceRecordList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4094,17 +4572,21 @@ func (schematics *SchematicsV1) ListInventoriesWithContext(ctx context.Context, 
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateInventory(createInventoryOptions *CreateInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
-	return schematics.CreateInventoryWithContext(context.Background(), createInventoryOptions)
+	result, response, err = schematics.CreateInventoryWithContext(context.Background(), createInventoryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateInventoryWithContext is an alternate form of the CreateInventory method which supports a Context parameter
 func (schematics *SchematicsV1) CreateInventoryWithContext(ctx context.Context, createInventoryOptions *CreateInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInventoryOptions, "createInventoryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createInventoryOptions, "createInventoryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4113,6 +4595,7 @@ func (schematics *SchematicsV1) CreateInventoryWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/inventories`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4148,22 +4631,27 @@ func (schematics *SchematicsV1) CreateInventoryWithContext(ctx context.Context, 
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_inventory", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInventoryResourceRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4188,17 +4676,21 @@ func (schematics *SchematicsV1) CreateInventoryWithContext(ctx context.Context, 
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetInventory(getInventoryOptions *GetInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
-	return schematics.GetInventoryWithContext(context.Background(), getInventoryOptions)
+	result, response, err = schematics.GetInventoryWithContext(context.Background(), getInventoryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetInventoryWithContext is an alternate form of the GetInventory method which supports a Context parameter
 func (schematics *SchematicsV1) GetInventoryWithContext(ctx context.Context, getInventoryOptions *GetInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInventoryOptions, "getInventoryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getInventoryOptions, "getInventoryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4211,6 +4703,7 @@ func (schematics *SchematicsV1) GetInventoryWithContext(ctx context.Context, get
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/inventories/{inventory_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4230,17 +4723,21 @@ func (schematics *SchematicsV1) GetInventoryWithContext(ctx context.Context, get
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_inventory", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInventoryResourceRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4265,17 +4762,21 @@ func (schematics *SchematicsV1) GetInventoryWithContext(ctx context.Context, get
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ReplaceInventory(replaceInventoryOptions *ReplaceInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
-	return schematics.ReplaceInventoryWithContext(context.Background(), replaceInventoryOptions)
+	result, response, err = schematics.ReplaceInventoryWithContext(context.Background(), replaceInventoryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ReplaceInventoryWithContext is an alternate form of the ReplaceInventory method which supports a Context parameter
 func (schematics *SchematicsV1) ReplaceInventoryWithContext(ctx context.Context, replaceInventoryOptions *ReplaceInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceInventoryOptions, "replaceInventoryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceInventoryOptions, "replaceInventoryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4288,6 +4789,7 @@ func (schematics *SchematicsV1) ReplaceInventoryWithContext(ctx context.Context,
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/inventories/{inventory_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4323,22 +4825,27 @@ func (schematics *SchematicsV1) ReplaceInventoryWithContext(ctx context.Context,
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "replace_inventory", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInventoryResourceRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4363,17 +4870,21 @@ func (schematics *SchematicsV1) ReplaceInventoryWithContext(ctx context.Context,
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteInventory(deleteInventoryOptions *DeleteInventoryOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteInventoryWithContext(context.Background(), deleteInventoryOptions)
+	response, err = schematics.DeleteInventoryWithContext(context.Background(), deleteInventoryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteInventoryWithContext is an alternate form of the DeleteInventory method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteInventoryWithContext(ctx context.Context, deleteInventoryOptions *DeleteInventoryOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInventoryOptions, "deleteInventoryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteInventoryOptions, "deleteInventoryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4386,6 +4897,7 @@ func (schematics *SchematicsV1) DeleteInventoryWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/inventories/{inventory_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4406,10 +4918,16 @@ func (schematics *SchematicsV1) DeleteInventoryWithContext(ctx context.Context, 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_inventory", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -4426,13 +4944,16 @@ func (schematics *SchematicsV1) DeleteInventoryWithContext(ctx context.Context, 
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListResourceQuery(listResourceQueryOptions *ListResourceQueryOptions) (result *ResourceQueryRecordList, response *core.DetailedResponse, err error) {
-	return schematics.ListResourceQueryWithContext(context.Background(), listResourceQueryOptions)
+	result, response, err = schematics.ListResourceQueryWithContext(context.Background(), listResourceQueryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListResourceQueryWithContext is an alternate form of the ListResourceQuery method which supports a Context parameter
 func (schematics *SchematicsV1) ListResourceQueryWithContext(ctx context.Context, listResourceQueryOptions *ListResourceQueryOptions) (result *ResourceQueryRecordList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listResourceQueryOptions, "listResourceQueryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4441,6 +4962,7 @@ func (schematics *SchematicsV1) ListResourceQueryWithContext(ctx context.Context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/resources_query`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4469,17 +4991,21 @@ func (schematics *SchematicsV1) ListResourceQueryWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_resource_query", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceQueryRecordList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4504,17 +5030,21 @@ func (schematics *SchematicsV1) ListResourceQueryWithContext(ctx context.Context
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateResourceQuery(createResourceQueryOptions *CreateResourceQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
-	return schematics.CreateResourceQueryWithContext(context.Background(), createResourceQueryOptions)
+	result, response, err = schematics.CreateResourceQueryWithContext(context.Background(), createResourceQueryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateResourceQueryWithContext is an alternate form of the CreateResourceQuery method which supports a Context parameter
 func (schematics *SchematicsV1) CreateResourceQueryWithContext(ctx context.Context, createResourceQueryOptions *CreateResourceQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createResourceQueryOptions, "createResourceQueryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createResourceQueryOptions, "createResourceQueryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4523,6 +5053,7 @@ func (schematics *SchematicsV1) CreateResourceQueryWithContext(ctx context.Conte
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/resources_query`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4549,22 +5080,27 @@ func (schematics *SchematicsV1) CreateResourceQueryWithContext(ctx context.Conte
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_resource_query", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceQueryRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4584,17 +5120,21 @@ func (schematics *SchematicsV1) CreateResourceQueryWithContext(ctx context.Conte
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetResourcesQuery(getResourcesQueryOptions *GetResourcesQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
-	return schematics.GetResourcesQueryWithContext(context.Background(), getResourcesQueryOptions)
+	result, response, err = schematics.GetResourcesQueryWithContext(context.Background(), getResourcesQueryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetResourcesQueryWithContext is an alternate form of the GetResourcesQuery method which supports a Context parameter
 func (schematics *SchematicsV1) GetResourcesQueryWithContext(ctx context.Context, getResourcesQueryOptions *GetResourcesQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getResourcesQueryOptions, "getResourcesQueryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getResourcesQueryOptions, "getResourcesQueryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4607,6 +5147,7 @@ func (schematics *SchematicsV1) GetResourcesQueryWithContext(ctx context.Context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/resources_query/{query_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4622,17 +5163,21 @@ func (schematics *SchematicsV1) GetResourcesQueryWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_resources_query", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceQueryRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4655,17 +5200,21 @@ func (schematics *SchematicsV1) GetResourcesQueryWithContext(ctx context.Context
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ReplaceResourcesQuery(replaceResourcesQueryOptions *ReplaceResourcesQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
-	return schematics.ReplaceResourcesQueryWithContext(context.Background(), replaceResourcesQueryOptions)
+	result, response, err = schematics.ReplaceResourcesQueryWithContext(context.Background(), replaceResourcesQueryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ReplaceResourcesQueryWithContext is an alternate form of the ReplaceResourcesQuery method which supports a Context parameter
 func (schematics *SchematicsV1) ReplaceResourcesQueryWithContext(ctx context.Context, replaceResourcesQueryOptions *ReplaceResourcesQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceResourcesQueryOptions, "replaceResourcesQueryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(replaceResourcesQueryOptions, "replaceResourcesQueryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4678,6 +5227,7 @@ func (schematics *SchematicsV1) ReplaceResourcesQueryWithContext(ctx context.Con
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/resources_query/{query_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4704,22 +5254,27 @@ func (schematics *SchematicsV1) ReplaceResourcesQueryWithContext(ctx context.Con
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "replace_resources_query", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceQueryRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4731,17 +5286,21 @@ func (schematics *SchematicsV1) ReplaceResourcesQueryWithContext(ctx context.Con
 // ExecuteResourceQuery : Run the resource query
 // Run the resource query.
 func (schematics *SchematicsV1) ExecuteResourceQuery(executeResourceQueryOptions *ExecuteResourceQueryOptions) (result *ResourceQueryResponseRecord, response *core.DetailedResponse, err error) {
-	return schematics.ExecuteResourceQueryWithContext(context.Background(), executeResourceQueryOptions)
+	result, response, err = schematics.ExecuteResourceQueryWithContext(context.Background(), executeResourceQueryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ExecuteResourceQueryWithContext is an alternate form of the ExecuteResourceQuery method which supports a Context parameter
 func (schematics *SchematicsV1) ExecuteResourceQueryWithContext(ctx context.Context, executeResourceQueryOptions *ExecuteResourceQueryOptions) (result *ResourceQueryResponseRecord, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(executeResourceQueryOptions, "executeResourceQueryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(executeResourceQueryOptions, "executeResourceQueryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4754,6 +5313,7 @@ func (schematics *SchematicsV1) ExecuteResourceQueryWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/resources_query/{query_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4769,17 +5329,21 @@ func (schematics *SchematicsV1) ExecuteResourceQueryWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "execute_resource_query", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalResourceQueryResponseRecord)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4800,17 +5364,21 @@ func (schematics *SchematicsV1) ExecuteResourceQueryWithContext(ctx context.Cont
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteResourcesQuery(deleteResourcesQueryOptions *DeleteResourcesQueryOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteResourcesQueryWithContext(context.Background(), deleteResourcesQueryOptions)
+	response, err = schematics.DeleteResourcesQueryWithContext(context.Background(), deleteResourcesQueryOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteResourcesQueryWithContext is an alternate form of the DeleteResourcesQuery method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteResourcesQueryWithContext(ctx context.Context, deleteResourcesQueryOptions *DeleteResourcesQueryOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteResourcesQueryOptions, "deleteResourcesQueryOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteResourcesQueryOptions, "deleteResourcesQueryOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4823,6 +5391,7 @@ func (schematics *SchematicsV1) DeleteResourcesQueryWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/resources_query/{query_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4843,10 +5412,16 @@ func (schematics *SchematicsV1) DeleteResourcesQueryWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_resources_query", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -4861,7 +5436,9 @@ func (schematics *SchematicsV1) DeleteResourcesQueryWithContext(ctx context.Cont
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) ListAgent(listAgentOptions *ListAgentOptions) (result *AgentList, response *core.DetailedResponse, err error) {
-	return schematics.ListAgentWithContext(context.Background(), listAgentOptions)
+	result, response, err = schematics.ListAgentWithContext(context.Background(), listAgentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListAgentWithContext is an alternate form of the ListAgent method which supports a Context parameter
@@ -4870,6 +5447,7 @@ func (schematics *SchematicsV1) ListAgentWithContext(ctx context.Context, listAg
 	core.GetLogger().Warn("A deprecated operation has been invoked: ListAgent")
 	err = core.ValidateStruct(listAgentOptions, "listAgentOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4878,6 +5456,7 @@ func (schematics *SchematicsV1) ListAgentWithContext(ctx context.Context, listAg
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/agents`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4906,17 +5485,21 @@ func (schematics *SchematicsV1) ListAgentWithContext(ctx context.Context, listAg
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_agent", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -4935,7 +5518,9 @@ func (schematics *SchematicsV1) ListAgentWithContext(ctx context.Context, listAg
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) RegisterAgent(registerAgentOptions *RegisterAgentOptions) (result *Agent, response *core.DetailedResponse, err error) {
-	return schematics.RegisterAgentWithContext(context.Background(), registerAgentOptions)
+	result, response, err = schematics.RegisterAgentWithContext(context.Background(), registerAgentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // RegisterAgentWithContext is an alternate form of the RegisterAgent method which supports a Context parameter
@@ -4944,10 +5529,12 @@ func (schematics *SchematicsV1) RegisterAgentWithContext(ctx context.Context, re
 	core.GetLogger().Warn("A deprecated operation has been invoked: RegisterAgent")
 	err = core.ValidateNotNil(registerAgentOptions, "registerAgentOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(registerAgentOptions, "registerAgentOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4956,6 +5543,7 @@ func (schematics *SchematicsV1) RegisterAgentWithContext(ctx context.Context, re
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/agents`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -4997,22 +5585,27 @@ func (schematics *SchematicsV1) RegisterAgentWithContext(ctx context.Context, re
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "register_agent", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgent)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5031,7 +5624,9 @@ func (schematics *SchematicsV1) RegisterAgentWithContext(ctx context.Context, re
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetAgent(getAgentOptions *GetAgentOptions) (result *Agent, response *core.DetailedResponse, err error) {
-	return schematics.GetAgentWithContext(context.Background(), getAgentOptions)
+	result, response, err = schematics.GetAgentWithContext(context.Background(), getAgentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAgentWithContext is an alternate form of the GetAgent method which supports a Context parameter
@@ -5040,10 +5635,12 @@ func (schematics *SchematicsV1) GetAgentWithContext(ctx context.Context, getAgen
 	core.GetLogger().Warn("A deprecated operation has been invoked: GetAgent")
 	err = core.ValidateNotNil(getAgentOptions, "getAgentOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getAgentOptions, "getAgentOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5056,6 +5653,7 @@ func (schematics *SchematicsV1) GetAgentWithContext(ctx context.Context, getAgen
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/agents/{agent_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5075,17 +5673,21 @@ func (schematics *SchematicsV1) GetAgentWithContext(ctx context.Context, getAgen
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_agent", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgent)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5104,7 +5706,9 @@ func (schematics *SchematicsV1) GetAgentWithContext(ctx context.Context, getAgen
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) DeleteAgent(deleteAgentOptions *DeleteAgentOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteAgentWithContext(context.Background(), deleteAgentOptions)
+	response, err = schematics.DeleteAgentWithContext(context.Background(), deleteAgentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteAgentWithContext is an alternate form of the DeleteAgent method which supports a Context parameter
@@ -5113,10 +5717,12 @@ func (schematics *SchematicsV1) DeleteAgentWithContext(ctx context.Context, dele
 	core.GetLogger().Warn("A deprecated operation has been invoked: DeleteAgent")
 	err = core.ValidateNotNil(deleteAgentOptions, "deleteAgentOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteAgentOptions, "deleteAgentOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5129,6 +5735,7 @@ func (schematics *SchematicsV1) DeleteAgentWithContext(ctx context.Context, dele
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/agents/{agent_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5143,10 +5750,16 @@ func (schematics *SchematicsV1) DeleteAgentWithContext(ctx context.Context, dele
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_agent", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -5161,7 +5774,9 @@ func (schematics *SchematicsV1) DeleteAgentWithContext(ctx context.Context, dele
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) UpdateAgentRegistration(updateAgentRegistrationOptions *UpdateAgentRegistrationOptions) (result *Agent, response *core.DetailedResponse, err error) {
-	return schematics.UpdateAgentRegistrationWithContext(context.Background(), updateAgentRegistrationOptions)
+	result, response, err = schematics.UpdateAgentRegistrationWithContext(context.Background(), updateAgentRegistrationOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateAgentRegistrationWithContext is an alternate form of the UpdateAgentRegistration method which supports a Context parameter
@@ -5170,10 +5785,12 @@ func (schematics *SchematicsV1) UpdateAgentRegistrationWithContext(ctx context.C
 	core.GetLogger().Warn("A deprecated operation has been invoked: UpdateAgentRegistration")
 	err = core.ValidateNotNil(updateAgentRegistrationOptions, "updateAgentRegistrationOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateAgentRegistrationOptions, "updateAgentRegistrationOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5186,6 +5803,7 @@ func (schematics *SchematicsV1) UpdateAgentRegistrationWithContext(ctx context.C
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/agents/{agent_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5227,22 +5845,27 @@ func (schematics *SchematicsV1) UpdateAgentRegistrationWithContext(ctx context.C
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_agent_registration", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgent)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5266,13 +5889,16 @@ func (schematics *SchematicsV1) UpdateAgentRegistrationWithContext(ctx context.C
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListAgentData(listAgentDataOptions *ListAgentDataOptions) (result *AgentDataList, response *core.DetailedResponse, err error) {
-	return schematics.ListAgentDataWithContext(context.Background(), listAgentDataOptions)
+	result, response, err = schematics.ListAgentDataWithContext(context.Background(), listAgentDataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListAgentDataWithContext is an alternate form of the ListAgentData method which supports a Context parameter
 func (schematics *SchematicsV1) ListAgentDataWithContext(ctx context.Context, listAgentDataOptions *ListAgentDataOptions) (result *AgentDataList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listAgentDataOptions, "listAgentDataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5281,6 +5907,7 @@ func (schematics *SchematicsV1) ListAgentDataWithContext(ctx context.Context, li
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5309,17 +5936,21 @@ func (schematics *SchematicsV1) ListAgentDataWithContext(ctx context.Context, li
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_agent_data", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentDataList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5351,17 +5982,21 @@ func (schematics *SchematicsV1) ListAgentDataWithContext(ctx context.Context, li
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateAgentData(createAgentDataOptions *CreateAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
-	return schematics.CreateAgentDataWithContext(context.Background(), createAgentDataOptions)
+	result, response, err = schematics.CreateAgentDataWithContext(context.Background(), createAgentDataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateAgentDataWithContext is an alternate form of the CreateAgentData method which supports a Context parameter
 func (schematics *SchematicsV1) CreateAgentDataWithContext(ctx context.Context, createAgentDataOptions *CreateAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createAgentDataOptions, "createAgentDataOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createAgentDataOptions, "createAgentDataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5370,6 +6005,7 @@ func (schematics *SchematicsV1) CreateAgentDataWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5423,22 +6059,27 @@ func (schematics *SchematicsV1) CreateAgentDataWithContext(ctx context.Context, 
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_agent_data", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentData)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5461,17 +6102,21 @@ func (schematics *SchematicsV1) CreateAgentDataWithContext(ctx context.Context, 
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetAgentData(getAgentDataOptions *GetAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
-	return schematics.GetAgentDataWithContext(context.Background(), getAgentDataOptions)
+	result, response, err = schematics.GetAgentDataWithContext(context.Background(), getAgentDataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAgentDataWithContext is an alternate form of the GetAgentData method which supports a Context parameter
 func (schematics *SchematicsV1) GetAgentDataWithContext(ctx context.Context, getAgentDataOptions *GetAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getAgentDataOptions, "getAgentDataOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getAgentDataOptions, "getAgentDataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5484,6 +6129,7 @@ func (schematics *SchematicsV1) GetAgentDataWithContext(ctx context.Context, get
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5503,17 +6149,21 @@ func (schematics *SchematicsV1) GetAgentDataWithContext(ctx context.Context, get
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_agent_data", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentData)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5535,17 +6185,21 @@ func (schematics *SchematicsV1) GetAgentDataWithContext(ctx context.Context, get
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateAgentData(updateAgentDataOptions *UpdateAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
-	return schematics.UpdateAgentDataWithContext(context.Background(), updateAgentDataOptions)
+	result, response, err = schematics.UpdateAgentDataWithContext(context.Background(), updateAgentDataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateAgentDataWithContext is an alternate form of the UpdateAgentData method which supports a Context parameter
 func (schematics *SchematicsV1) UpdateAgentDataWithContext(ctx context.Context, updateAgentDataOptions *UpdateAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateAgentDataOptions, "updateAgentDataOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateAgentDataOptions, "updateAgentDataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5558,6 +6212,7 @@ func (schematics *SchematicsV1) UpdateAgentDataWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5614,22 +6269,27 @@ func (schematics *SchematicsV1) UpdateAgentDataWithContext(ctx context.Context, 
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_agent_data", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentData)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5651,17 +6311,21 @@ func (schematics *SchematicsV1) UpdateAgentDataWithContext(ctx context.Context, 
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteAgentData(deleteAgentDataOptions *DeleteAgentDataOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteAgentDataWithContext(context.Background(), deleteAgentDataOptions)
+	response, err = schematics.DeleteAgentDataWithContext(context.Background(), deleteAgentDataOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteAgentDataWithContext is an alternate form of the DeleteAgentData method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteAgentDataWithContext(ctx context.Context, deleteAgentDataOptions *DeleteAgentDataOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteAgentDataOptions, "deleteAgentDataOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteAgentDataOptions, "deleteAgentDataOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5674,6 +6338,7 @@ func (schematics *SchematicsV1) DeleteAgentDataWithContext(ctx context.Context, 
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5692,10 +6357,16 @@ func (schematics *SchematicsV1) DeleteAgentDataWithContext(ctx context.Context, 
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_agent_data", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -5710,13 +6381,16 @@ func (schematics *SchematicsV1) DeleteAgentDataWithContext(ctx context.Context, 
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetAgentVersions(getAgentVersionsOptions *GetAgentVersionsOptions) (result *AgentVersions, response *core.DetailedResponse, err error) {
-	return schematics.GetAgentVersionsWithContext(context.Background(), getAgentVersionsOptions)
+	result, response, err = schematics.GetAgentVersionsWithContext(context.Background(), getAgentVersionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAgentVersionsWithContext is an alternate form of the GetAgentVersions method which supports a Context parameter
 func (schematics *SchematicsV1) GetAgentVersionsWithContext(ctx context.Context, getAgentVersionsOptions *GetAgentVersionsOptions) (result *AgentVersions, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getAgentVersionsOptions, "getAgentVersionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5725,6 +6399,7 @@ func (schematics *SchematicsV1) GetAgentVersionsWithContext(ctx context.Context,
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/versions`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5740,17 +6415,21 @@ func (schematics *SchematicsV1) GetAgentVersionsWithContext(ctx context.Context,
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_agent_versions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentVersions)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5770,17 +6449,21 @@ func (schematics *SchematicsV1) GetAgentVersionsWithContext(ctx context.Context,
 // permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetPrsAgentJob(getPrsAgentJobOptions *GetPrsAgentJobOptions) (result *AgentPRSJob, response *core.DetailedResponse, err error) {
-	return schematics.GetPrsAgentJobWithContext(context.Background(), getPrsAgentJobOptions)
+	result, response, err = schematics.GetPrsAgentJobWithContext(context.Background(), getPrsAgentJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetPrsAgentJobWithContext is an alternate form of the GetPrsAgentJob method which supports a Context parameter
 func (schematics *SchematicsV1) GetPrsAgentJobWithContext(ctx context.Context, getPrsAgentJobOptions *GetPrsAgentJobOptions) (result *AgentPRSJob, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPrsAgentJobOptions, "getPrsAgentJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getPrsAgentJobOptions, "getPrsAgentJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5793,6 +6476,7 @@ func (schematics *SchematicsV1) GetPrsAgentJobWithContext(ctx context.Context, g
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/prs`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5808,17 +6492,21 @@ func (schematics *SchematicsV1) GetPrsAgentJobWithContext(ctx context.Context, g
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_prs_agent_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentPRSJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5835,17 +6523,21 @@ func (schematics *SchematicsV1) GetPrsAgentJobWithContext(ctx context.Context, g
 // Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) PrsAgentJob(prsAgentJobOptions *PrsAgentJobOptions) (result *AgentPRSJob, response *core.DetailedResponse, err error) {
-	return schematics.PrsAgentJobWithContext(context.Background(), prsAgentJobOptions)
+	result, response, err = schematics.PrsAgentJobWithContext(context.Background(), prsAgentJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // PrsAgentJobWithContext is an alternate form of the PrsAgentJob method which supports a Context parameter
 func (schematics *SchematicsV1) PrsAgentJobWithContext(ctx context.Context, prsAgentJobOptions *PrsAgentJobOptions) (result *AgentPRSJob, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(prsAgentJobOptions, "prsAgentJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(prsAgentJobOptions, "prsAgentJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5858,6 +6550,7 @@ func (schematics *SchematicsV1) PrsAgentJobWithContext(ctx context.Context, prsA
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/prs`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5877,17 +6570,21 @@ func (schematics *SchematicsV1) PrsAgentJobWithContext(ctx context.Context, prsA
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "prs_agent_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentPRSJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5905,17 +6602,21 @@ func (schematics *SchematicsV1) PrsAgentJobWithContext(ctx context.Context, prsA
 // permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetHealthCheckAgentJob(getHealthCheckAgentJobOptions *GetHealthCheckAgentJobOptions) (result *AgentHealthJob, response *core.DetailedResponse, err error) {
-	return schematics.GetHealthCheckAgentJobWithContext(context.Background(), getHealthCheckAgentJobOptions)
+	result, response, err = schematics.GetHealthCheckAgentJobWithContext(context.Background(), getHealthCheckAgentJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetHealthCheckAgentJobWithContext is an alternate form of the GetHealthCheckAgentJob method which supports a Context parameter
 func (schematics *SchematicsV1) GetHealthCheckAgentJobWithContext(ctx context.Context, getHealthCheckAgentJobOptions *GetHealthCheckAgentJobOptions) (result *AgentHealthJob, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getHealthCheckAgentJobOptions, "getHealthCheckAgentJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getHealthCheckAgentJobOptions, "getHealthCheckAgentJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5928,6 +6629,7 @@ func (schematics *SchematicsV1) GetHealthCheckAgentJobWithContext(ctx context.Co
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/health`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5943,17 +6645,21 @@ func (schematics *SchematicsV1) GetHealthCheckAgentJobWithContext(ctx context.Co
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_health_check_agent_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentHealthJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -5969,17 +6675,21 @@ func (schematics *SchematicsV1) GetHealthCheckAgentJobWithContext(ctx context.Co
 // Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) HealthCheckAgentJob(healthCheckAgentJobOptions *HealthCheckAgentJobOptions) (result *AgentHealthJob, response *core.DetailedResponse, err error) {
-	return schematics.HealthCheckAgentJobWithContext(context.Background(), healthCheckAgentJobOptions)
+	result, response, err = schematics.HealthCheckAgentJobWithContext(context.Background(), healthCheckAgentJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // HealthCheckAgentJobWithContext is an alternate form of the HealthCheckAgentJob method which supports a Context parameter
 func (schematics *SchematicsV1) HealthCheckAgentJobWithContext(ctx context.Context, healthCheckAgentJobOptions *HealthCheckAgentJobOptions) (result *AgentHealthJob, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(healthCheckAgentJobOptions, "healthCheckAgentJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(healthCheckAgentJobOptions, "healthCheckAgentJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -5992,6 +6702,7 @@ func (schematics *SchematicsV1) HealthCheckAgentJobWithContext(ctx context.Conte
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/health`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6011,17 +6722,21 @@ func (schematics *SchematicsV1) HealthCheckAgentJobWithContext(ctx context.Conte
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "health_check_agent_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentHealthJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6038,17 +6753,21 @@ func (schematics *SchematicsV1) HealthCheckAgentJobWithContext(ctx context.Conte
 // Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetDeployAgentJob(getDeployAgentJobOptions *GetDeployAgentJobOptions) (result *AgentDeployJob, response *core.DetailedResponse, err error) {
-	return schematics.GetDeployAgentJobWithContext(context.Background(), getDeployAgentJobOptions)
+	result, response, err = schematics.GetDeployAgentJobWithContext(context.Background(), getDeployAgentJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetDeployAgentJobWithContext is an alternate form of the GetDeployAgentJob method which supports a Context parameter
 func (schematics *SchematicsV1) GetDeployAgentJobWithContext(ctx context.Context, getDeployAgentJobOptions *GetDeployAgentJobOptions) (result *AgentDeployJob, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDeployAgentJobOptions, "getDeployAgentJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getDeployAgentJobOptions, "getDeployAgentJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6061,6 +6780,7 @@ func (schematics *SchematicsV1) GetDeployAgentJobWithContext(ctx context.Context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/deploy`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6076,17 +6796,21 @@ func (schematics *SchematicsV1) GetDeployAgentJobWithContext(ctx context.Context
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_deploy_agent_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentDeployJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6102,17 +6826,21 @@ func (schematics *SchematicsV1) GetDeployAgentJobWithContext(ctx context.Context
 // Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeployAgentJob(deployAgentJobOptions *DeployAgentJobOptions) (result *AgentDeployJob, response *core.DetailedResponse, err error) {
-	return schematics.DeployAgentJobWithContext(context.Background(), deployAgentJobOptions)
+	result, response, err = schematics.DeployAgentJobWithContext(context.Background(), deployAgentJobOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeployAgentJobWithContext is an alternate form of the DeployAgentJob method which supports a Context parameter
 func (schematics *SchematicsV1) DeployAgentJobWithContext(ctx context.Context, deployAgentJobOptions *DeployAgentJobOptions) (result *AgentDeployJob, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deployAgentJobOptions, "deployAgentJobOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deployAgentJobOptions, "deployAgentJobOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6125,6 +6853,7 @@ func (schematics *SchematicsV1) DeployAgentJobWithContext(ctx context.Context, d
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/deploy`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6144,17 +6873,21 @@ func (schematics *SchematicsV1) DeployAgentJobWithContext(ctx context.Context, d
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "deploy_agent_job", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAgentDeployJob)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6166,17 +6899,21 @@ func (schematics *SchematicsV1) DeployAgentJobWithContext(ctx context.Context, d
 // DeleteAgentResources : Delete resources provisioned by agent
 // Use this API to destroy the resources provisioned for running an agent.
 func (schematics *SchematicsV1) DeleteAgentResources(deleteAgentResourcesOptions *DeleteAgentResourcesOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeleteAgentResourcesWithContext(context.Background(), deleteAgentResourcesOptions)
+	response, err = schematics.DeleteAgentResourcesWithContext(context.Background(), deleteAgentResourcesOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteAgentResourcesWithContext is an alternate form of the DeleteAgentResources method which supports a Context parameter
 func (schematics *SchematicsV1) DeleteAgentResourcesWithContext(ctx context.Context, deleteAgentResourcesOptions *DeleteAgentResourcesOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteAgentResourcesOptions, "deleteAgentResourcesOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteAgentResourcesOptions, "deleteAgentResourcesOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6189,6 +6926,7 @@ func (schematics *SchematicsV1) DeleteAgentResourcesWithContext(ctx context.Cont
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/agents/{agent_id}/resources`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6206,10 +6944,16 @@ func (schematics *SchematicsV1) DeleteAgentResourcesWithContext(ctx context.Cont
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_agent_resources", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -6225,17 +6969,21 @@ func (schematics *SchematicsV1) DeleteAgentResourcesWithContext(ctx context.Cont
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetKmsSettings(getKmsSettingsOptions *GetKmsSettingsOptions) (result *KMSSettings, response *core.DetailedResponse, err error) {
-	return schematics.GetKmsSettingsWithContext(context.Background(), getKmsSettingsOptions)
+	result, response, err = schematics.GetKmsSettingsWithContext(context.Background(), getKmsSettingsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetKmsSettingsWithContext is an alternate form of the GetKmsSettings method which supports a Context parameter
 func (schematics *SchematicsV1) GetKmsSettingsWithContext(ctx context.Context, getKmsSettingsOptions *GetKmsSettingsOptions) (result *KMSSettings, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getKmsSettingsOptions, "getKmsSettingsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getKmsSettingsOptions, "getKmsSettingsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6244,6 +6992,7 @@ func (schematics *SchematicsV1) GetKmsSettingsWithContext(ctx context.Context, g
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/kms`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6261,17 +7010,21 @@ func (schematics *SchematicsV1) GetKmsSettingsWithContext(ctx context.Context, g
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_kms_settings", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalKMSSettings)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6291,17 +7044,21 @@ func (schematics *SchematicsV1) GetKmsSettingsWithContext(ctx context.Context, g
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateKmsSettings(updateKmsSettingsOptions *UpdateKmsSettingsOptions) (result *KMSSettings, response *core.DetailedResponse, err error) {
-	return schematics.UpdateKmsSettingsWithContext(context.Background(), updateKmsSettingsOptions)
+	result, response, err = schematics.UpdateKmsSettingsWithContext(context.Background(), updateKmsSettingsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateKmsSettingsWithContext is an alternate form of the UpdateKmsSettings method which supports a Context parameter
 func (schematics *SchematicsV1) UpdateKmsSettingsWithContext(ctx context.Context, updateKmsSettingsOptions *UpdateKmsSettingsOptions) (result *KMSSettings, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateKmsSettingsOptions, "updateKmsSettingsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateKmsSettingsOptions, "updateKmsSettingsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6310,6 +7067,7 @@ func (schematics *SchematicsV1) UpdateKmsSettingsWithContext(ctx context.Context
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/kms`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6342,22 +7100,27 @@ func (schematics *SchematicsV1) UpdateKmsSettingsWithContext(ctx context.Context
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_kms_settings", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalKMSSettings)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6377,17 +7140,21 @@ func (schematics *SchematicsV1) UpdateKmsSettingsWithContext(ctx context.Context
 //  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListKms(listKmsOptions *ListKmsOptions) (result *KMSDiscovery, response *core.DetailedResponse, err error) {
-	return schematics.ListKmsWithContext(context.Background(), listKmsOptions)
+	result, response, err = schematics.ListKmsWithContext(context.Background(), listKmsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListKmsWithContext is an alternate form of the ListKms method which supports a Context parameter
 func (schematics *SchematicsV1) ListKmsWithContext(ctx context.Context, listKmsOptions *ListKmsOptions) (result *KMSDiscovery, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listKmsOptions, "listKmsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listKmsOptions, "listKmsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6396,6 +7163,7 @@ func (schematics *SchematicsV1) ListKmsWithContext(ctx context.Context, listKmsO
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/kms_instances`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6423,17 +7191,21 @@ func (schematics *SchematicsV1) ListKmsWithContext(ctx context.Context, listKmsO
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_kms", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalKMSDiscovery)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6454,13 +7226,16 @@ func (schematics *SchematicsV1) ListKmsWithContext(ctx context.Context, listKmsO
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListPolicy(listPolicyOptions *ListPolicyOptions) (result *PolicyList, response *core.DetailedResponse, err error) {
-	return schematics.ListPolicyWithContext(context.Background(), listPolicyOptions)
+	result, response, err = schematics.ListPolicyWithContext(context.Background(), listPolicyOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListPolicyWithContext is an alternate form of the ListPolicy method which supports a Context parameter
 func (schematics *SchematicsV1) ListPolicyWithContext(ctx context.Context, listPolicyOptions *ListPolicyOptions) (result *PolicyList, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listPolicyOptions, "listPolicyOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6469,6 +7244,7 @@ func (schematics *SchematicsV1) ListPolicyWithContext(ctx context.Context, listP
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/policies`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6494,17 +7270,21 @@ func (schematics *SchematicsV1) ListPolicyWithContext(ctx context.Context, listP
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_policy", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPolicyList)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6526,17 +7306,21 @@ func (schematics *SchematicsV1) ListPolicyWithContext(ctx context.Context, listP
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreatePolicy(createPolicyOptions *CreatePolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
-	return schematics.CreatePolicyWithContext(context.Background(), createPolicyOptions)
+	result, response, err = schematics.CreatePolicyWithContext(context.Background(), createPolicyOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreatePolicyWithContext is an alternate form of the CreatePolicy method which supports a Context parameter
 func (schematics *SchematicsV1) CreatePolicyWithContext(ctx context.Context, createPolicyOptions *CreatePolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPolicyOptions, "createPolicyOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createPolicyOptions, "createPolicyOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6545,6 +7329,7 @@ func (schematics *SchematicsV1) CreatePolicyWithContext(ctx context.Context, cre
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/policies`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6592,22 +7377,27 @@ func (schematics *SchematicsV1) CreatePolicyWithContext(ctx context.Context, cre
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_policy", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPolicy)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6629,17 +7419,21 @@ func (schematics *SchematicsV1) CreatePolicyWithContext(ctx context.Context, cre
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetPolicy(getPolicyOptions *GetPolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
-	return schematics.GetPolicyWithContext(context.Background(), getPolicyOptions)
+	result, response, err = schematics.GetPolicyWithContext(context.Background(), getPolicyOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetPolicyWithContext is an alternate form of the GetPolicy method which supports a Context parameter
 func (schematics *SchematicsV1) GetPolicyWithContext(ctx context.Context, getPolicyOptions *GetPolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPolicyOptions, "getPolicyOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getPolicyOptions, "getPolicyOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6652,6 +7446,7 @@ func (schematics *SchematicsV1) GetPolicyWithContext(ctx context.Context, getPol
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/policies/{policy_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6671,17 +7466,21 @@ func (schematics *SchematicsV1) GetPolicyWithContext(ctx context.Context, getPol
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_policy", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPolicy)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -6703,17 +7502,21 @@ func (schematics *SchematicsV1) GetPolicyWithContext(ctx context.Context, getPol
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeletePolicy(deletePolicyOptions *DeletePolicyOptions) (response *core.DetailedResponse, err error) {
-	return schematics.DeletePolicyWithContext(context.Background(), deletePolicyOptions)
+	response, err = schematics.DeletePolicyWithContext(context.Background(), deletePolicyOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeletePolicyWithContext is an alternate form of the DeletePolicy method which supports a Context parameter
 func (schematics *SchematicsV1) DeletePolicyWithContext(ctx context.Context, deletePolicyOptions *DeletePolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deletePolicyOptions, "deletePolicyOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deletePolicyOptions, "deletePolicyOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6726,6 +7529,7 @@ func (schematics *SchematicsV1) DeletePolicyWithContext(ctx context.Context, del
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/policies/{policy_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6740,10 +7544,16 @@ func (schematics *SchematicsV1) DeletePolicyWithContext(ctx context.Context, del
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = schematics.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_policy", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -6763,17 +7573,21 @@ func (schematics *SchematicsV1) DeletePolicyWithContext(ctx context.Context, del
 //    For more information, about Schematics access and permissions, see [Schematics service access
 //    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdatePolicy(updatePolicyOptions *UpdatePolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
-	return schematics.UpdatePolicyWithContext(context.Background(), updatePolicyOptions)
+	result, response, err = schematics.UpdatePolicyWithContext(context.Background(), updatePolicyOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdatePolicyWithContext is an alternate form of the UpdatePolicy method which supports a Context parameter
 func (schematics *SchematicsV1) UpdatePolicyWithContext(ctx context.Context, updatePolicyOptions *UpdatePolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePolicyOptions, "updatePolicyOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updatePolicyOptions, "updatePolicyOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6786,6 +7600,7 @@ func (schematics *SchematicsV1) UpdatePolicyWithContext(ctx context.Context, upd
 	builder.EnableGzipCompression = schematics.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(schematics.Service.Options.URL, `/v2/settings/policies/{policy_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
 	}
 
@@ -6833,28 +7648,36 @@ func (schematics *SchematicsV1) UpdatePolicyWithContext(ctx context.Context, upd
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = schematics.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_policy", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPolicy)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
 	}
 
 	return
+}
+func getServiceComponentInfo() *core.ProblemComponent {
+	return core.NewProblemComponent(DefaultServiceName, "1.0")
 }
 
 // Action : Complete Action details with user inputs and system generated data.
@@ -6970,6 +7793,12 @@ type Action struct {
 
 	// System lock status.
 	SysLock *SystemLock `json:"sys_lock,omitempty"`
+
+	// secrets manager reference to git token.
+	GitTokenRef *string `json:"git_token_ref,omitempty"`
+
+	// Encryption details about the workspace such as scheme (byok/kyok) and key CRN.
+	Encryption *EncryptionInfo `json:"encryption,omitempty"`
 }
 
 // Constants associated with the Action.Location property.
@@ -7014,138 +7843,182 @@ func UnmarshalAction(m map[string]json.RawMessage, result interface{}) (err erro
 	obj := new(Action)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bastion_connection_type", &obj.BastionConnectionType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bastion_connection_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "inventory_connection_type", &obj.InventoryConnectionType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inventory_connection_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "user_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_readme_url", &obj.SourceReadmeURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_readme_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalExternalSource)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_type", &obj.SourceType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_parameter", &obj.CommandParameter)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_parameter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "inventory", &obj.Inventory)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inventory-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "credentials", &obj.Credentials, UnmarshalCredentialVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "credentials-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bastion", &obj.Bastion, UnmarshalBastionResourceDefinition)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bastion-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bastion_credential", &obj.BastionCredential, UnmarshalCredentialVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bastion_credential-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "targets_ini", &obj.TargetsIni)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "targets_ini-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "account", &obj.Account)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_created_at", &obj.SourceCreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_created_by", &obj.SourceCreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_updated_at", &obj.SourceUpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_updated_by", &obj.SourceUpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "state", &obj.State, UnmarshalActionState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "playbook_names", &obj.PlaybookNames)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "playbook_names-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "sys_lock", &obj.SysLock, UnmarshalSystemLock)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sys_lock-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "git_token_ref", &obj.GitTokenRef)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "git_token_ref-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption", &obj.Encryption, UnmarshalEncryptionInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "encryption-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7172,18 +8045,22 @@ func UnmarshalActionList(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(ActionList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "actions", &obj.Actions, UnmarshalActionLite)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "actions-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7244,6 +8121,9 @@ type ActionLite struct {
 
 	// Agent name, Agent id and associated policy ID information.
 	Agent *AgentInfo `json:"agent,omitempty"`
+
+	// Encryption details about the workspace such as scheme (byok/kyok) and key CRN.
+	Encryption *EncryptionInfo `json:"encryption,omitempty"`
 }
 
 // Constants associated with the ActionLite.Location property.
@@ -7262,70 +8142,92 @@ func UnmarshalActionLite(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(ActionLite)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "namespace", &obj.Namespace)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "namespace-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "playbook_name", &obj.PlaybookName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "playbook_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "user_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "state", &obj.State, UnmarshalActionLiteState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "sys_lock", &obj.SysLock, UnmarshalSystemLock)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sys_lock-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent", &obj.Agent, UnmarshalAgentInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption", &obj.Encryption, UnmarshalEncryptionInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "encryption-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7355,10 +8257,12 @@ func UnmarshalActionLiteState(m map[string]json.RawMessage, result interface{}) 
 	obj := new(ActionLiteState)
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7391,14 +8295,17 @@ func UnmarshalActionState(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(ActionState)
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_job_id", &obj.StatusJobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7478,6 +8385,9 @@ func (*SchematicsV1) NewAgent(name string, agentLocation string, location string
 		ProfileID: core.StringPtr(profileID),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -7486,66 +8396,82 @@ func UnmarshalAgent(m map[string]json.RawMessage, result interface{}) (err error
 	obj := new(Agent)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_location", &obj.AgentLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "profile_id", &obj.ProfileID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "profile_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_crn", &obj.AgentCrn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "registered_at", &obj.RegisteredAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "registered_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "registered_by", &obj.RegisteredBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "registered_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalAgentUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "user_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "connection_state", &obj.ConnectionState, UnmarshalConnectionState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connection_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "system_state", &obj.SystemState, UnmarshalAgentSystemState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_state-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7576,14 +8502,17 @@ func UnmarshalAgentAssignmentPolicyParameter(m map[string]json.RawMessage, resul
 	obj := new(AgentAssignmentPolicyParameter)
 	err = core.UnmarshalPrimitive(m, "selector_kind", &obj.SelectorKind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "selector_kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "selector_ids", &obj.SelectorIds)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "selector_ids-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "selector_scope", &obj.SelectorScope, UnmarshalPolicyObjectSelector)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "selector_scope-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7662,6 +8591,9 @@ type AgentData struct {
 
 	// destroy resource provisoned by agent deploy method.
 	RecentDestroyJob *AgentDataRecentDestroyJob `json:"recent_destroy_job,omitempty"`
+
+	// Encryption details about the workspace such as scheme (byok/kyok) and key CRN.
+	Encryption *EncryptionInfo `json:"encryption,omitempty"`
 }
 
 // Constants associated with the AgentData.SchematicsLocation property.
@@ -7686,6 +8618,9 @@ func (*SchematicsV1) NewAgentData(name string, resourceGroup string, version str
 		AgentInfrastructure: agentInfrastructure,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -7694,94 +8629,122 @@ func UnmarshalAgentData(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(AgentData)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "schematics_location", &obj.SchematicsLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_location", &obj.AgentLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_infrastructure", &obj.AgentInfrastructure, UnmarshalAgentInfrastructure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_infrastructure-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_metadata", &obj.AgentMetadata, UnmarshalAgentMetadataInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_inputs", &obj.AgentInputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalAgentUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "user_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_crn", &obj.AgentCrn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "creation_by", &obj.CreationBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "creation_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "system_state", &obj.SystemState, UnmarshalAgentSystemStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_kpi", &obj.AgentKpi, UnmarshalAgentKPIData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_kpi-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "recent_prs_job", &obj.RecentPrsJob, UnmarshalAgentDataRecentPrsJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "recent_prs_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "recent_deploy_job", &obj.RecentDeployJob, UnmarshalAgentDataRecentDeployJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "recent_deploy_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "recent_health_job", &obj.RecentHealthJob, UnmarshalAgentDataRecentHealthJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "recent_health_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "recent_destroy_job", &obj.RecentDestroyJob, UnmarshalAgentDataRecentDestroyJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "recent_destroy_job-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption", &obj.Encryption, UnmarshalEncryptionInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "encryption-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7808,18 +8771,22 @@ func UnmarshalAgentDataList(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(AgentDataList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agents", &obj.Agents, UnmarshalAgentDataLite)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agents-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -7898,70 +8865,87 @@ func UnmarshalAgentDataLite(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(AgentDataLite)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "schematics_location", &obj.SchematicsLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_location", &obj.AgentLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_metadata", &obj.AgentMetadata, UnmarshalAgentMetadataInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "user_state", &obj.UserState, UnmarshalAgentUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "user_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_crn", &obj.AgentCrn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "creation_by", &obj.CreationBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "creation_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "system_state", &obj.SystemState, UnmarshalAgentSystemStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_kpi", &obj.AgentKpi, UnmarshalAgentKPIDataLite)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_kpi-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8016,38 +9000,47 @@ func UnmarshalAgentDataRecentDeployJob(m map[string]json.RawMessage, result inte
 	obj := new(AgentDataRecentDeployJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "is_redeployed", &obj.IsRedeployed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "is_redeployed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8099,34 +9092,42 @@ func UnmarshalAgentDataRecentDestroyJob(m map[string]json.RawMessage, result int
 	obj := new(AgentDataRecentDestroyJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8178,34 +9179,42 @@ func UnmarshalAgentDataRecentHealthJob(m map[string]json.RawMessage, result inte
 	obj := new(AgentDataRecentHealthJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8257,34 +9266,42 @@ func UnmarshalAgentDataRecentPrsJob(m map[string]json.RawMessage, result interfa
 	obj := new(AgentDataRecentPrsJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8339,38 +9356,47 @@ func UnmarshalAgentDeployJob(m map[string]json.RawMessage, result interface{}) (
 	obj := new(AgentDeployJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "is_redeployed", &obj.IsRedeployed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "is_redeployed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8422,34 +9448,42 @@ func UnmarshalAgentHealthJob(m map[string]json.RawMessage, result interface{}) (
 	obj := new(AgentHealthJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8473,14 +9507,17 @@ func UnmarshalAgentInfo(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(AgentInfo)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "assignment_policy_id", &obj.AssignmentPolicyID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "assignment_policy_id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8521,26 +9558,32 @@ func UnmarshalAgentInfrastructure(m map[string]json.RawMessage, result interface
 	obj := new(AgentInfrastructure)
 	err = core.UnmarshalPrimitive(m, "infra_type", &obj.InfraType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "infra_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cluster_resource_group", &obj.ClusterResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cos_instance_name", &obj.CosInstanceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cos_instance_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cos_bucket_name", &obj.CosBucketName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cos_bucket_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cos_bucket_region", &obj.CosBucketRegion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cos_bucket_region-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8586,22 +9629,27 @@ func UnmarshalAgentKPIData(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(AgentKPIData)
 	err = core.UnmarshalPrimitive(m, "availability_indicator", &obj.AvailabilityIndicator)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_indicator-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "lifecycle_indicator", &obj.LifecycleIndicator)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_indicator-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "percent_usage_indicator", &obj.PercentUsageIndicator)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "percent_usage_indicator-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "application_indicators", &obj.ApplicationIndicators)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "application_indicators-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "infra_indicators", &obj.InfraIndicators)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "infra_indicators-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8641,14 +9689,17 @@ func UnmarshalAgentKPIDataLite(m map[string]json.RawMessage, result interface{})
 	obj := new(AgentKPIDataLite)
 	err = core.UnmarshalPrimitive(m, "availability_indicator", &obj.AvailabilityIndicator)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_indicator-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "lifecycle_indicator", &obj.LifecycleIndicator)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_indicator-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "percent_usage_indicator", &obj.PercentUsageIndicator)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "percent_usage_indicator-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8675,18 +9726,22 @@ func UnmarshalAgentList(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(AgentList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agents", &obj.Agents, UnmarshalAgent)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agents-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8707,10 +9762,12 @@ func UnmarshalAgentMetadataInfo(m map[string]json.RawMessage, result interface{}
 	obj := new(AgentMetadataInfo)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8762,34 +9819,42 @@ func UnmarshalAgentPRSJob(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(AgentPRSJob)
 	err = core.UnmarshalPrimitive(m, "agent_id", &obj.AgentID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8820,10 +9885,12 @@ func UnmarshalAgentSystemStatus(m map[string]json.RawMessage, result interface{}
 	obj := new(AgentSystemStatus)
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8858,14 +9925,17 @@ func UnmarshalAgentUserState(m map[string]json.RawMessage, result interface{}) (
 	obj := new(AgentUserState)
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "set_by", &obj.SetBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "set_at", &obj.SetAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8886,10 +9956,12 @@ func UnmarshalAgentVersionInfo(m map[string]json.RawMessage, result interface{})
 	obj := new(AgentVersionInfo)
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "agent_version", &obj.AgentVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_version-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8907,6 +9979,7 @@ func UnmarshalAgentVersions(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(AgentVersions)
 	err = core.UnmarshalModel(m, "supported_agent_versions", &obj.SupportedAgentVersions, UnmarshalAgentVersionInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "supported_agent_versions-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8937,10 +10010,12 @@ func UnmarshalAgentSystemState(m map[string]json.RawMessage, result interface{})
 	obj := new(AgentSystemState)
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -8976,7 +10051,7 @@ type ApplyWorkspaceCommandOptions struct {
 	// only.
 	DelegatedToken *string `json:"delegated_token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -9032,10 +10107,12 @@ func UnmarshalBastionResourceDefinition(m map[string]json.RawMessage, result int
 	obj := new(BastionResourceDefinition)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "host", &obj.Host)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "host-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9068,18 +10145,22 @@ func UnmarshalCartOrderData(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(CartOrderData)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "usage_kind", &obj.UsageKind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "usage_kind-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9125,42 +10206,52 @@ func UnmarshalCatalogRef(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(CatalogRef)
 	err = core.UnmarshalPrimitive(m, "dry_run", &obj.DryRun)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "dry_run-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "owning_account", &obj.OwningAccount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "owning_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_icon_url", &obj.ItemIconURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_icon_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_id", &obj.ItemID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_name", &obj.ItemName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_readme_url", &obj.ItemReadmeURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_readme_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_url", &obj.ItemURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "launch_url", &obj.LaunchURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "launch_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_version", &obj.OfferingVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "service_extensions", &obj.ServiceExtensions, UnmarshalServiceExtensions)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "service_extensions-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9233,78 +10324,97 @@ func UnmarshalCatalogSource(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(CatalogSource)
 	err = core.UnmarshalPrimitive(m, "catalog_name", &obj.CatalogName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "catalog_id", &obj.CatalogID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_name", &obj.OfferingName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_version", &obj.OfferingVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_kind", &obj.OfferingKind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_target_kind", &obj.OfferingTargetKind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_target_kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_id", &obj.OfferingID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_version_id", &obj.OfferingVersionID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_version_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_version_flavour_name", &obj.OfferingVersionFlavourName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_version_flavour_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_repo_url", &obj.OfferingRepoURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_repo_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offering_provisioner_working_directory", &obj.OfferingProvisionerWorkingDirectory)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offering_provisioner_working_directory-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "dry_run", &obj.DryRun)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "dry_run-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "owning_account", &obj.OwningAccount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "owning_account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_icon_url", &obj.ItemIconURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_icon_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_id", &obj.ItemID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_name", &obj.ItemName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_readme_url", &obj.ItemReadmeURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_readme_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "item_url", &obj.ItemURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "item_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "launch_url", &obj.LaunchURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "launch_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9325,10 +10435,12 @@ func UnmarshalCommandsInfo(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(CommandsInfo)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "outcome", &obj.Outcome)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outcome-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9360,10 +10472,12 @@ func UnmarshalConnectionState(m map[string]json.RawMessage, result interface{}) 
 	obj := new(ConnectionState)
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "checked_at", &obj.CheckedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "checked_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9446,7 +10560,7 @@ type CreateActionOptions struct {
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -9664,7 +10778,7 @@ type CreateAgentDataOptions struct {
 	// Schematics Agent key performance indicators.
 	AgentKpi *AgentKPIData `json:"agent_kpi,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -9794,7 +10908,7 @@ type CreateInventoryOptions struct {
 	// playbook.
 	ResourceQueries []string `json:"resource_queries,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -9921,7 +11035,7 @@ type CreateJobOptions struct {
 	// Agent name, Agent id and associated policy ID information.
 	Agent *AgentInfo `json:"agent,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10116,7 +11230,7 @@ type CreatePolicyOptions struct {
 	// List of scoped Schematics resources targeted by the policy.
 	ScopedResources []ScopedResource `json:"scoped_resources,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10219,7 +11333,7 @@ type CreateResourceQueryOptions struct {
 
 	Queries []ResourceQuery `json:"queries,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10285,7 +11399,7 @@ type CreateWorkspaceDeletionJobOptions struct {
 	// The List of workspaces to be deleted.
 	Workspaces []string `json:"workspaces,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10382,11 +11496,14 @@ type CreateWorkspaceOptions struct {
 	// agent id which is binded to with the workspace.
 	AgentID *string `json:"agent_id,omitempty"`
 
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
 	// The personal access token to authenticate with your private GitHub or GitLab repository and access your Terraform
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10486,6 +11603,12 @@ func (_options *CreateWorkspaceOptions) SetAgentID(agentID string) *CreateWorksp
 	return _options
 }
 
+// SetSettings : Allow user to set Settings
+func (_options *CreateWorkspaceOptions) SetSettings(settings []VariableData) *CreateWorkspaceOptions {
+	_options.Settings = settings
+	return _options
+}
+
 // SetXGithubToken : Allow user to set XGithubToken
 func (_options *CreateWorkspaceOptions) SetXGithubToken(xGithubToken string) *CreateWorkspaceOptions {
 	_options.XGithubToken = core.StringPtr(xGithubToken)
@@ -10503,9 +11626,9 @@ type CredentialVariableData struct {
 	// The name of the credential variable.
 	Name *string `json:"name,omitempty"`
 
-	// The credential value for the variable or reference to the value. For example, `value = "<provide your ssh_key_value
-	// with \n>"`. **Note** The SSH key should contain `\n` at the end of the key details in case of command line or API
-	// calls.
+	// The credential value for the variable or reference to the value. **Note** The SSH key should contain three `\n` in
+	// the SSH key value as shown in the example for CLI or API calls. When using Bastion from API you need to add SSH key
+	// in both `credentials` and `bastion_credentials`.
 	Value *string `json:"value,omitempty"`
 
 	// True, will ignore the data in the value attribute, instead the data in metadata.default_value will be used.
@@ -10523,22 +11646,27 @@ func UnmarshalCredentialVariableData(m map[string]json.RawMessage, result interf
 	obj := new(CredentialVariableData)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "use_default", &obj.UseDefault)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "use_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "metadata", &obj.Metadata, UnmarshalCredentialVariableMetadata)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link", &obj.Link)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "link-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10603,50 +11731,62 @@ func UnmarshalCredentialVariableMetadata(m map[string]json.RawMessage, result in
 	obj := new(CredentialVariableMetadata)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "aliases", &obj.Aliases)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "aliases-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cloud_data_type", &obj.CloudDataType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cloud_data_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_value", &obj.DefaultValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "default_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "immutable", &obj.Immutable)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "immutable-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "hidden", &obj.Hidden)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "hidden-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "required", &obj.Required)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "required-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "position", &obj.Position)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "position-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "group_by", &obj.GroupBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "group_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -10664,7 +11804,7 @@ type DeleteActionOptions struct {
 	// Auto propagate the chaange or deletion to the dependent resources.
 	Propagate *bool `json:"propagate,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10707,7 +11847,7 @@ type DeleteAgentDataOptions struct {
 	// Equivalent to -force options in the command line, default is false.
 	Force *bool `json:"force,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10741,7 +11881,7 @@ type DeleteAgentOptions struct {
 	// Agent ID to get the details of agent.
 	AgentID *string `json:"agent_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10785,7 +11925,7 @@ type DeleteAgentResourcesOptions struct {
 	//   * When the IAM access token is about to expire, use the API key to create a new access token.
 	RefreshToken *string `json:"refresh_token" validate:"required"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10827,7 +11967,7 @@ type DeleteInventoryOptions struct {
 	// Auto propagate the chaange or deletion to the dependent resources.
 	Propagate *bool `json:"propagate,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10889,7 +12029,7 @@ type DeleteJobOptions struct {
 	// Auto propagate the chaange or deletion to the dependent resources.
 	Propagate *bool `json:"propagate,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10936,7 +12076,7 @@ type DeletePolicyOptions struct {
 	// ID to get the details of policy.
 	PolicyID *string `json:"policy_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -10971,7 +12111,7 @@ type DeleteResourcesQueryOptions struct {
 	// Auto propagate the chaange or deletion to the dependent resources.
 	Propagate *bool `json:"propagate,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11015,7 +12155,7 @@ type DeleteWorkspaceActivityOptions struct {
 	// /v1/workspaces/{id}/actions` API.
 	ActivityID *string `json:"activity_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11073,7 +12213,7 @@ type DeleteWorkspaceOptions struct {
 	// available and must be managed with the resource dashboard or CLI.
 	DestroyResources *string `json:"destroy_resources,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11123,10 +12263,12 @@ func UnmarshalDependencies(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(Dependencies)
 	err = core.UnmarshalPrimitive(m, "parents", &obj.Parents)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "parents-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "children", &obj.Children)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "children-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11141,7 +12283,7 @@ type DeployAgentJobOptions struct {
 	// Equivalent to -force options in the command line, default is false.
 	Force *bool `json:"force,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11199,7 +12341,7 @@ type DestroyWorkspaceCommandOptions struct {
 	// only.
 	DelegatedToken *string `json:"delegated_token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11241,6 +12383,32 @@ func (options *DestroyWorkspaceCommandOptions) SetHeaders(param map[string]strin
 	return options
 }
 
+// EncryptionInfo : Encryption details about the workspace such as scheme (byok/kyok) and key CRN.
+type EncryptionInfo struct {
+	// Key CRN.
+	Crn *string `json:"crn,omitempty"`
+
+	// Encryption scheme.
+	Scheme *string `json:"scheme,omitempty"`
+}
+
+// UnmarshalEncryptionInfo unmarshals an instance of EncryptionInfo from the specified map of raw messages.
+func UnmarshalEncryptionInfo(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EncryptionInfo)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "scheme", &obj.Scheme)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "scheme-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // EnvVariableRequestMap : One variable is a map where one entry is there with key as name of the env var and the value as value.
 type EnvVariableRequestMap struct {
 	// Environment variable is hidden.
@@ -11261,18 +12429,22 @@ func UnmarshalEnvVariableRequestMap(m map[string]json.RawMessage, result interfa
 	obj := new(EnvVariableRequestMap)
 	err = core.UnmarshalPrimitive(m, "hidden", &obj.Hidden)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "hidden-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "secure", &obj.Secure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secure-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11299,18 +12471,22 @@ func UnmarshalEnvVariableResponse(m map[string]json.RawMessage, result interface
 	obj := new(EnvVariableResponse)
 	err = core.UnmarshalPrimitive(m, "hidden", &obj.Hidden)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "hidden-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "secure", &obj.Secure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secure-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11334,14 +12510,17 @@ func UnmarshalEnvironmentValuesMetadata(m map[string]json.RawMessage, result int
 	obj := new(EnvironmentValuesMetadata)
 	err = core.UnmarshalPrimitive(m, "hidden", &obj.Hidden)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "hidden-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "secure", &obj.Secure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secure-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11354,7 +12533,7 @@ type ExecuteResourceQueryOptions struct {
 	// account.
 	QueryID *string `json:"query_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11406,6 +12585,9 @@ func (*SchematicsV1) NewExternalSource(sourceType string) (_model *ExternalSourc
 		SourceType: core.StringPtr(sourceType),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -11414,14 +12596,17 @@ func UnmarshalExternalSource(m map[string]json.RawMessage, result interface{}) (
 	obj := new(ExternalSource)
 	err = core.UnmarshalPrimitive(m, "source_type", &obj.SourceType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "git", &obj.Git, UnmarshalGitSource)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "catalog", &obj.Catalog, UnmarshalCatalogSource)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -11436,7 +12621,7 @@ type GetActionOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11481,7 +12666,7 @@ type GetAgentDataOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11526,7 +12711,7 @@ type GetAgentOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11566,7 +12751,7 @@ func (options *GetAgentOptions) SetHeaders(param map[string]string) *GetAgentOpt
 // GetAgentVersionsOptions : The GetAgentVersions options.
 type GetAgentVersionsOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11587,7 +12772,7 @@ type GetAllWorkspaceInputsOptions struct {
 	// the `GET /workspaces` API.
 	WID *string `json:"w_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11615,7 +12800,7 @@ type GetDeployAgentJobOptions struct {
 	// Agent ID to get the details of agent.
 	AgentID *string `json:"agent_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11643,7 +12828,7 @@ type GetHealthCheckAgentJobOptions struct {
 	// Agent ID to get the details of agent.
 	AgentID *string `json:"agent_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11675,7 +12860,7 @@ type GetInventoryOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11720,7 +12905,7 @@ type GetJobFilesOptions struct {
 	// The type of file you want to download eg.state_file, plan_json.
 	FileType *string `json:"file_type" validate:"required"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11768,7 +12953,7 @@ type GetJobOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11810,7 +12995,7 @@ type GetKmsSettingsOptions struct {
 	// The location of the Resource.
 	Location *string `json:"location" validate:"required"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11841,7 +13026,7 @@ type GetPolicyOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11883,7 +13068,7 @@ type GetPrsAgentJobOptions struct {
 	// Agent ID to get the details of agent.
 	AgentID *string `json:"agent_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11912,7 +13097,7 @@ type GetResourcesQueryOptions struct {
 	// account.
 	QueryID *string `json:"query_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11938,7 +13123,7 @@ func (options *GetResourcesQueryOptions) SetHeaders(param map[string]string) *Ge
 // GetSchematicsVersionOptions : The GetSchematicsVersion options.
 type GetSchematicsVersionOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -11982,7 +13167,7 @@ type GetTemplateActivityLogOptions struct {
 	// `true` will format all logs to withhold the original format  of ansible output in the log statements.
 	LogTfAnsible *bool `json:"log_tf_ansible,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12068,7 +13253,7 @@ type GetTemplateLogsOptions struct {
 	// `true` will format all logs to withhold the original format  of ansible output in the log statements.
 	LogTfAnsible *bool `json:"log_tf_ansible,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12132,7 +13317,7 @@ type GetWorkspaceActivityLogsOptions struct {
 	// /v1/workspaces/{id}/actions` API.
 	ActivityID *string `json:"activity_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12171,7 +13356,7 @@ type GetWorkspaceActivityOptions struct {
 	// /v1/workspaces/{id}/actions` API.
 	ActivityID *string `json:"activity_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12206,7 +13391,7 @@ type GetWorkspaceDeletionJobStatusOptions struct {
 	// The workspace job ID.
 	WjID *string `json:"wj_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12240,7 +13425,7 @@ type GetWorkspaceInputMetadataOptions struct {
 	// use the `GET /v1/workspaces` API and review the `template_data.id` value.
 	TID *string `json:"t_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12280,7 +13465,7 @@ type GetWorkspaceInputsOptions struct {
 	// IDs or `template_data.id` in your IBM Cloud account.
 	TID *string `json:"t_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12315,7 +13500,7 @@ type GetWorkspaceLogUrlsOptions struct {
 	// The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
 	WID *string `json:"w_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12343,7 +13528,7 @@ type GetWorkspaceOptions struct {
 	// The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
 	WID *string `json:"w_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12372,7 +13557,7 @@ type GetWorkspaceOutputsOptions struct {
 	// the `GET /workspaces` API.
 	WID *string `json:"w_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12408,7 +13593,7 @@ type GetWorkspaceReadmeOptions struct {
 	// The format of the readme file.  Value ''markdown'' will give markdown, otherwise html.
 	Formatted *string `json:"formatted,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12455,7 +13640,7 @@ type GetWorkspaceResourcesOptions struct {
 	// The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
 	WID *string `json:"w_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12484,7 +13669,7 @@ type GetWorkspaceStateOptions struct {
 	// `GET /v1/workspaces` API.
 	WID *string `json:"w_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12518,7 +13703,7 @@ type GetWorkspaceTemplateStateOptions struct {
 	// `GET /v1/workspaces` API and review the template_data.id value.
 	TID *string `json:"t_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12580,34 +13765,42 @@ func UnmarshalGitSource(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(GitSource)
 	err = core.UnmarshalPrimitive(m, "computed_git_repo_url", &obj.ComputedGitRepoURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "computed_git_repo_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_repo_url", &obj.GitRepoURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_repo_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_token", &obj.GitToken)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_token-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_repo_folder", &obj.GitRepoFolder)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_repo_folder-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_release", &obj.GitRelease)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_release-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_branch", &obj.GitBranch)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_branch-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_commit", &obj.GitCommit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_commit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "git_commit_timestamp", &obj.GitCommitTimestamp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "git_commit_timestamp-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12622,7 +13815,7 @@ type HealthCheckAgentJobOptions struct {
 	// Equivalent to -force options in the command line, default is false.
 	Force *bool `json:"force,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -12665,10 +13858,12 @@ func UnmarshalInjectTerraformTemplateInnerTftParametersItem(m map[string]json.Ra
 	obj := new(InjectTerraformTemplateInnerTftParametersItem)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12700,26 +13895,32 @@ func UnmarshalInjectTerraformTemplateInner(m map[string]json.RawMessage, result 
 	obj := new(InjectTerraformTemplateInner)
 	err = core.UnmarshalPrimitive(m, "tft_git_url", &obj.TftGitURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tft_git_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tft_git_token", &obj.TftGitToken)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tft_git_token-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tft_prefix", &obj.TftPrefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tft_prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "injection_type", &obj.InjectionType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "injection_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tft_name", &obj.TftName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tft_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "tft_parameters", &obj.TftParameters, UnmarshalInjectTerraformTemplateInnerTftParametersItem)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tft_parameters-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12781,46 +13982,57 @@ func UnmarshalInventoryResourceRecord(m map[string]json.RawMessage, result inter
 	obj := new(InventoryResourceRecord)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "inventories_ini", &obj.InventoriesIni)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inventories_ini-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_queries", &obj.ResourceQueries)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_queries-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -12847,18 +14059,22 @@ func UnmarshalInventoryResourceRecordList(m map[string]json.RawMessage, result i
 	obj := new(InventoryResourceRecordList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inventories", &obj.Inventories, UnmarshalInventoryResourceRecord)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inventories-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13010,118 +14226,147 @@ func UnmarshalJob(m map[string]json.RawMessage, result interface{}) (err error) 
 	obj := new(Job)
 	err = core.UnmarshalPrimitive(m, "command_object", &obj.CommandObject)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_object_id", &obj.CommandObjectID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_name", &obj.CommandName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_parameter", &obj.CommandParameter)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_parameter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_options", &obj.CommandOptions)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_options-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "submitted_at", &obj.SubmittedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "submitted_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "submitted_by", &obj.SubmittedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "submitted_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start_at", &obj.StartAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "start_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "end_at", &obj.EndAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "end_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "duration", &obj.Duration)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "duration-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalJobStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "cart_order_data", &obj.CartOrderData, UnmarshalCartOrderData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cart_order_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "data", &obj.Data, UnmarshalJobData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "bastion", &obj.Bastion, UnmarshalBastionResourceDefinition)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bastion-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "log_summary", &obj.LogSummary, UnmarshalJobLogSummary)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_summary-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_store_url", &obj.LogStoreURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_store_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "state_store_url", &obj.StateStoreURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state_store_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "results_url", &obj.ResultsURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "results_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_runner_id", &obj.JobRunnerID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_runner_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent", &obj.Agent, UnmarshalAgentInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13162,6 +14407,9 @@ func (*SchematicsV1) NewJobData(jobType string) (_model *JobData, err error) {
 		JobType: core.StringPtr(jobType),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -13170,22 +14418,27 @@ func UnmarshalJobData(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(JobData)
 	err = core.UnmarshalPrimitive(m, "job_type", &obj.JobType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workspace_job_data", &obj.WorkspaceJobData, UnmarshalJobDataWorkspace)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_job_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "action_job_data", &obj.ActionJobData, UnmarshalJobDataAction)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_job_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "system_job_data", &obj.SystemJobData, UnmarshalJobDataSystem)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_job_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "flow_job_data", &obj.FlowJobData, UnmarshalJobDataFlow)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_job_data-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13221,30 +14474,37 @@ func UnmarshalJobDataAction(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(JobDataAction)
 	err = core.UnmarshalPrimitive(m, "action_name", &obj.ActionName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inventory_record", &obj.InventoryRecord, UnmarshalInventoryResourceRecord)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inventory_record-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "materialized_inventory", &obj.MaterializedInventory)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "materialized_inventory-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13271,18 +14531,22 @@ func UnmarshalJobDataFlow(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(JobDataFlow)
 	err = core.UnmarshalPrimitive(m, "flow_id", &obj.FlowID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "flow_name", &obj.FlowName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workitems", &obj.Workitems, UnmarshalJobDataWorkItem)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workitems-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13306,14 +14570,17 @@ func UnmarshalJobDataSystem(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(JobDataSystem)
 	err = core.UnmarshalPrimitive(m, "key_id", &obj.KeyID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "key_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "schematics_resource_id", &obj.SchematicsResourceID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_resource_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13349,30 +14616,37 @@ func UnmarshalJobDataTemplate(m map[string]json.RawMessage, result interface{}) 
 	obj := new(JobDataTemplate)
 	err = core.UnmarshalPrimitive(m, "template_id", &obj.TemplateID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_name", &obj.TemplateName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "flow_index", &obj.FlowIndex)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_index-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13428,42 +14702,52 @@ func UnmarshalJobDataWorkItem(m map[string]json.RawMessage, result interface{}) 
 	obj := new(JobDataWorkItem)
 	err = core.UnmarshalPrimitive(m, "command_object_id", &obj.CommandObjectID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_object_name", &obj.CommandObjectName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "layers", &obj.Layers)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "layers-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source_type", &obj.SourceType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "source", &obj.Source, UnmarshalExternalSource)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "last_job", &obj.LastJob, UnmarshalJobDataWorkItemLastJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13545,26 +14829,32 @@ func UnmarshalJobDataWorkItemLastJob(m map[string]json.RawMessage, result interf
 	obj := new(JobDataWorkItemLastJob)
 	err = core.UnmarshalPrimitive(m, "command_object", &obj.CommandObject)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_object_name", &obj.CommandObjectName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_object_id", &obj.CommandObjectID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_name", &obj.CommandName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_status", &obj.JobStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_status-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13603,34 +14893,42 @@ func UnmarshalJobDataWorkspace(m map[string]json.RawMessage, result interface{})
 	obj := new(JobDataWorkspace)
 	err = core.UnmarshalPrimitive(m, "workspace_name", &obj.WorkspaceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "flow_id", &obj.FlowID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "flow_name", &obj.FlowName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "inputs", &obj.Inputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "outputs", &obj.Outputs, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outputs-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "template_data", &obj.TemplateData, UnmarshalJobDataTemplate)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13651,10 +14949,12 @@ func UnmarshalJobFileContent(m map[string]json.RawMessage, result interface{}) (
 	obj := new(JobFileContent)
 	err = core.UnmarshalPrimitive(m, "file_name", &obj.FileName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "file_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "file_content", &obj.FileContent)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "file_content-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13702,30 +15002,37 @@ func UnmarshalJobFileData(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(JobFileData)
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_name", &obj.JobName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "summary", &obj.Summary, UnmarshalJobFileDataSummary)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "summary-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "file_type", &obj.FileType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "file_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "file_content", &obj.FileContent)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "file_content-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "additional_files", &obj.AdditionalFiles, UnmarshalJobFileContent)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "additional_files-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13756,14 +15063,17 @@ func UnmarshalJobFileDataSummary(m map[string]json.RawMessage, result interface{
 	obj := new(JobFileDataSummary)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13790,18 +15100,22 @@ func UnmarshalJobList(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(JobList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "jobs", &obj.Jobs, UnmarshalJobLite)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "jobs-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -13922,78 +15236,97 @@ func UnmarshalJobLite(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(JobLite)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_object", &obj.CommandObject)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_object_id", &obj.CommandObjectID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_object_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_name", &obj.CommandName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "submitted_at", &obj.SubmittedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "submitted_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "submitted_by", &obj.SubmittedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "submitted_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "duration", &obj.Duration)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "duration-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start_at", &obj.StartAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "start_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "end_at", &obj.EndAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "end_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalJobStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "log_summary", &obj.LogSummary, UnmarshalJobLogSummary)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_summary-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_runner_id", &obj.JobRunnerID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_runner_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent", &obj.Agent, UnmarshalAgentInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14035,26 +15368,32 @@ func UnmarshalJobLog(m map[string]json.RawMessage, result interface{}) (err erro
 	obj := new(JobLog)
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_name", &obj.JobName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "log_summary", &obj.LogSummary, UnmarshalJobLogSummary)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_summary-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "format", &obj.Format)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "format-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "details", &obj.Details)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "details-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14112,46 +15451,57 @@ func UnmarshalJobLogSummary(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(JobLogSummary)
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_type", &obj.JobType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_start_at", &obj.LogStartAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_start_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_analyzed_till", &obj.LogAnalyzedTill)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_analyzed_till-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "elapsed_time", &obj.ElapsedTime)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "elapsed_time-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "log_errors", &obj.LogErrors, UnmarshalJobLogSummaryLogErrors)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_errors-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "repo_download_job", &obj.RepoDownloadJob, UnmarshalJobLogSummaryRepoDownloadJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_download_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workspace_job", &obj.WorkspaceJob, UnmarshalJobLogSummaryWorkspaceJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "flow_job", &obj.FlowJob, UnmarshalJobLogSummaryFlowJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "action_job", &obj.ActionJob, UnmarshalJobLogSummaryActionJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "system_job", &obj.SystemJob, UnmarshalJobLogSummarySystemJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_job-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14184,26 +15534,32 @@ func UnmarshalJobLogSummaryWorkitems(m map[string]json.RawMessage, result interf
 	obj := new(JobLogSummaryWorkitems)
 	err = core.UnmarshalPrimitive(m, "workspace_id", &obj.WorkspaceID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_add", &obj.ResourcesAdd)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_add-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_modify", &obj.ResourcesModify)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_modify-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_destroy", &obj.ResourcesDestroy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_destroy-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14230,18 +15586,22 @@ func UnmarshalJobLogSummaryActionJob(m map[string]json.RawMessage, result interf
 	obj := new(JobLogSummaryActionJob)
 	err = core.UnmarshalPrimitive(m, "target_count", &obj.TargetCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "target_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "task_count", &obj.TaskCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "task_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "play_count", &obj.PlayCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "play_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "recap", &obj.Recap, UnmarshalJobLogSummaryActionJobRecap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "recap-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14274,26 +15634,32 @@ func UnmarshalJobLogSummaryActionJobRecap(m map[string]json.RawMessage, result i
 	obj := new(JobLogSummaryActionJobRecap)
 	err = core.UnmarshalPrimitive(m, "target", &obj.Target)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "target-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ok", &obj.Ok)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ok-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "changed", &obj.Changed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "changed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "failed", &obj.Failed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "failed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "skipped", &obj.Skipped)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "skipped-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "unreachable", &obj.Unreachable)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unreachable-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14319,18 +15685,22 @@ func UnmarshalJobLogSummaryFlowJob(m map[string]json.RawMessage, result interfac
 	obj := new(JobLogSummaryFlowJob)
 	err = core.UnmarshalPrimitive(m, "workitems_completed", &obj.WorkitemsCompleted)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workitems_completed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "workitems_pending", &obj.WorkitemsPending)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workitems_pending-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "workitems_failed", &obj.WorkitemsFailed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workitems_failed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workitems", &obj.Workitems, UnmarshalJobLogSummaryWorkitems)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workitems-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14354,14 +15724,17 @@ func UnmarshalJobLogSummaryLogErrors(m map[string]json.RawMessage, result interf
 	obj := new(JobLogSummaryLogErrors)
 	err = core.UnmarshalPrimitive(m, "error_code", &obj.ErrorCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "error_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "error_msg", &obj.ErrorMsg)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "error_msg-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "error_count", &obj.ErrorCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "error_count-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14391,22 +15764,27 @@ func UnmarshalJobLogSummaryRepoDownloadJob(m map[string]json.RawMessage, result 
 	obj := new(JobLogSummaryRepoDownloadJob)
 	err = core.UnmarshalPrimitive(m, "scanned_file_count", &obj.ScannedFileCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "scanned_file_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "quarantined_file_count", &obj.QuarantinedFileCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "quarantined_file_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "detected_filetype", &obj.DetectedFiletype)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "detected_filetype-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "inputs_count", &obj.InputsCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "inputs_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "outputs_count", &obj.OutputsCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "outputs_count-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14430,14 +15808,17 @@ func UnmarshalJobLogSummarySystemJob(m map[string]json.RawMessage, result interf
 	obj := new(JobLogSummarySystemJob)
 	err = core.UnmarshalPrimitive(m, "target_count", &obj.TargetCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "target_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "failed", &obj.Failed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "failed-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14461,14 +15842,17 @@ func UnmarshalJobLogSummaryWorkspaceJob(m map[string]json.RawMessage, result int
 	obj := new(JobLogSummaryWorkspaceJob)
 	err = core.UnmarshalPrimitive(m, "resources_add", &obj.ResourcesAdd)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_add-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_modify", &obj.ResourcesModify)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_modify-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_destroy", &obj.ResourcesDestroy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_destroy-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14501,26 +15885,32 @@ func UnmarshalJobStatus(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(JobStatus)
 	err = core.UnmarshalPrimitive(m, "position_in_queue", &obj.PositionInQueue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "position_in_queue-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "total_in_queue", &obj.TotalInQueue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_in_queue-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workspace_job_status", &obj.WorkspaceJobStatus, UnmarshalJobStatusWorkspace)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_job_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "action_job_status", &obj.ActionJobStatus, UnmarshalJobStatusAction)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_job_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "system_job_status", &obj.SystemJobStatus, UnmarshalJobStatusSystem)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_job_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "flow_job_status", &obj.FlowJobStatus, UnmarshalJobStatusFlow)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_job_status-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14590,34 +15980,42 @@ func UnmarshalJobStatusAction(m map[string]json.RawMessage, result interface{}) 
 	obj := new(JobStatusAction)
 	err = core.UnmarshalPrimitive(m, "action_name", &obj.ActionName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bastion_status_code", &obj.BastionStatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bastion_status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "bastion_status_message", &obj.BastionStatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bastion_status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "targets_status_code", &obj.TargetsStatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "targets_status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "targets_status_message", &obj.TargetsStatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "targets_status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14663,26 +16061,32 @@ func UnmarshalJobStatusFlow(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(JobStatusFlow)
 	err = core.UnmarshalPrimitive(m, "flow_id", &obj.FlowID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "flow_name", &obj.FlowName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workitems", &obj.Workitems, UnmarshalJobStatusWorkitem)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workitems-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14722,18 +16126,22 @@ func UnmarshalJobStatusSchematicsResources(m map[string]json.RawMessage, result 
 	obj := new(JobStatusSchematicsResources)
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "schematics_resource_id", &obj.SchematicsResourceID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_resource_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14773,18 +16181,22 @@ func UnmarshalJobStatusSystem(m map[string]json.RawMessage, result interface{}) 
 	obj := new(JobStatusSystem)
 	err = core.UnmarshalPrimitive(m, "system_status_message", &obj.SystemStatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "system_status_code", &obj.SystemStatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "system_status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "schematics_resource_status", &obj.SchematicsResourceStatus, UnmarshalJobStatusSchematicsResources)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_resource_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14830,26 +16242,32 @@ func UnmarshalJobStatusTemplate(m map[string]json.RawMessage, result interface{}
 	obj := new(JobStatusTemplate)
 	err = core.UnmarshalPrimitive(m, "template_id", &obj.TemplateID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_name", &obj.TemplateName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "flow_index", &obj.FlowIndex)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_index-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14895,26 +16313,32 @@ func UnmarshalJobStatusWorkitem(m map[string]json.RawMessage, result interface{}
 	obj := new(JobStatusWorkitem)
 	err = core.UnmarshalPrimitive(m, "workspace_id", &obj.WorkspaceID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "workspace_name", &obj.WorkspaceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -14963,30 +16387,37 @@ func UnmarshalJobStatusWorkspace(m map[string]json.RawMessage, result interface{
 	obj := new(JobStatusWorkspace)
 	err = core.UnmarshalPrimitive(m, "workspace_name", &obj.WorkspaceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_message", &obj.StatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "flow_status", &obj.FlowStatus, UnmarshalJobStatusFlow)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "flow_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "template_status", &obj.TemplateStatus, UnmarshalJobStatusTemplate)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "commands", &obj.Commands, UnmarshalCommandsInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "commands-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15013,18 +16444,22 @@ func UnmarshalKMSDiscovery(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(KMSDiscovery)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "kms_instances", &obj.KmsInstances, UnmarshalKMSInstances)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_instances-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15063,34 +16498,42 @@ func UnmarshalKMSInstances(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(KMSInstances)
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "encryption_scheme", &obj.EncryptionScheme)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "encryption_scheme-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kms_crn", &obj.KmsCrn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kms_name", &obj.KmsName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kms_private_endpoint", &obj.KmsPrivateEndpoint)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_private_endpoint-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kms_public_endpoint", &obj.KmsPublicEndpoint)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_public_endpoint-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKMSInstancesKeys)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "keys-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15114,14 +16557,17 @@ func UnmarshalKMSInstancesKeys(m map[string]json.RawMessage, result interface{})
 	obj := new(KMSInstancesKeys)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "error", &obj.Error)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "error-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15151,22 +16597,27 @@ func UnmarshalKMSSettings(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(KMSSettings)
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "encryption_scheme", &obj.EncryptionScheme)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "encryption_scheme-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "primary_crk", &obj.PrimaryCrk, UnmarshalKMSSettingsPrimaryCrk)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "primary_crk-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "secondary_crk", &obj.SecondaryCrk, UnmarshalKMSSettingsSecondaryCrk)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secondary_crk-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15190,14 +16641,17 @@ func UnmarshalKMSSettingsPrimaryCrk(m map[string]json.RawMessage, result interfa
 	obj := new(KMSSettingsPrimaryCrk)
 	err = core.UnmarshalPrimitive(m, "kms_name", &obj.KmsName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kms_private_endpoint", &obj.KmsPrivateEndpoint)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_private_endpoint-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "key_crn", &obj.KeyCrn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "key_crn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15221,14 +16675,17 @@ func UnmarshalKMSSettingsSecondaryCrk(m map[string]json.RawMessage, result inter
 	obj := new(KMSSettingsSecondaryCrk)
 	err = core.UnmarshalPrimitive(m, "kms_name", &obj.KmsName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kms_private_endpoint", &obj.KmsPrivateEndpoint)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kms_private_endpoint-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "key_crn", &obj.KeyCrn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "key_crn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15252,14 +16709,17 @@ func UnmarshalLastJob(m map[string]json.RawMessage, result interface{}) (err err
 	obj := new(LastJob)
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_name", &obj.JobName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_status", &obj.JobStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_status-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -15287,7 +16747,7 @@ type ListActionsOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15352,7 +16812,7 @@ type ListAgentDataOptions struct {
 	// Use `new` to get all unregistered agents; use `saved` to get all registered agents.
 	Filter *string `json:"filter,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15426,7 +16886,7 @@ type ListAgentOptions struct {
 	// Use `new` to get all unregistered agents; use `saved` to get all registered agents.
 	Filter *string `json:"filter,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15502,7 +16962,7 @@ type ListInventoriesOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15553,7 +17013,7 @@ type ListJobLogsOptions struct {
 	// Job Id. Use `GET /v2/jobs` API to look up the Job Ids in your IBM Cloud account.
 	JobID *string `json:"job_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15612,7 +17072,7 @@ type ListJobsOptions struct {
 	// list jobs.
 	List *string `json:"list,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15723,7 +17183,7 @@ type ListKmsOptions struct {
 	// Ignore unrecognized or unsupported sort field.
 	Sort *string `json:"sort,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15774,7 +17234,7 @@ func (options *ListKmsOptions) SetHeaders(param map[string]string) *ListKmsOptio
 // ListLocationsOptions : The ListLocations options.
 type ListLocationsOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15805,7 +17265,7 @@ type ListPolicyOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15849,7 +17309,7 @@ func (options *ListPolicyOptions) SetHeaders(param map[string]string) *ListPolic
 // ListResourceGroupOptions : The ListResourceGroup options.
 type ListResourceGroupOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15885,7 +17345,7 @@ type ListResourceQueryOptions struct {
 	// Level of details returned by the get method.
 	Profile *string `json:"profile,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15934,7 +17394,7 @@ func (options *ListResourceQueryOptions) SetHeaders(param map[string]string) *Li
 // ListSchematicsLocationOptions : The ListSchematicsLocation options.
 type ListSchematicsLocationOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -15965,7 +17425,7 @@ type ListWorkspaceActivitiesOptions struct {
 	// value is provided, 100 is used by default.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -16019,7 +17479,7 @@ type ListWorkspacesOptions struct {
 	// The resource group (by default, fetch from all resource groups) name or ID.
 	ResourceGroup *string `json:"resource_group,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -16085,18 +17545,22 @@ func UnmarshalLogStoreResponse(m map[string]json.RawMessage, result interface{})
 	obj := new(LogStoreResponse)
 	err = core.UnmarshalPrimitive(m, "engine_name", &obj.EngineName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "engine_version", &obj.EngineVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_store_url", &obj.LogStoreURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_store_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16114,6 +17578,7 @@ func UnmarshalLogStoreResponseList(m map[string]json.RawMessage, result interfac
 	obj := new(LogStoreResponseList)
 	err = core.UnmarshalModel(m, "runtime_data", &obj.RuntimeData, UnmarshalLogStoreResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "runtime_data-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16166,42 +17631,52 @@ func UnmarshalLogSummary(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(LogSummary)
 	err = core.UnmarshalPrimitive(m, "activity_status", &obj.ActivityStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "activity_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "detected_template_type", &obj.DetectedTemplateType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "detected_template_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "discarded_files", &obj.DiscardedFiles)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "discarded_files-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "error", &obj.Error)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "error-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_added", &obj.ResourcesAdded)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_added-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_destroyed", &obj.ResourcesDestroyed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_destroyed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_modified", &obj.ResourcesModified)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_modified-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "scanned_files", &obj.ScannedFiles)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "scanned_files-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_variable_count", &obj.TemplateVariableCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_variable_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "time_taken", &obj.TimeTaken)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "time_taken-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16229,18 +17704,22 @@ func UnmarshalOutputValuesInner(m map[string]json.RawMessage, result interface{}
 	obj := new(OutputValuesInner)
 	err = core.UnmarshalPrimitive(m, "folder", &obj.Folder)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "folder-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "output_values", &obj.OutputValues)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "output_values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value_type", &obj.ValueType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16276,7 +17755,7 @@ type PlanWorkspaceCommandOptions struct {
 	// only.
 	DelegatedToken *string `json:"delegated_token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -16396,66 +17875,82 @@ func UnmarshalPolicy(m map[string]json.RawMessage, result interface{}) (err erro
 	obj := new(Policy)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "state", &obj.State, UnmarshalUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "target", &obj.Target, UnmarshalPolicyObjects)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "target-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "parameter", &obj.Parameter, UnmarshalPolicyParameter)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "parameter-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "account", &obj.Account)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "scoped_resources", &obj.ScopedResources, UnmarshalScopedResource)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "scoped_resources-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16482,18 +17977,22 @@ func UnmarshalPolicyList(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(PolicyList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "policies", &obj.Policies, UnmarshalPolicyLite)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "policies-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16571,58 +18070,72 @@ func UnmarshalPolicyLite(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(PolicyLite)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "account", &obj.Account)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "account-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "state", &obj.State, UnmarshalUserState)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "policy_kind", &obj.PolicyKind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "policy_kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16671,18 +18184,22 @@ func UnmarshalPolicyObjectSelector(m map[string]json.RawMessage, result interfac
 	obj := new(PolicyObjectSelector)
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_groups", &obj.ResourceGroups)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_groups-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locations", &obj.Locations)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locations-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16713,14 +18230,17 @@ func UnmarshalPolicyObjects(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(PolicyObjects)
 	err = core.UnmarshalPrimitive(m, "selector_kind", &obj.SelectorKind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "selector_kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "selector_ids", &obj.SelectorIds)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "selector_ids-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "selector_scope", &obj.SelectorScope, UnmarshalPolicyObjectSelector)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "selector_scope-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16738,6 +18258,7 @@ func UnmarshalPolicyParameter(m map[string]json.RawMessage, result interface{}) 
 	obj := new(PolicyParameter)
 	err = core.UnmarshalModel(m, "agent_assignment_policy_parameter", &obj.AgentAssignmentPolicyParameter, UnmarshalAgentAssignmentPolicyParameter)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_assignment_policy_parameter-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -16762,7 +18283,7 @@ type ProcessTemplateMetaDataOptions struct {
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -16829,7 +18350,7 @@ type PrsAgentJobOptions struct {
 	// Equivalent to -force options in the command line, default is false.
 	Force *bool `json:"force,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -16884,7 +18405,7 @@ type RefreshWorkspaceCommandOptions struct {
 	// only.
 	DelegatedToken *string `json:"delegated_token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -16948,7 +18469,7 @@ type RegisterAgentOptions struct {
 	// User defined status of the agent.
 	UserState *AgentUserState `json:"user_state,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -17056,7 +18577,7 @@ type ReplaceInventoryOptions struct {
 	// playbook.
 	ResourceQueries []string `json:"resource_queries,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -17140,7 +18661,7 @@ type ReplaceResourcesQueryOptions struct {
 
 	Queries []ResourceQuery `json:"queries,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -17211,7 +18732,7 @@ type ReplaceWorkspaceInputsOptions struct {
 	// VariablesRequest -.
 	Variablestore []WorkspaceVariableRequest `json:"variablestore,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -17302,11 +18823,14 @@ type ReplaceWorkspaceOptions struct {
 	// agent id that process workspace jobs.
 	AgentID *string `json:"agent_id,omitempty"`
 
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
 	// The personal access token to authenticate with your private GitHub or GitLab repository and access your Terraform
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -17395,6 +18919,12 @@ func (_options *ReplaceWorkspaceOptions) SetAgentID(agentID string) *ReplaceWork
 	return _options
 }
 
+// SetSettings : Allow user to set Settings
+func (_options *ReplaceWorkspaceOptions) SetSettings(settings []VariableData) *ReplaceWorkspaceOptions {
+	_options.Settings = settings
+	return _options
+}
+
 // SetXGithubToken : Allow user to set XGithubToken
 func (_options *ReplaceWorkspaceOptions) SetXGithubToken(xGithubToken string) *ReplaceWorkspaceOptions {
 	_options.XGithubToken = core.StringPtr(xGithubToken)
@@ -17434,26 +18964,32 @@ func UnmarshalResourceGroupResponse(m map[string]json.RawMessage, result interfa
 	obj := new(ResourceGroupResponse)
 	err = core.UnmarshalPrimitive(m, "account_id", &obj.AccountID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group_id", &obj.ResourceGroupID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17482,14 +19018,17 @@ func UnmarshalResourceQuery(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(ResourceQuery)
 	err = core.UnmarshalPrimitive(m, "query_type", &obj.QueryType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "query_condition", &obj.QueryCondition, UnmarshalResourceQueryParam)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_condition-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "query_select", &obj.QuerySelect)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_select-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17513,14 +19052,17 @@ func UnmarshalResourceQueryParam(m map[string]json.RawMessage, result interface{
 	obj := new(ResourceQueryParam)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17564,34 +19106,42 @@ func UnmarshalResourceQueryRecord(m map[string]json.RawMessage, result interface
 	obj := new(ResourceQueryRecord)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "queries", &obj.Queries, UnmarshalResourceQuery)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "queries-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17618,18 +19168,22 @@ func UnmarshalResourceQueryRecordList(m map[string]json.RawMessage, result inter
 	obj := new(ResourceQueryRecordList)
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_queries", &obj.ResourceQueries, UnmarshalResourceQueryRecord)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_queries-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17646,6 +19200,7 @@ func UnmarshalResourceQueryResponseRecord(m map[string]json.RawMessage, result i
 	obj := new(ResourceQueryResponseRecord)
 	err = core.UnmarshalModel(m, "response", &obj.Response, UnmarshalResourceQueryResponseRecordResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "response-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17666,10 +19221,12 @@ func UnmarshalResourceQueryResponseRecordQueryOutput(m map[string]json.RawMessag
 	obj := new(ResourceQueryResponseRecordQueryOutput)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17700,18 +19257,22 @@ func UnmarshalResourceQueryResponseRecordResponse(m map[string]json.RawMessage, 
 	obj := new(ResourceQueryResponseRecordResponse)
 	err = core.UnmarshalPrimitive(m, "query_type", &obj.QueryType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "query_condition", &obj.QueryCondition, UnmarshalResourceQueryParam)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_condition-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "query_select", &obj.QuerySelect)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_select-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "query_output", &obj.QueryOutput, UnmarshalResourceQueryResponseRecordQueryOutput)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "query_output-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17750,7 +19311,7 @@ type RunWorkspaceCommandsOptions struct {
 	// Command description.
 	Description *string `json:"description,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -17839,46 +19400,57 @@ func UnmarshalSchematicsLocations(m map[string]json.RawMessage, result interface
 	obj := new(SchematicsLocations)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "country", &obj.Country)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "country-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "geography", &obj.Geography)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "geography-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "geography_code", &obj.GeographyCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "geography_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metro", &obj.Metro)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "metro-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "multizone_metro", &obj.MultizoneMetro)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "multizone_metro-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "paired_region", &obj.PairedRegion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "paired_region-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "restricted", &obj.Restricted)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "restricted-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent_metadata", &obj.AgentMetadata, UnmarshalAgentMetadataInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent_metadata-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17896,6 +19468,7 @@ func UnmarshalSchematicsLocationsList(m map[string]json.RawMessage, result inter
 	obj := new(SchematicsLocationsList)
 	err = core.UnmarshalModel(m, "locations", &obj.Locations, UnmarshalSchematicsLocationsLite)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locations-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -17943,46 +19516,57 @@ func UnmarshalSchematicsLocationsLite(m map[string]json.RawMessage, result inter
 	obj := new(SchematicsLocationsLite)
 	err = core.UnmarshalPrimitive(m, "region", &obj.Region)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "region-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "metro", &obj.Metro)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "metro-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "geography_code", &obj.GeographyCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "geography_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "geography", &obj.Geography)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "geography-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "country", &obj.Country)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "country-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "paired_region", &obj.PairedRegion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "paired_region-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "restricted", &obj.Restricted)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "restricted-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "schematics_regional_public_endpoint", &obj.SchematicsRegionalPublicEndpoint)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_regional_public_endpoint-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "schematics_regional_private_endpoint", &obj.SchematicsRegionalPrivateEndpoint)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "schematics_regional_private_endpoint-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18012,10 +19596,12 @@ func UnmarshalScopedResource(m map[string]json.RawMessage, result interface{}) (
 	obj := new(ScopedResource)
 	err = core.UnmarshalPrimitive(m, "kind", &obj.Kind)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "kind-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18039,14 +19625,17 @@ func UnmarshalServiceExtensions(m map[string]json.RawMessage, result interface{}
 	obj := new(ServiceExtensions)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18096,42 +19685,52 @@ func UnmarshalSharedTargetData(m map[string]json.RawMessage, result interface{})
 	obj := new(SharedTargetData)
 	err = core.UnmarshalPrimitive(m, "cluster_created_on", &obj.ClusterCreatedOn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_created_on-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cluster_name", &obj.ClusterName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cluster_type", &obj.ClusterType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "entitlement_keys", &obj.EntitlementKeys)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "entitlement_keys-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "namespace", &obj.Namespace)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "namespace-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "region", &obj.Region)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "region-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group_id", &obj.ResourceGroupID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "worker_count", &obj.WorkerCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "worker_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "worker_machine_type", &obj.WorkerMachineType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "worker_machine_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18169,26 +19768,32 @@ func UnmarshalSharedTargetDataResponse(m map[string]json.RawMessage, result inte
 	obj := new(SharedTargetDataResponse)
 	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cluster_name", &obj.ClusterName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cluster_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "entitlement_keys", &obj.EntitlementKeys)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "entitlement_keys-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "namespace", &obj.Namespace)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "namespace-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "region", &obj.Region)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "region-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group_id", &obj.ResourceGroupID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group_id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18217,18 +19822,22 @@ func UnmarshalStateStoreResponse(m map[string]json.RawMessage, result interface{
 	obj := new(StateStoreResponse)
 	err = core.UnmarshalPrimitive(m, "engine_name", &obj.EngineName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "engine_version", &obj.EngineVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "state_store_url", &obj.StateStoreURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state_store_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18246,6 +19855,7 @@ func UnmarshalStateStoreResponseList(m map[string]json.RawMessage, result interf
 	obj := new(StateStoreResponseList)
 	err = core.UnmarshalModel(m, "runtime_data", &obj.RuntimeData, UnmarshalStateStoreResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "runtime_data-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18269,14 +19879,17 @@ func UnmarshalSystemLock(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(SystemLock)
 	err = core.UnmarshalPrimitive(m, "sys_locked", &obj.SysLocked)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sys_locked-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "sys_locked_by", &obj.SysLockedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sys_locked_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "sys_locked_at", &obj.SysLockedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "sys_locked_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18297,10 +19910,12 @@ func UnmarshalTemplateMetaDataResponse(m map[string]json.RawMessage, result inte
 	obj := new(TemplateMetaDataResponse)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "variables", &obj.Variables, UnmarshalVariableData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "variables-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18318,6 +19933,7 @@ func UnmarshalTemplateReadme(m map[string]json.RawMessage, result interface{}) (
 	obj := new(TemplateReadme)
 	err = core.UnmarshalPrimitive(m, "readme", &obj.Readme)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "readme-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18340,6 +19956,9 @@ type TemplateRepoRequest struct {
 
 	// The source URL.
 	URL *string `json:"url,omitempty"`
+
+	// Set this variable to checkout git sub-modules.
+	SkipSubmodulesCheckout *bool `json:"skip_submodules_checkout,omitempty"`
 }
 
 // UnmarshalTemplateRepoRequest unmarshals an instance of TemplateRepoRequest from the specified map of raw messages.
@@ -18347,22 +19966,32 @@ func UnmarshalTemplateRepoRequest(m map[string]json.RawMessage, result interface
 	obj := new(TemplateRepoRequest)
 	err = core.UnmarshalPrimitive(m, "branch", &obj.Branch)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "branch-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "release", &obj.Release)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "release-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "repo_sha_value", &obj.RepoShaValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_sha_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "repo_url", &obj.RepoURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "url", &obj.URL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "skip_submodules_checkout", &obj.SkipSubmodulesCheckout)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "skip_submodules_checkout-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18392,6 +20021,9 @@ type TemplateRepoResponse struct {
 
 	// The source URL.
 	URL *string `json:"url,omitempty"`
+
+	// Set this variable to checkout git sub-modules.
+	SkipSubmodulesCheckout *bool `json:"skip_submodules_checkout,omitempty"`
 }
 
 // UnmarshalTemplateRepoResponse unmarshals an instance of TemplateRepoResponse from the specified map of raw messages.
@@ -18399,30 +20031,42 @@ func UnmarshalTemplateRepoResponse(m map[string]json.RawMessage, result interfac
 	obj := new(TemplateRepoResponse)
 	err = core.UnmarshalPrimitive(m, "branch", &obj.Branch)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "branch-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "full_url", &obj.FullURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "full_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "has_uploadedgitrepotar", &obj.HasUploadedgitrepotar)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "has_uploadedgitrepotar-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "release", &obj.Release)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "release-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "repo_sha_value", &obj.RepoShaValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_sha_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "repo_url", &obj.RepoURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "url", &obj.URL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "skip_submodules_checkout", &obj.SkipSubmodulesCheckout)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "skip_submodules_checkout-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18446,14 +20090,17 @@ func UnmarshalTemplateRepoTarUploadResponse(m map[string]json.RawMessage, result
 	obj := new(TemplateRepoTarUploadResponse)
 	err = core.UnmarshalPrimitive(m, "file_value", &obj.FileValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "file_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "has_received_file", &obj.HasReceivedFile)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "has_received_file-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18476,6 +20123,9 @@ type TemplateRepoUpdateRequest struct {
 
 	// The source URL.
 	URL *string `json:"url,omitempty"`
+
+	// Set this variable to checkout git sub-modules.
+	SkipSubmodulesCheckout *bool `json:"skip_submodules_checkout,omitempty"`
 }
 
 // UnmarshalTemplateRepoUpdateRequest unmarshals an instance of TemplateRepoUpdateRequest from the specified map of raw messages.
@@ -18483,22 +20133,32 @@ func UnmarshalTemplateRepoUpdateRequest(m map[string]json.RawMessage, result int
 	obj := new(TemplateRepoUpdateRequest)
 	err = core.UnmarshalPrimitive(m, "branch", &obj.Branch)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "branch-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "release", &obj.Release)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "release-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "repo_sha_value", &obj.RepoShaValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_sha_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "repo_url", &obj.RepoURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "repo_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "url", &obj.URL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "skip_submodules_checkout", &obj.SkipSubmodulesCheckout)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "skip_submodules_checkout-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18522,7 +20182,7 @@ type TemplateRepoUploadOptions struct {
 	// The content type of file.
 	FileContentType *string `json:"file_content_type,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -18600,34 +20260,42 @@ func UnmarshalTemplateResources(m map[string]json.RawMessage, result interface{}
 	obj := new(TemplateResources)
 	err = core.UnmarshalPrimitive(m, "folder", &obj.Folder)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "folder-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "generated_at", &obj.GeneratedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "generated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "null_resources", &obj.NullResources)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "null_resources-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "related_resources", &obj.RelatedResources)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "related_resources-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources", &obj.Resources)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources_count", &obj.ResourcesCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18668,34 +20336,42 @@ func UnmarshalTemplateRunTimeDataResponse(m map[string]json.RawMessage, result i
 	obj := new(TemplateRunTimeDataResponse)
 	err = core.UnmarshalPrimitive(m, "engine_cmd", &obj.EngineCmd)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_cmd-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "engine_name", &obj.EngineName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "engine_version", &obj.EngineVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "engine_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_store_url", &obj.LogStoreURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_store_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "output_values", &obj.OutputValues)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "output_values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resources", &obj.Resources)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resources-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "state_store_url", &obj.StateStoreURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state_store_url-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18759,46 +20435,57 @@ func UnmarshalTemplateSourceDataRequest(m map[string]json.RawMessage, result int
 	obj := new(TemplateSourceDataRequest)
 	err = core.UnmarshalPrimitive(m, "env_values", &obj.EnvValues)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "env_values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "env_values_metadata", &obj.EnvValuesMetadata, UnmarshalEnvironmentValuesMetadata)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "env_values_metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "folder", &obj.Folder)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "folder-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "compact", &obj.Compact)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "compact-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "init_state_file", &obj.InitStateFile)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "init_state_file-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "injectors", &obj.Injectors, UnmarshalInjectTerraformTemplateInner)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "injectors-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "uninstall_script_name", &obj.UninstallScriptName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "uninstall_script_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "values_metadata", &obj.ValuesMetadata)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values_metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "variablestore", &obj.Variablestore, UnmarshalWorkspaceVariableRequest)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "variablestore-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18851,46 +20538,57 @@ func UnmarshalTemplateSourceDataResponse(m map[string]json.RawMessage, result in
 	obj := new(TemplateSourceDataResponse)
 	err = core.UnmarshalModel(m, "env_values", &obj.EnvValues, UnmarshalEnvVariableResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "env_values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "folder", &obj.Folder)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "folder-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "compact", &obj.Compact)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "compact-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "has_githubtoken", &obj.HasGithubtoken)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "has_githubtoken-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "uninstall_script_name", &obj.UninstallScriptName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "uninstall_script_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "values_metadata", &obj.ValuesMetadata)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values_metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "values_url", &obj.ValuesURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "variablestore", &obj.Variablestore, UnmarshalWorkspaceVariableResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "variablestore-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18915,22 +20613,27 @@ func UnmarshalTemplateStateStore(m map[string]json.RawMessage, result interface{
 	obj := new(TemplateStateStore)
 	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "terraform_version", &obj.TerraformVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "terraform_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "serial", &obj.Serial)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "serial-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "lineage", &obj.Lineage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "lineage-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "modules", &obj.Modules)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "modules-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18948,6 +20651,7 @@ func UnmarshalTemplateValues(m map[string]json.RawMessage, result interface{}) (
 	obj := new(TemplateValues)
 	err = core.UnmarshalPrimitive(m, "values_metadata", &obj.ValuesMetadata)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values_metadata-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -18986,30 +20690,37 @@ func UnmarshalTerraformCommand(m map[string]json.RawMessage, result interface{})
 	obj := new(TerraformCommand)
 	err = core.UnmarshalPrimitive(m, "command", &obj.Command)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_params", &obj.CommandParams)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_params-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_name", &obj.CommandName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_desc", &obj.CommandDesc)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_desc-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_on_error", &obj.CommandOnError)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_on_error-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_depends_on", &obj.CommandDependsOn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_depends_on-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "command_status", &obj.CommandStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "command_status-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -19095,7 +20806,7 @@ type UpdateActionOptions struct {
 	// template.
 	XGithubToken *string `json:"X-Github-token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -19340,7 +21051,7 @@ type UpdateAgentDataOptions struct {
 	//   * When the IAM access token is about to expire, use the API key to create a new access token.
 	RefreshToken *string `json:"refresh_token,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -19489,7 +21200,7 @@ type UpdateAgentRegistrationOptions struct {
 	// User defined status of the agent.
 	UserState *AgentUserState `json:"user_state,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -19643,7 +21354,7 @@ type UpdateJobOptions struct {
 	// Agent name, Agent id and associated policy ID information.
 	Agent *AgentInfo `json:"agent,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -19827,7 +21538,7 @@ type UpdateKmsSettingsOptions struct {
 	// The secondary kms instance details.
 	SecondaryCrk *KMSSettingsSecondaryCrk `json:"secondary_crk,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -19910,7 +21621,7 @@ type UpdatePolicyOptions struct {
 	// List of scoped Schematics resources targeted by the policy.
 	ScopedResources []ScopedResource `json:"scoped_resources,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -20054,7 +21765,10 @@ type UpdateWorkspaceOptions struct {
 	// agent id that process workspace jobs.
 	AgentID *string `json:"agent_id,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -20143,6 +21857,12 @@ func (_options *UpdateWorkspaceOptions) SetAgentID(agentID string) *UpdateWorksp
 	return _options
 }
 
+// SetSettings : Allow user to set Settings
+func (_options *UpdateWorkspaceOptions) SetSettings(settings []VariableData) *UpdateWorkspaceOptions {
+	_options.Settings = settings
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *UpdateWorkspaceOptions) SetHeaders(param map[string]string) *UpdateWorkspaceOptions {
 	options.Headers = param
@@ -20160,7 +21880,7 @@ type UploadTemplateTarActionOptions struct {
 	// The content type of file.
 	FileContentType *string `json:"file_content_type,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -20229,14 +21949,17 @@ func UnmarshalUserState(m map[string]json.RawMessage, result interface{}) (err e
 	obj := new(UserState)
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "state-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "set_by", &obj.SetBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "set_at", &obj.SetAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20273,18 +21996,22 @@ func UnmarshalUserValues(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(UserValues)
 	err = core.UnmarshalPrimitive(m, "env_values", &obj.EnvValues)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "env_values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "env_values_map", &obj.EnvValuesMap, UnmarshalEnvVariableRequestMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "env_values_map-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "values-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "variablestore", &obj.Variablestore, UnmarshalWorkspaceVariableResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "variablestore-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20297,7 +22024,6 @@ type VariableData struct {
 	Name *string `json:"name,omitempty"`
 
 	// The value for the variable or reference to the value. For example, `value = "<provide your ssh_key_value with \n>"`.
-	// **Note** The SSH key should contain `\n` at the end of the key details in case of command line or API calls.
 	Value *string `json:"value,omitempty"`
 
 	// True, will ignore the data in the value attribute, instead the data in metadata.default_value will be used.
@@ -20315,22 +22041,27 @@ func UnmarshalVariableData(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(VariableData)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "use_default", &obj.UseDefault)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "use_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "metadata", &obj.Metadata, UnmarshalVariableMetadata)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "metadata-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link", &obj.Link)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "link-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20424,78 +22155,97 @@ func UnmarshalVariableMetadata(m map[string]json.RawMessage, result interface{})
 	obj := new(VariableMetadata)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "aliases", &obj.Aliases)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "aliases-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cloud_data_type", &obj.CloudDataType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cloud_data_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "default_value", &obj.DefaultValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "default_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "link_status", &obj.LinkStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "link_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "secure", &obj.Secure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secure-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "immutable", &obj.Immutable)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "immutable-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "hidden", &obj.Hidden)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "hidden-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "required", &obj.Required)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "required-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "options", &obj.Options)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "options-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "min_value", &obj.MinValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "min_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "max_value", &obj.MaxValue)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "max_value-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "min_length", &obj.MinLength)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "min_length-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "max_length", &obj.MaxLength)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "max_length-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "matches", &obj.Matches)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "matches-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "position", &obj.Position)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "position-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "group_by", &obj.GroupBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "group_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20535,34 +22285,42 @@ func UnmarshalVersionResponse(m map[string]json.RawMessage, result interface{}) 
 	obj := new(VersionResponse)
 	err = core.UnmarshalPrimitive(m, "builddate", &obj.Builddate)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "builddate-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "buildno", &obj.Buildno)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "buildno-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "commitsha", &obj.Commitsha)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "commitsha-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "helm_provider_version", &obj.HelmProviderVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "helm_provider_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "helm_version", &obj.HelmVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "helm_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "supported_template_types", &obj.SupportedTemplateTypes)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "supported_template_types-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "terraform_provider_version", &obj.TerraformProviderVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "terraform_provider_version-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "terraform_version", &obj.TerraformVersion)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "terraform_version-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20586,14 +22344,17 @@ func UnmarshalWorkspaceActivities(m map[string]json.RawMessage, result interface
 	obj := new(WorkspaceActivities)
 	err = core.UnmarshalModel(m, "actions", &obj.Actions, UnmarshalWorkspaceActivity)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "actions-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "workspace_id", &obj.WorkspaceID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "workspace_name", &obj.WorkspaceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20646,30 +22407,37 @@ func UnmarshalWorkspaceActivity(m map[string]json.RawMessage, result interface{}
 	obj := new(WorkspaceActivity)
 	err = core.UnmarshalPrimitive(m, "action_id", &obj.ActionID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "performed_at", &obj.PerformedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "performed_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "performed_by", &obj.PerformedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "performed_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "templates", &obj.Templates, UnmarshalWorkspaceActivityTemplate)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "templates-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20688,6 +22456,7 @@ func UnmarshalWorkspaceActivityApplyResult(m map[string]json.RawMessage, result 
 	obj := new(WorkspaceActivityApplyResult)
 	err = core.UnmarshalPrimitive(m, "activityid", &obj.Activityid)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "activityid-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20707,6 +22476,7 @@ func UnmarshalWorkspaceActivityCommandResult(m map[string]json.RawMessage, resul
 	obj := new(WorkspaceActivityCommandResult)
 	err = core.UnmarshalPrimitive(m, "activityid", &obj.Activityid)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "activityid-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20725,6 +22495,7 @@ func UnmarshalWorkspaceActivityDestroyResult(m map[string]json.RawMessage, resul
 	obj := new(WorkspaceActivityDestroyResult)
 	err = core.UnmarshalPrimitive(m, "activityid", &obj.Activityid)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "activityid-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20755,14 +22526,17 @@ func UnmarshalWorkspaceActivityLogs(m map[string]json.RawMessage, result interfa
 	obj := new(WorkspaceActivityLogs)
 	err = core.UnmarshalPrimitive(m, "action_id", &obj.ActionID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "templates", &obj.Templates, UnmarshalWorkspaceActivityTemplateLogs)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "templates-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20783,10 +22557,12 @@ func UnmarshalWorkspaceActivityOptionsTemplate(m map[string]json.RawMessage, res
 	obj := new(WorkspaceActivityOptionsTemplate)
 	err = core.UnmarshalPrimitive(m, "target", &obj.Target)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "target-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tf_vars", &obj.TfVars)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tf_vars-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20805,6 +22581,7 @@ func UnmarshalWorkspaceActivityPlanResult(m map[string]json.RawMessage, result i
 	obj := new(WorkspaceActivityPlanResult)
 	err = core.UnmarshalPrimitive(m, "activityid", &obj.Activityid)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "activityid-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20823,6 +22600,7 @@ func UnmarshalWorkspaceActivityRefreshResult(m map[string]json.RawMessage, resul
 	obj := new(WorkspaceActivityRefreshResult)
 	err = core.UnmarshalPrimitive(m, "activityid", &obj.Activityid)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "activityid-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20869,34 +22647,42 @@ func UnmarshalWorkspaceActivityTemplate(m map[string]json.RawMessage, result int
 	obj := new(WorkspaceActivityTemplate)
 	err = core.UnmarshalPrimitive(m, "end_time", &obj.EndTime)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "end_time-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "log_summary", &obj.LogSummary, UnmarshalLogSummary)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_summary-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start_time", &obj.StartTime)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "start_time-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_id", &obj.TemplateID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_type", &obj.TemplateType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20920,14 +22706,17 @@ func UnmarshalWorkspaceActivityTemplateLogs(m map[string]json.RawMessage, result
 	obj := new(WorkspaceActivityTemplateLogs)
 	err = core.UnmarshalPrimitive(m, "log_url", &obj.LogURL)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "log_url-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_id", &obj.TemplateID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_type", &obj.TemplateType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20948,10 +22737,12 @@ func UnmarshalWorkspaceBulkDeleteResponse(m map[string]json.RawMessage, result i
 	obj := new(WorkspaceBulkDeleteResponse)
 	err = core.UnmarshalPrimitive(m, "job", &obj.Job)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "job_id", &obj.JobID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20969,6 +22760,7 @@ func UnmarshalWorkspaceJobResponse(m map[string]json.RawMessage, result interfac
 	obj := new(WorkspaceJobResponse)
 	err = core.UnmarshalModel(m, "job_status", &obj.JobStatus, UnmarshalWorkspaceJobStatusType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "job_status-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -20995,18 +22787,22 @@ func UnmarshalWorkspaceJobStatusType(m map[string]json.RawMessage, result interf
 	obj := new(WorkspaceJobStatusType)
 	err = core.UnmarshalPrimitive(m, "failed", &obj.Failed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "failed-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "in_progress", &obj.InProgress)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "in_progress-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_updated_on", &obj.LastUpdatedOn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_updated_on-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21135,6 +22931,15 @@ type WorkspaceResponse struct {
 
 	// Agent name, Agent id and associated policy ID information.
 	Agent *AgentInfo `json:"agent,omitempty"`
+
+	// Input settings to be applied to the workspace, for example, `job_timeout_override`.
+	Settings []VariableData `json:"settings,omitempty"`
+
+	// secrets manager reference to git token.
+	GitTokenRef *string `json:"git_token_ref,omitempty"`
+
+	// Encryption details about the workspace such as scheme (byok/kyok) and key CRN.
+	Encryption *EncryptionInfo `json:"encryption,omitempty"`
 }
 
 // UnmarshalWorkspaceResponse unmarshals an instance of WorkspaceResponse from the specified map of raw messages.
@@ -21142,122 +22947,167 @@ func UnmarshalWorkspaceResponse(m map[string]json.RawMessage, result interface{}
 	obj := new(WorkspaceResponse)
 	err = core.UnmarshalPrimitive(m, "applied_shareddata_ids", &obj.AppliedShareddataIds)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "applied_shareddata_ids-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "catalog_ref", &obj.CatalogRef, UnmarshalCatalogRef)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog_ref-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "dependencies", &obj.Dependencies, UnmarshalDependencies)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "dependencies-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_health_check_at", &obj.LastHealthCheckAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_health_check_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_group", &obj.ResourceGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "runtime_data", &obj.RuntimeData, UnmarshalTemplateRunTimeDataResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "runtime_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "shared_data", &obj.SharedData, UnmarshalSharedTargetDataResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "shared_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tags", &obj.Tags)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tags-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "template_data", &obj.TemplateData, UnmarshalTemplateSourceDataResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "template_ref", &obj.TemplateRef)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_ref-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "template_repo", &obj.TemplateRepo, UnmarshalTemplateRepoResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_repo-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cart_id", &obj.CartID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cart_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "project_id", &obj.ProjectID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "project_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_action_name", &obj.LastActionName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_action_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "last_activity_id", &obj.LastActivityID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_activity_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "last_job", &obj.LastJob, UnmarshalLastJob)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "last_job-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workspace_status", &obj.WorkspaceStatus, UnmarshalWorkspaceStatusResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workspace_status_msg", &obj.WorkspaceStatusMsg, UnmarshalWorkspaceStatusMessage)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspace_status_msg-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "agent", &obj.Agent, UnmarshalAgentInfo)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "agent-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "settings", &obj.Settings, UnmarshalVariableData)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "settings-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "git_token_ref", &obj.GitTokenRef)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "git_token_ref-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption", &obj.Encryption, UnmarshalEncryptionInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "encryption-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21286,18 +23136,22 @@ func UnmarshalWorkspaceResponseList(m map[string]json.RawMessage, result interfa
 	obj := new(WorkspaceResponseList)
 	err = core.UnmarshalPrimitive(m, "count", &obj.Count)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "offset-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "workspaces", &obj.Workspaces, UnmarshalWorkspaceResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "workspaces-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21320,10 +23174,12 @@ func UnmarshalWorkspaceStatusMessage(m map[string]json.RawMessage, result interf
 	obj := new(WorkspaceStatusMessage)
 	err = core.UnmarshalPrimitive(m, "status_code", &obj.StatusCode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_code-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status_msg", &obj.StatusMsg)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status_msg-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21357,26 +23213,32 @@ func UnmarshalWorkspaceStatusRequest(m map[string]json.RawMessage, result interf
 	obj := new(WorkspaceStatusRequest)
 	err = core.UnmarshalPrimitive(m, "frozen", &obj.Frozen)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "frozen_at", &obj.FrozenAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "frozen_by", &obj.FrozenBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked", &obj.Locked)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked_by", &obj.LockedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked_time", &obj.LockedTime)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked_time-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21410,26 +23272,32 @@ func UnmarshalWorkspaceStatusResponse(m map[string]json.RawMessage, result inter
 	obj := new(WorkspaceStatusResponse)
 	err = core.UnmarshalPrimitive(m, "frozen", &obj.Frozen)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "frozen_at", &obj.FrozenAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "frozen_by", &obj.FrozenBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked", &obj.Locked)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked_by", &obj.LockedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked_time", &obj.LockedTime)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked_time-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21462,26 +23330,32 @@ func UnmarshalWorkspaceStatusUpdateRequest(m map[string]json.RawMessage, result 
 	obj := new(WorkspaceStatusUpdateRequest)
 	err = core.UnmarshalPrimitive(m, "frozen", &obj.Frozen)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "frozen_at", &obj.FrozenAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "frozen_by", &obj.FrozenBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "frozen_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked", &obj.Locked)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked_by", &obj.LockedBy)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked_by-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "locked_time", &obj.LockedTime)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locked_time-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21506,14 +23380,17 @@ func UnmarshalWorkspaceTemplateValuesResponse(m map[string]json.RawMessage, resu
 	obj := new(WorkspaceTemplateValuesResponse)
 	err = core.UnmarshalModel(m, "runtime_data", &obj.RuntimeData, UnmarshalTemplateRunTimeDataResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "runtime_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "shared_data", &obj.SharedData, UnmarshalSharedTargetData)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "shared_data-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "template_data", &obj.TemplateData, UnmarshalTemplateSourceDataResponse)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "template_data-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21556,26 +23433,32 @@ func UnmarshalWorkspaceVariableRequest(m map[string]json.RawMessage, result inte
 	obj := new(WorkspaceVariableRequest)
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "secure", &obj.Secure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secure-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "use_default", &obj.UseDefault)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "use_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -21615,22 +23498,27 @@ func UnmarshalWorkspaceVariableResponse(m map[string]json.RawMessage, result int
 	obj := new(WorkspaceVariableResponse)
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "description-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "secure", &obj.Secure)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "secure-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))

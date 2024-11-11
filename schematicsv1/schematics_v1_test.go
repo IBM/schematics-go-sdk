@@ -19,6 +19,7 @@ package schematicsv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -1492,7 +1493,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"count": 5, "limit": 5, "offset": 6, "workspaces": [{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}]}`)
+					fmt.Fprintf(res, "%s", `{"count": 5, "limit": 5, "offset": 6, "workspaces": [{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}]}`)
 				}))
 			})
 			It(`Invoke ListWorkspaces successfully with retries`, func() {
@@ -1553,7 +1554,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"count": 5, "limit": 5, "offset": 6, "workspaces": [{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}]}`)
+					fmt.Fprintf(res, "%s", `{"count": 5, "limit": 5, "offset": 6, "workspaces": [{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}]}`)
 				}))
 			})
 			It(`Invoke ListWorkspaces successfully`, func() {
@@ -1763,6 +1764,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoRequestModel.URL = core.StringPtr("testString")
+				templateRepoRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusRequest model
 				workspaceStatusRequestModel := new(schematicsv1.WorkspaceStatusRequest)
@@ -1772,6 +1774,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusRequestModel.Locked = core.BoolPtr(true)
 				workspaceStatusRequestModel.LockedBy = core.StringPtr("testString")
 				workspaceStatusRequestModel.LockedTime = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the CreateWorkspaceOptions model
 				createWorkspaceOptionsModel := new(schematicsv1.CreateWorkspaceOptions)
@@ -1790,6 +1821,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				createWorkspaceOptionsModel.Type = []string{"testString"}
 				createWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusRequestModel
 				createWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				createWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				createWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				createWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1845,7 +1877,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke CreateWorkspace successfully with retries`, func() {
@@ -1944,6 +1976,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoRequestModel.URL = core.StringPtr("testString")
+				templateRepoRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusRequest model
 				workspaceStatusRequestModel := new(schematicsv1.WorkspaceStatusRequest)
@@ -1953,6 +1986,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusRequestModel.Locked = core.BoolPtr(true)
 				workspaceStatusRequestModel.LockedBy = core.StringPtr("testString")
 				workspaceStatusRequestModel.LockedTime = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the CreateWorkspaceOptions model
 				createWorkspaceOptionsModel := new(schematicsv1.CreateWorkspaceOptions)
@@ -1971,6 +2033,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				createWorkspaceOptionsModel.Type = []string{"testString"}
 				createWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusRequestModel
 				createWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				createWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				createWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				createWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2029,7 +2092,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke CreateWorkspace successfully`, func() {
@@ -2133,6 +2196,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoRequestModel.URL = core.StringPtr("testString")
+				templateRepoRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusRequest model
 				workspaceStatusRequestModel := new(schematicsv1.WorkspaceStatusRequest)
@@ -2142,6 +2206,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusRequestModel.Locked = core.BoolPtr(true)
 				workspaceStatusRequestModel.LockedBy = core.StringPtr("testString")
 				workspaceStatusRequestModel.LockedTime = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the CreateWorkspaceOptions model
 				createWorkspaceOptionsModel := new(schematicsv1.CreateWorkspaceOptions)
@@ -2160,6 +2253,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				createWorkspaceOptionsModel.Type = []string{"testString"}
 				createWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusRequestModel
 				createWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				createWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				createWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				createWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2265,6 +2359,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoRequestModel.URL = core.StringPtr("testString")
+				templateRepoRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusRequest model
 				workspaceStatusRequestModel := new(schematicsv1.WorkspaceStatusRequest)
@@ -2274,6 +2369,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusRequestModel.Locked = core.BoolPtr(true)
 				workspaceStatusRequestModel.LockedBy = core.StringPtr("testString")
 				workspaceStatusRequestModel.LockedTime = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the CreateWorkspaceOptions model
 				createWorkspaceOptionsModel := new(schematicsv1.CreateWorkspaceOptions)
@@ -2292,6 +2416,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				createWorkspaceOptionsModel.Type = []string{"testString"}
 				createWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusRequestModel
 				createWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				createWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				createWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				createWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -2411,6 +2536,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoRequestModel.URL = core.StringPtr("testString")
+				templateRepoRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusRequest model
 				workspaceStatusRequestModel := new(schematicsv1.WorkspaceStatusRequest)
@@ -2420,6 +2546,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusRequestModel.Locked = core.BoolPtr(true)
 				workspaceStatusRequestModel.LockedBy = core.StringPtr("testString")
 				workspaceStatusRequestModel.LockedTime = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the CreateWorkspaceOptions model
 				createWorkspaceOptionsModel := new(schematicsv1.CreateWorkspaceOptions)
@@ -2438,6 +2593,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				createWorkspaceOptionsModel.Type = []string{"testString"}
 				createWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusRequestModel
 				createWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				createWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				createWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				createWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2516,7 +2672,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke GetWorkspace successfully with retries`, func() {
@@ -2570,7 +2726,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke GetWorkspace successfully`, func() {
@@ -2778,6 +2934,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -2792,6 +2949,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the ReplaceWorkspaceOptions model
 				replaceWorkspaceOptionsModel := new(schematicsv1.ReplaceWorkspaceOptions)
@@ -2808,6 +2994,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				replaceWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				replaceWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				replaceWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				replaceWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				replaceWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				replaceWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -2863,7 +3050,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke ReplaceWorkspace successfully with retries`, func() {
@@ -2962,6 +3149,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -2976,6 +3164,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the ReplaceWorkspaceOptions model
 				replaceWorkspaceOptionsModel := new(schematicsv1.ReplaceWorkspaceOptions)
@@ -2992,6 +3209,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				replaceWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				replaceWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				replaceWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				replaceWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				replaceWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				replaceWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3050,7 +3268,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke ReplaceWorkspace successfully`, func() {
@@ -3154,6 +3372,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -3168,6 +3387,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the ReplaceWorkspaceOptions model
 				replaceWorkspaceOptionsModel := new(schematicsv1.ReplaceWorkspaceOptions)
@@ -3184,6 +3432,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				replaceWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				replaceWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				replaceWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				replaceWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				replaceWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				replaceWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3289,6 +3538,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -3303,6 +3553,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the ReplaceWorkspaceOptions model
 				replaceWorkspaceOptionsModel := new(schematicsv1.ReplaceWorkspaceOptions)
@@ -3319,6 +3598,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				replaceWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				replaceWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				replaceWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				replaceWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				replaceWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				replaceWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3445,6 +3725,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -3459,6 +3740,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the ReplaceWorkspaceOptions model
 				replaceWorkspaceOptionsModel := new(schematicsv1.ReplaceWorkspaceOptions)
@@ -3475,6 +3785,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				replaceWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				replaceWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				replaceWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				replaceWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				replaceWorkspaceOptionsModel.XGithubToken = core.StringPtr("testString")
 				replaceWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3782,6 +4093,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -3796,6 +4108,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the UpdateWorkspaceOptions model
 				updateWorkspaceOptionsModel := new(schematicsv1.UpdateWorkspaceOptions)
@@ -3812,6 +4153,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				updateWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				updateWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				updateWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				updateWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				updateWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := schematicsService.UpdateWorkspace(updateWorkspaceOptionsModel)
@@ -3864,7 +4206,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke UpdateWorkspace successfully with retries`, func() {
@@ -3963,6 +4305,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -3977,6 +4320,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the UpdateWorkspaceOptions model
 				updateWorkspaceOptionsModel := new(schematicsv1.UpdateWorkspaceOptions)
@@ -3993,6 +4365,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				updateWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				updateWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				updateWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				updateWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				updateWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -4048,7 +4421,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL"}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}`)
+					fmt.Fprintf(res, "%s", `{"applied_shareddata_ids": ["AppliedShareddataIds"], "catalog_ref": {"dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL", "offering_version": "OfferingVersion", "service_extensions": [{"name": "flavor", "value": "anyValue", "type": "string"}]}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "crn": "Crn", "dependencies": {"parents": ["Parents"], "children": ["Children"]}, "description": "Description", "id": "ID", "last_health_check_at": "2019-01-01T12:00:00.000Z", "location": "Location", "name": "Name", "resource_group": "ResourceGroup", "runtime_data": [{"engine_cmd": "EngineCmd", "engine_name": "EngineName", "engine_version": "EngineVersion", "id": "ID", "log_store_url": "LogStoreURL", "output_values": [{"anyKey": "anyValue"}], "resources": [[{"anyKey": "anyValue"}]], "state_store_url": "StateStoreURL"}], "shared_data": {"cluster_id": "ClusterID", "cluster_name": "ClusterName", "entitlement_keys": [{"anyKey": "anyValue"}], "namespace": "Namespace", "region": "Region", "resource_group_id": "ResourceGroupID"}, "status": "Status", "tags": ["Tags"], "template_data": [{"env_values": [{"hidden": true, "name": "Name", "secure": true, "value": "Value"}], "folder": "Folder", "compact": false, "has_githubtoken": true, "id": "ID", "type": "Type", "uninstall_script_name": "UninstallScriptName", "values": "Values", "values_metadata": [{"anyKey": "anyValue"}], "values_url": "ValuesURL", "variablestore": [{"description": "Description", "name": "Name", "secure": true, "type": "Type", "value": "Value"}]}], "template_ref": "TemplateRef", "template_repo": {"branch": "Branch", "full_url": "FullURL", "has_uploadedgitrepotar": false, "release": "Release", "repo_sha_value": "RepoShaValue", "repo_url": "RepoURL", "url": "URL", "skip_submodules_checkout": true}, "type": ["Type"], "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "cart_id": "CartID", "project_id": "ProjectID", "last_action_name": "LastActionName", "last_activity_id": "LastActivityID", "last_job": {"job_id": "JobID", "job_name": "JobName", "job_status": "JobStatus"}, "workspace_status": {"frozen": true, "frozen_at": "2019-01-01T12:00:00.000Z", "frozen_by": "FrozenBy", "locked": true, "locked_by": "LockedBy", "locked_time": "2019-01-01T12:00:00.000Z"}, "workspace_status_msg": {"status_code": "StatusCode", "status_msg": "StatusMsg"}, "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke UpdateWorkspace successfully`, func() {
@@ -4152,6 +4525,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -4166,6 +4540,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the UpdateWorkspaceOptions model
 				updateWorkspaceOptionsModel := new(schematicsv1.UpdateWorkspaceOptions)
@@ -4182,6 +4585,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				updateWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				updateWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				updateWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				updateWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				updateWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4286,6 +4690,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -4300,6 +4705,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the UpdateWorkspaceOptions model
 				updateWorkspaceOptionsModel := new(schematicsv1.UpdateWorkspaceOptions)
@@ -4316,6 +4750,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				updateWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				updateWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				updateWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				updateWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				updateWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := schematicsService.SetServiceURL("")
@@ -4441,6 +4876,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -4455,6 +4891,35 @@ var _ = Describe(`SchematicsV1`, func() {
 				workspaceStatusMessageModel := new(schematicsv1.WorkspaceStatusMessage)
 				workspaceStatusMessageModel.StatusCode = core.StringPtr("testString")
 				workspaceStatusMessageModel.StatusMsg = core.StringPtr("testString")
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
 
 				// Construct an instance of the UpdateWorkspaceOptions model
 				updateWorkspaceOptionsModel := new(schematicsv1.UpdateWorkspaceOptions)
@@ -4471,6 +4936,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				updateWorkspaceOptionsModel.WorkspaceStatus = workspaceStatusUpdateRequestModel
 				updateWorkspaceOptionsModel.WorkspaceStatusMsg = workspaceStatusMessageModel
 				updateWorkspaceOptionsModel.AgentID = core.StringPtr("testString")
+				updateWorkspaceOptionsModel.Settings = []schematicsv1.VariableData{*variableDataModel}
 				updateWorkspaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -7615,7 +8081,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 10, "limit": 5, "offset": 6, "actions": [{"name": "Stop Action", "description": "This Action can be used to Stop the targets", "id": "ID", "crn": "Crn", "location": "us-south", "resource_group": "ResourceGroup", "namespace": "Namespace", "tags": ["Tags"], "playbook_name": "PlaybookName", "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "state": {"status_code": "normal", "status_message": "StatusMessage"}, "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 10, "limit": 5, "offset": 6, "actions": [{"name": "Stop Action", "description": "This Action can be used to Stop the targets", "id": "ID", "crn": "Crn", "location": "us-south", "resource_group": "ResourceGroup", "namespace": "Namespace", "tags": ["Tags"], "playbook_name": "PlaybookName", "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "state": {"status_code": "normal", "status_message": "StatusMessage"}, "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}]}`)
 				}))
 			})
 			It(`Invoke ListActions successfully with retries`, func() {
@@ -7676,7 +8142,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 10, "limit": 5, "offset": 6, "actions": [{"name": "Stop Action", "description": "This Action can be used to Stop the targets", "id": "ID", "crn": "Crn", "location": "us-south", "resource_group": "ResourceGroup", "namespace": "Namespace", "tags": ["Tags"], "playbook_name": "PlaybookName", "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "state": {"status_code": "normal", "status_message": "StatusMessage"}, "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 10, "limit": 5, "offset": 6, "actions": [{"name": "Stop Action", "description": "This Action can be used to Stop the targets", "id": "ID", "crn": "Crn", "location": "us-south", "resource_group": "ResourceGroup", "namespace": "Namespace", "tags": ["Tags"], "playbook_name": "PlaybookName", "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "state": {"status_code": "normal", "status_message": "StatusMessage"}, "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent": {"id": "ID", "name": "Name", "assignment_policy_id": "AssignmentPolicyID"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}]}`)
 				}))
 			})
 			It(`Invoke ListActions successfully`, func() {
@@ -7860,7 +8326,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -7975,7 +8441,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke CreateAction successfully with retries`, func() {
@@ -8048,7 +8514,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -8166,7 +8632,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke CreateAction successfully`, func() {
@@ -8244,7 +8710,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -8383,7 +8849,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -8536,7 +9002,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -8677,7 +9143,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke GetAction successfully with retries`, func() {
@@ -8733,7 +9199,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke GetAction successfully`, func() {
@@ -8994,7 +9460,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -9110,7 +9576,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke UpdateAction successfully with retries`, func() {
@@ -9183,7 +9649,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -9302,7 +9768,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "Stop Action", "description": "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.", "location": "us-south", "resource_group": "ResourceGroup", "bastion_connection_type": "ssh", "inventory_connection_type": "ssh", "tags": ["Tags"], "user_state": {"state": "draft", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "source_readme_url": "SourceReadmeURL", "source": {"source_type": "local", "git": {"computed_git_repo_url": "ComputedGitRepoURL", "git_repo_url": "GitRepoURL", "git_token": "GitToken", "git_repo_folder": "GitRepoFolder", "git_release": "GitRelease", "git_branch": "GitBranch", "git_commit": "GitCommit", "git_commit_timestamp": "GitCommitTimestamp"}, "catalog": {"catalog_name": "CatalogName", "catalog_id": "CatalogID", "offering_name": "OfferingName", "offering_version": "OfferingVersion", "offering_kind": "OfferingKind", "offering_target_kind": "OfferingTargetKind", "offering_id": "OfferingID", "offering_version_id": "OfferingVersionID", "offering_version_flavour_name": "OfferingVersionFlavourName", "offering_repo_url": "OfferingRepoURL", "offering_provisioner_working_directory": "OfferingProvisionerWorkingDirectory", "dry_run": true, "owning_account": "OwningAccount", "item_icon_url": "ItemIconURL", "item_id": "ItemID", "item_name": "ItemName", "item_readme_url": "ItemReadmeURL", "item_url": "ItemURL", "launch_url": "LaunchURL"}}, "source_type": "local", "command_parameter": "CommandParameter", "inventory": "Inventory", "credentials": [{"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "bastion": {"name": "Name", "host": "Host"}, "bastion_credential": {"name": "Name", "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXXXXXXXXXX\n-----END OPENSSH PRIVATE KEY-----\n", "use_default": true, "metadata": {"type": "string", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "immutable": false, "hidden": true, "required": true, "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}, "targets_ini": "TargetsIni", "inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "outputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "settings": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "id": "ID", "crn": "Crn", "account": "Account", "source_created_at": "2019-01-01T12:00:00.000Z", "source_created_by": "SourceCreatedBy", "source_updated_at": "2019-01-01T12:00:00.000Z", "source_updated_by": "SourceUpdatedBy", "created_at": "2019-01-01T12:00:00.000Z", "created_by": "CreatedBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "state": {"status_code": "normal", "status_job_id": "StatusJobID", "status_message": "StatusMessage"}, "playbook_names": ["PlaybookNames"], "sys_lock": {"sys_locked": false, "sys_locked_by": "SysLockedBy", "sys_locked_at": "2019-01-01T12:00:00.000Z"}, "git_token_ref": "GitTokenRef", "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke UpdateAction successfully`, func() {
@@ -9380,7 +9846,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -9520,7 +9986,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -9681,7 +10147,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				// Construct an instance of the CredentialVariableData model
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 
@@ -20957,7 +21423,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke CreateAgentData successfully with retries`, func() {
@@ -21093,7 +21559,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke CreateAgentData successfully`, func() {
@@ -21452,7 +21918,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke GetAgentData successfully with retries`, func() {
@@ -21508,7 +21974,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke GetAgentData successfully`, func() {
@@ -21757,7 +22223,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke UpdateAgentData successfully with retries`, func() {
@@ -21897,7 +22363,7 @@ var _ = Describe(`SchematicsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}}`)
+					fmt.Fprintf(res, "%s", `{"name": "MyDevAgent", "description": "Create Agent", "resource_group": "Default", "tags": ["Tags"], "version": "v1.0.0", "schematics_location": "us-south", "agent_location": "us-south", "agent_infrastructure": {"infra_type": "ibm_kubernetes", "cluster_id": "ClusterID", "cluster_resource_group": "ClusterResourceGroup", "cos_instance_name": "CosInstanceName", "cos_bucket_name": "CosBucketName", "cos_bucket_region": "CosBucketRegion"}, "agent_metadata": [{"name": "purpose", "value": ["Value"]}], "agent_inputs": [{"name": "Name", "value": "Value", "use_default": true, "metadata": {"type": "boolean", "aliases": ["Aliases"], "description": "Description", "cloud_data_type": "CloudDataType", "default_value": "DefaultValue", "link_status": "normal", "secure": true, "immutable": false, "hidden": true, "required": true, "options": ["Options"], "min_value": 8, "max_value": 8, "min_length": 9, "max_length": 9, "matches": "Matches", "position": 8, "group_by": "GroupBy", "source": "Source"}, "link": "Link"}], "user_state": {"state": "enable", "set_by": "SetBy", "set_at": "2019-01-01T12:00:00.000Z"}, "agent_crn": "AgentCrn", "id": "ID", "created_at": "2019-01-01T12:00:00.000Z", "creation_by": "CreationBy", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "system_state": {"status_code": "error", "status_message": "StatusMessage"}, "agent_kpi": {"availability_indicator": "available", "lifecycle_indicator": "consistent", "percent_usage_indicator": "PercentUsageIndicator", "application_indicators": ["anyValue"], "infra_indicators": ["anyValue"]}, "recent_prs_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_deploy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "is_redeployed": false, "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_health_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "recent_destroy_job": {"agent_id": "AgentID", "job_id": "JobID", "updated_at": "2019-01-01T12:00:00.000Z", "updated_by": "UpdatedBy", "agent_version": "v1.0.0", "status_code": "job_pending", "status_message": "StatusMessage", "log_url": "LogURL"}, "encryption": {"crn": "Crn", "scheme": "Scheme"}}`)
 				}))
 			})
 			It(`Invoke UpdateAgentData successfully`, func() {
@@ -26204,11 +26670,11 @@ var _ = Describe(`SchematicsV1`, func() {
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				Expect(credentialVariableDataModel).ToNot(BeNil())
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 				Expect(credentialVariableDataModel.Name).To(Equal(core.StringPtr("testString")))
-				Expect(credentialVariableDataModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(credentialVariableDataModel.Value).To(Equal(core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")))
 				Expect(credentialVariableDataModel.UseDefault).To(Equal(core.BoolPtr(true)))
 				Expect(credentialVariableDataModel.Metadata).To(Equal(credentialVariableMetadataModel))
 
@@ -27293,11 +27759,13 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoRequestModel.URL = core.StringPtr("testString")
+				templateRepoRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 				Expect(templateRepoRequestModel.Branch).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoRequestModel.Release).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoRequestModel.RepoShaValue).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoRequestModel.RepoURL).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoRequestModel.URL).To(Equal(core.StringPtr("testString")))
+				Expect(templateRepoRequestModel.SkipSubmodulesCheckout).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the WorkspaceStatusRequest model
 				workspaceStatusRequestModel := new(schematicsv1.WorkspaceStatusRequest)
@@ -27314,6 +27782,60 @@ var _ = Describe(`SchematicsV1`, func() {
 				Expect(workspaceStatusRequestModel.Locked).To(Equal(core.BoolPtr(true)))
 				Expect(workspaceStatusRequestModel.LockedBy).To(Equal(core.StringPtr("testString")))
 				Expect(workspaceStatusRequestModel.LockedTime).To(Equal(CreateMockDateTime("2019-01-01T12:00:00.000Z")))
+
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				Expect(variableMetadataModel).ToNot(BeNil())
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+				Expect(variableMetadataModel.Type).To(Equal(core.StringPtr("boolean")))
+				Expect(variableMetadataModel.Aliases).To(Equal([]string{"testString"}))
+				Expect(variableMetadataModel.Description).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.CloudDataType).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.DefaultValue).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.LinkStatus).To(Equal(core.StringPtr("normal")))
+				Expect(variableMetadataModel.Secure).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Immutable).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Hidden).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Required).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Options).To(Equal([]string{"testString"}))
+				Expect(variableMetadataModel.MinValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MaxValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MinLength).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MaxLength).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.Matches).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.Position).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.GroupBy).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.Source).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				Expect(variableDataModel).ToNot(BeNil())
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
+				Expect(variableDataModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(variableDataModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(variableDataModel.UseDefault).To(Equal(core.BoolPtr(true)))
+				Expect(variableDataModel.Metadata).To(Equal(variableMetadataModel))
 
 				// Construct an instance of the CreateWorkspaceOptions model
 				createWorkspaceOptionsModel := schematicsService.NewCreateWorkspaceOptions()
@@ -27332,6 +27854,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				createWorkspaceOptionsModel.SetType([]string{"testString"})
 				createWorkspaceOptionsModel.SetWorkspaceStatus(workspaceStatusRequestModel)
 				createWorkspaceOptionsModel.SetAgentID("testString")
+				createWorkspaceOptionsModel.SetSettings([]schematicsv1.VariableData{*variableDataModel})
 				createWorkspaceOptionsModel.SetXGithubToken("testString")
 				createWorkspaceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createWorkspaceOptionsModel).ToNot(BeNil())
@@ -27350,6 +27873,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				Expect(createWorkspaceOptionsModel.Type).To(Equal([]string{"testString"}))
 				Expect(createWorkspaceOptionsModel.WorkspaceStatus).To(Equal(workspaceStatusRequestModel))
 				Expect(createWorkspaceOptionsModel.AgentID).To(Equal(core.StringPtr("testString")))
+				Expect(createWorkspaceOptionsModel.Settings).To(Equal([]schematicsv1.VariableData{*variableDataModel}))
 				Expect(createWorkspaceOptionsModel.XGithubToken).To(Equal(core.StringPtr("testString")))
 				Expect(createWorkspaceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -28507,11 +29031,13 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 				Expect(templateRepoUpdateRequestModel.Branch).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.Release).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.RepoShaValue).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.RepoURL).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.URL).To(Equal(core.StringPtr("testString")))
+				Expect(templateRepoUpdateRequestModel.SkipSubmodulesCheckout).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -28537,6 +29063,60 @@ var _ = Describe(`SchematicsV1`, func() {
 				Expect(workspaceStatusMessageModel.StatusCode).To(Equal(core.StringPtr("testString")))
 				Expect(workspaceStatusMessageModel.StatusMsg).To(Equal(core.StringPtr("testString")))
 
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				Expect(variableMetadataModel).ToNot(BeNil())
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+				Expect(variableMetadataModel.Type).To(Equal(core.StringPtr("boolean")))
+				Expect(variableMetadataModel.Aliases).To(Equal([]string{"testString"}))
+				Expect(variableMetadataModel.Description).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.CloudDataType).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.DefaultValue).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.LinkStatus).To(Equal(core.StringPtr("normal")))
+				Expect(variableMetadataModel.Secure).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Immutable).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Hidden).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Required).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Options).To(Equal([]string{"testString"}))
+				Expect(variableMetadataModel.MinValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MaxValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MinLength).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MaxLength).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.Matches).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.Position).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.GroupBy).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.Source).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				Expect(variableDataModel).ToNot(BeNil())
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
+				Expect(variableDataModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(variableDataModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(variableDataModel.UseDefault).To(Equal(core.BoolPtr(true)))
+				Expect(variableDataModel.Metadata).To(Equal(variableMetadataModel))
+
 				// Construct an instance of the ReplaceWorkspaceOptions model
 				wID := "testString"
 				replaceWorkspaceOptionsModel := schematicsService.NewReplaceWorkspaceOptions(wID)
@@ -28553,6 +29133,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				replaceWorkspaceOptionsModel.SetWorkspaceStatus(workspaceStatusUpdateRequestModel)
 				replaceWorkspaceOptionsModel.SetWorkspaceStatusMsg(workspaceStatusMessageModel)
 				replaceWorkspaceOptionsModel.SetAgentID("testString")
+				replaceWorkspaceOptionsModel.SetSettings([]schematicsv1.VariableData{*variableDataModel})
 				replaceWorkspaceOptionsModel.SetXGithubToken("testString")
 				replaceWorkspaceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(replaceWorkspaceOptionsModel).ToNot(BeNil())
@@ -28569,6 +29150,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				Expect(replaceWorkspaceOptionsModel.WorkspaceStatus).To(Equal(workspaceStatusUpdateRequestModel))
 				Expect(replaceWorkspaceOptionsModel.WorkspaceStatusMsg).To(Equal(workspaceStatusMessageModel))
 				Expect(replaceWorkspaceOptionsModel.AgentID).To(Equal(core.StringPtr("testString")))
+				Expect(replaceWorkspaceOptionsModel.Settings).To(Equal([]schematicsv1.VariableData{*variableDataModel}))
 				Expect(replaceWorkspaceOptionsModel.XGithubToken).To(Equal(core.StringPtr("testString")))
 				Expect(replaceWorkspaceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -28737,11 +29319,11 @@ var _ = Describe(`SchematicsV1`, func() {
 				credentialVariableDataModel := new(schematicsv1.CredentialVariableData)
 				Expect(credentialVariableDataModel).ToNot(BeNil())
 				credentialVariableDataModel.Name = core.StringPtr("testString")
-				credentialVariableDataModel.Value = core.StringPtr("testString")
+				credentialVariableDataModel.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 				credentialVariableDataModel.UseDefault = core.BoolPtr(true)
 				credentialVariableDataModel.Metadata = credentialVariableMetadataModel
 				Expect(credentialVariableDataModel.Name).To(Equal(core.StringPtr("testString")))
-				Expect(credentialVariableDataModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(credentialVariableDataModel.Value).To(Equal(core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")))
 				Expect(credentialVariableDataModel.UseDefault).To(Equal(core.BoolPtr(true)))
 				Expect(credentialVariableDataModel.Metadata).To(Equal(credentialVariableMetadataModel))
 
@@ -29845,11 +30427,13 @@ var _ = Describe(`SchematicsV1`, func() {
 				templateRepoUpdateRequestModel.RepoShaValue = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.RepoURL = core.StringPtr("testString")
 				templateRepoUpdateRequestModel.URL = core.StringPtr("testString")
+				templateRepoUpdateRequestModel.SkipSubmodulesCheckout = core.BoolPtr(true)
 				Expect(templateRepoUpdateRequestModel.Branch).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.Release).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.RepoShaValue).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.RepoURL).To(Equal(core.StringPtr("testString")))
 				Expect(templateRepoUpdateRequestModel.URL).To(Equal(core.StringPtr("testString")))
+				Expect(templateRepoUpdateRequestModel.SkipSubmodulesCheckout).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the WorkspaceStatusUpdateRequest model
 				workspaceStatusUpdateRequestModel := new(schematicsv1.WorkspaceStatusUpdateRequest)
@@ -29875,6 +30459,60 @@ var _ = Describe(`SchematicsV1`, func() {
 				Expect(workspaceStatusMessageModel.StatusCode).To(Equal(core.StringPtr("testString")))
 				Expect(workspaceStatusMessageModel.StatusMsg).To(Equal(core.StringPtr("testString")))
 
+				// Construct an instance of the VariableMetadata model
+				variableMetadataModel := new(schematicsv1.VariableMetadata)
+				Expect(variableMetadataModel).ToNot(BeNil())
+				variableMetadataModel.Type = core.StringPtr("boolean")
+				variableMetadataModel.Aliases = []string{"testString"}
+				variableMetadataModel.Description = core.StringPtr("testString")
+				variableMetadataModel.CloudDataType = core.StringPtr("testString")
+				variableMetadataModel.DefaultValue = core.StringPtr("testString")
+				variableMetadataModel.LinkStatus = core.StringPtr("normal")
+				variableMetadataModel.Secure = core.BoolPtr(true)
+				variableMetadataModel.Immutable = core.BoolPtr(true)
+				variableMetadataModel.Hidden = core.BoolPtr(true)
+				variableMetadataModel.Required = core.BoolPtr(true)
+				variableMetadataModel.Options = []string{"testString"}
+				variableMetadataModel.MinValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxValue = core.Int64Ptr(int64(38))
+				variableMetadataModel.MinLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.MaxLength = core.Int64Ptr(int64(38))
+				variableMetadataModel.Matches = core.StringPtr("testString")
+				variableMetadataModel.Position = core.Int64Ptr(int64(38))
+				variableMetadataModel.GroupBy = core.StringPtr("testString")
+				variableMetadataModel.Source = core.StringPtr("testString")
+				Expect(variableMetadataModel.Type).To(Equal(core.StringPtr("boolean")))
+				Expect(variableMetadataModel.Aliases).To(Equal([]string{"testString"}))
+				Expect(variableMetadataModel.Description).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.CloudDataType).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.DefaultValue).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.LinkStatus).To(Equal(core.StringPtr("normal")))
+				Expect(variableMetadataModel.Secure).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Immutable).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Hidden).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Required).To(Equal(core.BoolPtr(true)))
+				Expect(variableMetadataModel.Options).To(Equal([]string{"testString"}))
+				Expect(variableMetadataModel.MinValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MaxValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MinLength).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.MaxLength).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.Matches).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.Position).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(variableMetadataModel.GroupBy).To(Equal(core.StringPtr("testString")))
+				Expect(variableMetadataModel.Source).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the VariableData model
+				variableDataModel := new(schematicsv1.VariableData)
+				Expect(variableDataModel).ToNot(BeNil())
+				variableDataModel.Name = core.StringPtr("testString")
+				variableDataModel.Value = core.StringPtr("testString")
+				variableDataModel.UseDefault = core.BoolPtr(true)
+				variableDataModel.Metadata = variableMetadataModel
+				Expect(variableDataModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(variableDataModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(variableDataModel.UseDefault).To(Equal(core.BoolPtr(true)))
+				Expect(variableDataModel.Metadata).To(Equal(variableMetadataModel))
+
 				// Construct an instance of the UpdateWorkspaceOptions model
 				wID := "testString"
 				updateWorkspaceOptionsModel := schematicsService.NewUpdateWorkspaceOptions(wID)
@@ -29891,6 +30529,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				updateWorkspaceOptionsModel.SetWorkspaceStatus(workspaceStatusUpdateRequestModel)
 				updateWorkspaceOptionsModel.SetWorkspaceStatusMsg(workspaceStatusMessageModel)
 				updateWorkspaceOptionsModel.SetAgentID("testString")
+				updateWorkspaceOptionsModel.SetSettings([]schematicsv1.VariableData{*variableDataModel})
 				updateWorkspaceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateWorkspaceOptionsModel).ToNot(BeNil())
 				Expect(updateWorkspaceOptionsModel.WID).To(Equal(core.StringPtr("testString")))
@@ -29906,6 +30545,7 @@ var _ = Describe(`SchematicsV1`, func() {
 				Expect(updateWorkspaceOptionsModel.WorkspaceStatus).To(Equal(workspaceStatusUpdateRequestModel))
 				Expect(updateWorkspaceOptionsModel.WorkspaceStatusMsg).To(Equal(workspaceStatusMessageModel))
 				Expect(updateWorkspaceOptionsModel.AgentID).To(Equal(core.StringPtr("testString")))
+				Expect(updateWorkspaceOptionsModel.Settings).To(Equal([]schematicsv1.VariableData{*variableDataModel}))
 				Expect(updateWorkspaceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUploadTemplateTarActionOptions successfully`, func() {
@@ -29962,6 +30602,8 @@ var _ = Describe(`SchematicsV1`, func() {
 			model.State = nil
 			model.PlaybookNames = []string{"testString"}
 			model.SysLock = nil
+			model.GitTokenRef = core.StringPtr("testString")
+			model.Encryption = nil
 
 			b, err := json.Marshal(model)
 			Expect(err).To(BeNil())
@@ -30075,6 +30717,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			model.RecentDeployJob = nil
 			model.RecentHealthJob = nil
 			model.RecentDestroyJob = nil
+			model.Encryption = nil
 
 			b, err := json.Marshal(model)
 			Expect(err).To(BeNil())
@@ -30477,7 +31120,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			// Construct an instance of the model.
 			model := new(schematicsv1.CredentialVariableData)
 			model.Name = core.StringPtr("testString")
-			model.Value = core.StringPtr("testString")
+			model.Value = core.StringPtr("-----BEGIN OPENSSH PRIVATE KEY-----\\nXXXXXXXXXXXXX\\n-----END OPENSSH PRIVATE KEY-----\\n")
 			model.UseDefault = core.BoolPtr(true)
 			model.Metadata = nil
 			model.Link = core.StringPtr("testString")
@@ -30539,6 +31182,25 @@ var _ = Describe(`SchematicsV1`, func() {
 
 			var result *schematicsv1.Dependencies
 			err = schematicsv1.UnmarshalDependencies(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalEncryptionInfo successfully`, func() {
+			// Construct an instance of the model.
+			model := new(schematicsv1.EncryptionInfo)
+			model.Crn = core.StringPtr("testString")
+			model.Scheme = core.StringPtr("testString")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *schematicsv1.EncryptionInfo
+			err = schematicsv1.UnmarshalEncryptionInfo(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
@@ -31579,6 +32241,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			model.RepoShaValue = core.StringPtr("testString")
 			model.RepoURL = core.StringPtr("testString")
 			model.URL = core.StringPtr("testString")
+			model.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 			b, err := json.Marshal(model)
 			Expect(err).To(BeNil())
@@ -31601,6 +32264,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			model.RepoShaValue = core.StringPtr("testString")
 			model.RepoURL = core.StringPtr("testString")
 			model.URL = core.StringPtr("testString")
+			model.SkipSubmodulesCheckout = core.BoolPtr(true)
 
 			b, err := json.Marshal(model)
 			Expect(err).To(BeNil())
@@ -31853,10 +32517,9 @@ var _ = Describe(`SchematicsV1`, func() {
 			Expect(result).To(Equal(model))
 		})
 	})
-
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -31882,8 +32545,11 @@ var _ = Describe(`SchematicsV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := []byte(mockData)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 

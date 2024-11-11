@@ -1,29 +1,21 @@
 language: go
 
-dist: jammy
+dist: focal
 
 go:
-- 1.20.x
 - 1.21.x
 - 1.22.x
+- 1.23.x
 
 
 notifications:
   email: true
 
-env:
-  global:
-    - GO111MODULE=on
-
 before_install:
-  - sudo apt-get update
-  - python -V
   - pyenv global 3.8
-  #- '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $my_key -iv $my_iv -in myservice.env.enc -out myservice.env -d || true'
 
 install:
-  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.56.2
-  - curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.61.0
 
 script:
   - make travis-ci
@@ -34,12 +26,12 @@ before_deploy:
   - node --version
   - npm --version
   - npm install
-  - pip install --user bump2version
+  - pip install --user bump-my-version
 
 deploy:
   - provider: script
     script: npm run semantic-release
     skip_cleanup: true
     on:
-      go: '1.20.x'
+      go: '1.21.x'
       branch: main
