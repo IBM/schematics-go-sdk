@@ -1,13 +1,12 @@
 # Makefile to build the project
 GO=go
 LINT=golangci-lint
-GOSEC=gosec
+LINTOPTS=
 TEST_TAGS=
-COVERAGE = -coverprofile=coverage.txt -covermode=atomic
-SCANOPTS=
+COVERAGE=-coverprofile=coverage.txt -covermode=atomic
 
 all: tidy test lint
-travis-ci: tidy test-cov lint scan-gosec
+travis-ci: tidy test-cov lint
 
 test:
 	${GO} test ./... ${TEST_TAGS}
@@ -22,10 +21,7 @@ test-int-cov:
 	${GO} test ./... -tags=integration ${COVERAGE}
 
 lint:
-	${LINT} run --build-tags=integration,examples --timeout 3m
-
-scan-gosec:
-	${GOSEC} ${SCANOPTS} ./...
+	${LINT} run --build-tags=integration,examples ${LINTOPTS}
 
 tidy:
 	${GO} mod tidy
