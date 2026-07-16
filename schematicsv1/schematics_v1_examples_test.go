@@ -1,7 +1,7 @@
 //go:build examples
 
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,25 +102,6 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
 		})
-		It(`ListSchematicsLocation request example`, func() {
-			fmt.Println("\nListSchematicsLocation() result:")
-			// begin-list_schematics_location
-
-			listSchematicsLocationOptions := schematicsService.NewListSchematicsLocationOptions()
-
-			schematicsLocations, response, err := schematicsService.ListSchematicsLocation(listSchematicsLocationOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(schematicsLocations, "", "  ")
-			fmt.Println(string(b))
-
-			// end-list_schematics_location
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(schematicsLocations).ToNot(BeNil())
-		})
 		It(`ListLocations request example`, func() {
 			fmt.Println("\nListLocations() result:")
 			// begin-list_locations
@@ -182,12 +163,21 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nProcessTemplateMetaData() result:")
 			// begin-ProcessTemplateMetaData
 
+			gitSourceModel := &schematicsv1.GitSource{
+				ComputedGitRepoURL: core.StringPtr("https://github.com/IBM-Cloud/terraform-provider-ibm/tree/master/examples/ibm-vsi"),
+				GitRepoURL: core.StringPtr("https://github.com/IBM-Cloud/terraform-provider-ibm"),
+				GitRepoFolder: core.StringPtr("examples/ibm-vsi"),
+				GitRelease: core.StringPtr("v1.0.0"),
+				GitBranch: core.StringPtr("master"),
+			}
+
 			externalSourceModel := &schematicsv1.ExternalSource{
-				SourceType: core.StringPtr("local"),
+				SourceType: core.StringPtr("git_hub"),
+				Git: gitSourceModel,
 			}
 
 			processTemplateMetaDataOptions := schematicsService.NewProcessTemplateMetaDataOptions(
-				"testString",
+				"terraform_v1_0",
 				externalSourceModel,
 			)
 
@@ -203,6 +193,70 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(templateMetaDataResponse).ToNot(BeNil())
+		})
+		It(`GetWorkspaceResourcesV2 request example`, func() {
+			fmt.Println("\nGetWorkspaceResourcesV2() result:")
+			// begin-get_workspace_resources_v2
+
+			getWorkspaceResourcesV2Options := schematicsService.NewGetWorkspaceResourcesV2Options(
+				"testString",
+			)
+
+			templateResourcesObject, response, err := schematicsService.GetWorkspaceResourcesV2(getWorkspaceResourcesV2Options)
+			if err != nil {
+				panic(err)
+			}
+			b, _ := json.MarshalIndent(templateResourcesObject, "", "  ")
+			fmt.Println(string(b))
+
+			// end-get_workspace_resources_v2
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateResourcesObject).ToNot(BeNil())
+		})
+		It(`GetWorkspaceOutputsV2 request example`, func() {
+			fmt.Println("\nGetWorkspaceOutputsV2() result:")
+			// begin-get_workspace_outputs_v2
+
+			getWorkspaceOutputsV2Options := schematicsService.NewGetWorkspaceOutputsV2Options(
+				"testString",
+			)
+
+			outputValuesObject, response, err := schematicsService.GetWorkspaceOutputsV2(getWorkspaceOutputsV2Options)
+			if err != nil {
+				panic(err)
+			}
+			b, _ := json.MarshalIndent(outputValuesObject, "", "  ")
+			fmt.Println(string(b))
+
+			// end-get_workspace_outputs_v2
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(outputValuesObject).ToNot(BeNil())
+		})
+		It(`GetWorkspaceInputMetadataV2 request example`, func() {
+			fmt.Println("\nGetWorkspaceInputMetadataV2() result:")
+			// begin-get_workspace_input_metadata_v2
+
+			getWorkspaceInputMetadataV2Options := schematicsService.NewGetWorkspaceInputMetadataV2Options(
+				"testString",
+				"testString",
+			)
+
+			templateValuesMetaData, response, err := schematicsService.GetWorkspaceInputMetadataV2(getWorkspaceInputMetadataV2Options)
+			if err != nil {
+				panic(err)
+			}
+			b, _ := json.MarshalIndent(templateValuesMetaData, "", "  ")
+			fmt.Println(string(b))
+
+			// end-get_workspace_input_metadata_v2
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(templateValuesMetaData).ToNot(BeNil())
 		})
 		It(`ListWorkspaces request example`, func() {
 			fmt.Println("\nListWorkspaces() result:")
@@ -227,7 +281,30 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nCreateWorkspace() result:")
 			// begin-create_workspace
 
+			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
+				Name: core.StringPtr("region"),
+				Type: core.StringPtr("string"),
+				Value: core.StringPtr("us-south"),
+			}
+
+			templateSourceDataRequestModel := &schematicsv1.TemplateSourceDataRequest{
+				Type: core.StringPtr("terraform_v1.9"),
+				Variablestore: []schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel},
+			}
+
+			templateRepoRequestModel := &schematicsv1.TemplateRepoRequest{
+				URL: core.StringPtr("https://github.com/ptaube/tf_cloudless_sleepy"),
+			}
+
 			createWorkspaceOptions := schematicsService.NewCreateWorkspaceOptions()
+			createWorkspaceOptions.SetDescription("Workspace to provision infrastructure")
+			createWorkspaceOptions.SetLocation("us-east")
+			createWorkspaceOptions.SetName("my-terraform-workspace")
+			createWorkspaceOptions.SetResourceGroup("Default")
+			createWorkspaceOptions.SetTags([]string{"env:dev", "project:demo"})
+			createWorkspaceOptions.SetTemplateData([]schematicsv1.TemplateSourceDataRequest{*templateSourceDataRequestModel})
+			createWorkspaceOptions.SetTemplateRepo(templateRepoRequestModel)
+			createWorkspaceOptions.SetType([]string{"terraform_v1.9"})
 
 			workspaceResponse, response, err := schematicsService.CreateWorkspace(createWorkspaceOptions)
 			if err != nil {
@@ -263,34 +340,21 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(workspaceResponse).ToNot(BeNil())
 		})
-		It(`ReplaceWorkspace request example`, func() {
-			fmt.Println("\nReplaceWorkspace() result:")
-			// begin-replace_workspace
-
-			replaceWorkspaceOptions := schematicsService.NewReplaceWorkspaceOptions(
-				"testString",
-			)
-
-			workspaceResponse, response, err := schematicsService.ReplaceWorkspace(replaceWorkspaceOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(workspaceResponse, "", "  ")
-			fmt.Println(string(b))
-
-			// end-replace_workspace
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(workspaceResponse).ToNot(BeNil())
-		})
 		It(`UpdateWorkspace request example`, func() {
 			fmt.Println("\nUpdateWorkspace() result:")
 			// begin-update_workspace
 
+			workspaceStatusUpdateRequestModel := &schematicsv1.WorkspaceStatusUpdateRequest{
+				Frozen: core.BoolPtr(false),
+			}
+
 			updateWorkspaceOptions := schematicsService.NewUpdateWorkspaceOptions(
 				"testString",
 			)
+			updateWorkspaceOptions.SetDescription("Updated workspace description")
+			updateWorkspaceOptions.SetName("my-workspace-updated")
+			updateWorkspaceOptions.SetTags([]string{"env:production", "team:devops"})
+			updateWorkspaceOptions.SetWorkspaceStatus(workspaceStatusUpdateRequestModel)
 
 			workspaceResponse, response, err := schematicsService.UpdateWorkspace(updateWorkspaceOptions)
 			if err != nil {
@@ -300,6 +364,55 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println(string(b))
 
 			// end-update_workspace
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(workspaceResponse).ToNot(BeNil())
+		})
+		It(`ReplaceWorkspace request example`, func() {
+			fmt.Println("\nReplaceWorkspace() result:")
+			// begin-replace_workspace
+
+			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
+				Description: core.StringPtr("Description of sample_var"),
+				Name: core.StringPtr("sample_var"),
+				Secure: core.BoolPtr(false),
+				Value: core.StringPtr("THIS IS IBM CLOUD TERRAFORM CLI DEMO"),
+			}
+
+			templateSourceDataRequestModel := &schematicsv1.TemplateSourceDataRequest{
+				Folder: core.StringPtr("."),
+				Type: core.StringPtr("terraform_v1.0"),
+				Variablestore: []schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel},
+			}
+
+			templateRepoUpdateRequestModel := &schematicsv1.TemplateRepoUpdateRequest{
+				URL: core.StringPtr("https://github.com/ptaube/tf_cloudless_sleepy"),
+			}
+
+			workspaceStatusUpdateRequestModel := &schematicsv1.WorkspaceStatusUpdateRequest{
+				Frozen: core.BoolPtr(true),
+			}
+
+			replaceWorkspaceOptions := schematicsService.NewReplaceWorkspaceOptions(
+				"testString",
+			)
+			replaceWorkspaceOptions.SetDescription("terraform workspace updated")
+			replaceWorkspaceOptions.SetName("testWorkspaceApi")
+			replaceWorkspaceOptions.SetTags([]string{"department:HR", "application:compensation", "environment:staging"})
+			replaceWorkspaceOptions.SetTemplateData([]schematicsv1.TemplateSourceDataRequest{*templateSourceDataRequestModel})
+			replaceWorkspaceOptions.SetTemplateRepo(templateRepoUpdateRequestModel)
+			replaceWorkspaceOptions.SetType([]string{"terraform_v1.0"})
+			replaceWorkspaceOptions.SetWorkspaceStatus(workspaceStatusUpdateRequestModel)
+
+			workspaceResponse, response, err := schematicsService.ReplaceWorkspace(replaceWorkspaceOptions)
+			if err != nil {
+				panic(err)
+			}
+			b, _ := json.MarshalIndent(workspaceResponse, "", "  ")
+			fmt.Println(string(b))
+
+			// end-replace_workspace
 
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
@@ -374,10 +487,21 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nReplaceWorkspaceInputs() result:")
 			// begin-replace_workspace_inputs
 
+			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
+				Description: core.StringPtr("IBM Cloud region"),
+				Name: core.StringPtr("region"),
+				Secure: core.BoolPtr(false),
+				Type: core.StringPtr("string"),
+				Value: core.StringPtr("us-south"),
+			}
+
 			replaceWorkspaceInputsOptions := schematicsService.NewReplaceWorkspaceInputsOptions(
 				"testString",
 				"testString",
 			)
+			replaceWorkspaceInputsOptions.SetEnvValues([]map[string]interface{}{map[string]interface{}{"anyKey": "anyValue"}})
+			replaceWorkspaceInputsOptions.SetValues("string")
+			replaceWorkspaceInputsOptions.SetVariablestore([]schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel})
 
 			userValues, response, err := schematicsService.ReplaceWorkspaceInputs(replaceWorkspaceInputsOptions)
 			if err != nil {
@@ -631,7 +755,22 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nCreateAction() result:")
 			// begin-create_action
 
+			gitSourceModel := &schematicsv1.GitSource{
+				GitRepoURL: core.StringPtr("https://github.com/Cloud-Schematics/ansible-is-instance-actions"),
+			}
+
+			externalSourceModel := &schematicsv1.ExternalSource{
+				SourceType: core.StringPtr("git"),
+				Git: gitSourceModel,
+			}
+
 			createActionOptions := schematicsService.NewCreateActionOptions()
+			createActionOptions.SetName("Example-12ab1334")
+			createActionOptions.SetDescription("action_description")
+			createActionOptions.SetLocation("us-south")
+			createActionOptions.SetResourceGroup("test")
+			createActionOptions.SetTags([]string{"department:HR", "application:compensation", "environment:staging", "env:dev", "k8s"})
+			createActionOptions.SetSource(externalSourceModel)
 
 			action, response, err := schematicsService.CreateAction(createActionOptions)
 			if err != nil {
@@ -671,9 +810,36 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nUpdateAction() result:")
 			// begin-update_action
 
+			gitSourceModel := &schematicsv1.GitSource{
+				GitRepoURL: core.StringPtr("https://github.com/Cloud-Schematics/ansible-lamp-stack"),
+				GitBranch: core.StringPtr("v2.0"),
+			}
+
+			externalSourceModel := &schematicsv1.ExternalSource{
+				SourceType: core.StringPtr("git_hub"),
+				Git: gitSourceModel,
+			}
+
+			variableMetadataModel := &schematicsv1.VariableMetadata{
+				Type: core.StringPtr("string"),
+				Secure: core.BoolPtr(true),
+			}
+
+			variableDataModel := &schematicsv1.VariableData{
+				Name: core.StringPtr("db_password"),
+				Value: core.StringPtr("NewSecurePassword456"),
+				Metadata: variableMetadataModel,
+			}
+
 			updateActionOptions := schematicsService.NewUpdateActionOptions(
 				"testString",
 			)
+			updateActionOptions.SetName("Deploy LAMP Stack - Updated")
+			updateActionOptions.SetDescription("Updated action to deploy LAMP stack with new configuration")
+			updateActionOptions.SetTags([]string{"env:production", "app:lamp", "version:2.0"})
+			updateActionOptions.SetSource(externalSourceModel)
+			updateActionOptions.SetCommandParameter("site-v2.yml")
+			updateActionOptions.SetInputs([]schematicsv1.VariableData{*variableDataModel})
 
 			action, response, err := schematicsService.UpdateAction(updateActionOptions)
 			if err != nil {
@@ -888,6 +1054,10 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			createJobOptions := schematicsService.NewCreateJobOptions(
 				"testString",
 			)
+			createJobOptions.SetCommandObject("action")
+			createJobOptions.SetCommandObjectID("us-east.ACTION.Example-12a1b212.3287dc42")
+			createJobOptions.SetCommandName("ansible_playbook_run")
+			createJobOptions.SetCommandParameter("site.yml")
 
 			job, response, err := schematicsService.CreateJob(createJobOptions)
 			if err != nil {
@@ -931,6 +1101,10 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 				"testString",
 				"testString",
 			)
+			updateJobOptions.SetCommandObject("action")
+			updateJobOptions.SetCommandObjectID("us-east.ACTION.Example-12a1b212.3287dc42")
+			updateJobOptions.SetCommandName("ansible_playbook_run")
+			updateJobOptions.SetCommandParameter("site.yml")
 
 			job, response, err := schematicsService.UpdateJob(updateJobOptions)
 			if err != nil {
@@ -995,6 +1169,8 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			createWorkspaceDeletionJobOptions := schematicsService.NewCreateWorkspaceDeletionJobOptions(
 				"testString",
 			)
+			createWorkspaceDeletionJobOptions.SetJob("delete")
+			createWorkspaceDeletionJobOptions.SetWorkspaces([]string{"us-south.workspace.testWorkspace.a6010c37", "us-south.workspace.teraformNewupdatedone.72011986", "us-south.workspace.readterraform.400b427c", "us-south.workspace.myworkspacesink.49745827", "us-south.workspace.ReadTerraformTemp.c98c9774", "us-south.workspace.SampleTest1.2a51c3a1"})
 
 			workspaceBulkDeleteResponse, response, err := schematicsService.CreateWorkspaceDeletionJob(createWorkspaceDeletionJobOptions)
 			if err != nil {
@@ -1054,6 +1230,11 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-create_inventory
 
 			createInventoryOptions := schematicsService.NewCreateInventoryOptions()
+			createInventoryOptions.SetName("dev-inventoryapidocexample")
+			createInventoryOptions.SetDescription("My cloud linux inventory")
+			createInventoryOptions.SetLocation("us-east")
+			createInventoryOptions.SetResourceGroup("Default")
+			createInventoryOptions.SetInventoriesIni("[windows]\n158.177.7.181")
 
 			inventoryResourceRecord, response, err := schematicsService.CreateInventory(createInventoryOptions)
 			if err != nil {
@@ -1065,7 +1246,7 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// end-create_inventory
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
+			Expect(response.StatusCode).To(Equal(201))
 			Expect(inventoryResourceRecord).ToNot(BeNil())
 		})
 		It(`GetInventory request example`, func() {
@@ -1093,9 +1274,38 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nReplaceInventory() result:")
 			// begin-replace_inventory
 
+			credentialVariableMetadataModel := &schematicsv1.CredentialVariableMetadata{
+			}
+
+			credentialVariableDataModel := &schematicsv1.CredentialVariableData{
+				Metadata: credentialVariableMetadataModel,
+			}
+
+			hostModel := &schematicsv1.Host{
+				Name: core.StringPtr("158.177.7.182"),
+				Credential: credentialVariableDataModel,
+			}
+
+			groupModel := &schematicsv1.Group{
+				Name: core.StringPtr("windows"),
+				Credentials: credentialVariableDataModel,
+				Hosts: []schematicsv1.Host{*hostModel},
+			}
+
+			inventoryViewModel := &schematicsv1.InventoryView{
+				Groups: []schematicsv1.Group{*groupModel},
+			}
+
 			replaceInventoryOptions := schematicsService.NewReplaceInventoryOptions(
 				"testString",
 			)
+			replaceInventoryOptions.SetName("dev-inventoryapidocexample")
+			replaceInventoryOptions.SetDescription("My cloud linux inventory")
+			replaceInventoryOptions.SetLocation("us-east")
+			replaceInventoryOptions.SetResourceGroup("Default")
+			replaceInventoryOptions.SetConnectionType("ssh")
+			replaceInventoryOptions.SetInventoriesIni("[windows]\n158.177.7.182")
+			replaceInventoryOptions.SetInventoryView(inventoryViewModel)
 
 			inventoryResourceRecord, response, err := schematicsService.ReplaceInventory(replaceInventoryOptions)
 			if err != nil {
@@ -1107,7 +1317,7 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// end-replace_inventory
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
+			Expect(response.StatusCode).To(Equal(201))
 			Expect(inventoryResourceRecord).ToNot(BeNil())
 		})
 		It(`ListResourceQuery request example`, func() {
@@ -1133,7 +1343,21 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nCreateResourceQuery() result:")
 			// begin-create_resource_query
 
+			resourceQueryParamModel := &schematicsv1.ResourceQueryParam{
+				Name: core.StringPtr("workspace-id"),
+				Value: core.StringPtr("us-east.ACTION.kubectlWorkshop.1010101"),
+				Description: core.StringPtr("string"),
+			}
+
+			resourceQueryModel := &schematicsv1.ResourceQuery{
+				QueryType: core.StringPtr("workspaces"),
+				QueryCondition: []schematicsv1.ResourceQueryParam{*resourceQueryParamModel},
+			}
+
 			createResourceQueryOptions := schematicsService.NewCreateResourceQueryOptions()
+			createResourceQueryOptions.SetType("workspace_resource")
+			createResourceQueryOptions.SetName("hello")
+			createResourceQueryOptions.SetQueries([]schematicsv1.ResourceQuery{*resourceQueryModel})
 
 			resourceQueryRecord, response, err := schematicsService.CreateResourceQuery(createResourceQueryOptions)
 			if err != nil {
@@ -1169,27 +1393,6 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(resourceQueryRecord).ToNot(BeNil())
 		})
-		It(`ReplaceResourcesQuery request example`, func() {
-			fmt.Println("\nReplaceResourcesQuery() result:")
-			// begin-replace_resources_query
-
-			replaceResourcesQueryOptions := schematicsService.NewReplaceResourcesQueryOptions(
-				"testString",
-			)
-
-			resourceQueryRecord, response, err := schematicsService.ReplaceResourcesQuery(replaceResourcesQueryOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(resourceQueryRecord, "", "  ")
-			fmt.Println(string(b))
-
-			// end-replace_resources_query
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(resourceQueryRecord).ToNot(BeNil())
-		})
 		It(`ExecuteResourceQuery request example`, func() {
 			fmt.Println("\nExecuteResourceQuery() result:")
 			// begin-execute_resource_query
@@ -1211,94 +1414,40 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(resourceQueryResponseRecord).ToNot(BeNil())
 		})
-		It(`ListAgent request example`, func() {
-			fmt.Println("\nListAgent() result:")
-			// begin-list_agent
+		It(`ReplaceResourcesQuery request example`, func() {
+			fmt.Println("\nReplaceResourcesQuery() result:")
+			// begin-replace_resources_query
 
-			listAgentOptions := schematicsService.NewListAgentOptions()
+			resourceQueryParamModel := &schematicsv1.ResourceQueryParam{
+				Name: core.StringPtr("workspace-id"),
+				Value: core.StringPtr("us-east.ACTION.kubectlWorkshop.1010101"),
+				Description: core.StringPtr("string"),
+			}
 
-			agentList, response, err := schematicsService.ListAgent(listAgentOptions)
+			resourceQueryModel := &schematicsv1.ResourceQuery{
+				QueryType: core.StringPtr("workspaces"),
+				QueryCondition: []schematicsv1.ResourceQueryParam{*resourceQueryParamModel},
+			}
+
+			replaceResourcesQueryOptions := schematicsService.NewReplaceResourcesQueryOptions(
+				"testString",
+			)
+			replaceResourcesQueryOptions.SetType("workspace_resource")
+			replaceResourcesQueryOptions.SetName("hello my world")
+			replaceResourcesQueryOptions.SetQueries([]schematicsv1.ResourceQuery{*resourceQueryModel})
+
+			resourceQueryRecord, response, err := schematicsService.ReplaceResourcesQuery(replaceResourcesQueryOptions)
 			if err != nil {
 				panic(err)
 			}
-			b, _ := json.MarshalIndent(agentList, "", "  ")
+			b, _ := json.MarshalIndent(resourceQueryRecord, "", "  ")
 			fmt.Println(string(b))
 
-			// end-list_agent
+			// end-replace_resources_query
 
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
-			Expect(agentList).ToNot(BeNil())
-		})
-		It(`RegisterAgent request example`, func() {
-			fmt.Println("\nRegisterAgent() result:")
-			// begin-register_agent
-
-			registerAgentOptions := schematicsService.NewRegisterAgentOptions(
-				"MyDevAgent",
-				"us-south",
-				"us-south",
-				"testString",
-			)
-
-			agent, response, err := schematicsService.RegisterAgent(registerAgentOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(agent, "", "  ")
-			fmt.Println(string(b))
-
-			// end-register_agent
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(201))
-			Expect(agent).ToNot(BeNil())
-		})
-		It(`GetAgent request example`, func() {
-			fmt.Println("\nGetAgent() result:")
-			// begin-get_agent
-
-			getAgentOptions := schematicsService.NewGetAgentOptions(
-				"testString",
-			)
-
-			agent, response, err := schematicsService.GetAgent(getAgentOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(agent, "", "  ")
-			fmt.Println(string(b))
-
-			// end-get_agent
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(agent).ToNot(BeNil())
-		})
-		It(`UpdateAgentRegistration request example`, func() {
-			fmt.Println("\nUpdateAgentRegistration() result:")
-			// begin-update_agent_registration
-
-			updateAgentRegistrationOptions := schematicsService.NewUpdateAgentRegistrationOptions(
-				"testString",
-				"MyDevAgent",
-				"us-south",
-				"us-south",
-				"testString",
-			)
-
-			agent, response, err := schematicsService.UpdateAgentRegistration(updateAgentRegistrationOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(agent, "", "  ")
-			fmt.Println(string(b))
-
-			// end-update_agent_registration
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(201))
-			Expect(agent).ToNot(BeNil())
+			Expect(resourceQueryRecord).ToNot(BeNil())
 		})
 		It(`ListAgentData request example`, func() {
 			fmt.Println("\nListAgentData() result:")
@@ -1324,16 +1473,40 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-create_agent_data
 
 			agentInfrastructureModel := &schematicsv1.AgentInfrastructure{
+				InfraType: core.StringPtr("ibm_kubernetes"),
+				ClusterID: core.StringPtr("cluster_id"),
+				ClusterResourceGroup: core.StringPtr("Default"),
+				CosInstanceName: core.StringPtr("blueprint_basic"),
+				CosBucketName: core.StringPtr("sample_bucket_name"),
+				CosBucketRegion: core.StringPtr("us-east"),
+			}
+
+			variableMetadataModel := &schematicsv1.VariableMetadata{
+				Secure: core.BoolPtr(true),
+			}
+
+			variableDataModel := &schematicsv1.VariableData{
+				Name: core.StringPtr("ibmcloud_api_key"),
+				Value: core.StringPtr("<api_key of the account where cluster and cos are present>"),
+				Metadata: variableMetadataModel,
+			}
+
+			agentUserStateModel := &schematicsv1.AgentUserState{
+				State: core.StringPtr("enable"),
 			}
 
 			createAgentDataOptions := schematicsService.NewCreateAgentDataOptions(
-				"MyDevAgent",
+				"AgentName",
 				"Default",
 				"v1.0.0",
 				"us-south",
 				"us-south",
 				agentInfrastructureModel,
 			)
+			createAgentDataOptions.SetDescription("Create Agent")
+			createAgentDataOptions.SetTags([]string{"tag1", "tag2"})
+			createAgentDataOptions.SetAgentInputs([]schematicsv1.VariableData{*variableDataModel})
+			createAgentDataOptions.SetUserState(agentUserStateModel)
 
 			agentData, response, err := schematicsService.CreateAgentData(createAgentDataOptions)
 			if err != nil {
@@ -1374,17 +1547,41 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-update_agent_data
 
 			agentInfrastructureModel := &schematicsv1.AgentInfrastructure{
+				InfraType: core.StringPtr("ibm_kubernetes"),
+				ClusterID: core.StringPtr("cluster_id"),
+				ClusterResourceGroup: core.StringPtr("Default"),
+				CosInstanceName: core.StringPtr("blueprint_basic"),
+				CosBucketName: core.StringPtr("sample_bucket_name"),
+				CosBucketRegion: core.StringPtr("us-east"),
+			}
+
+			variableMetadataModel := &schematicsv1.VariableMetadata{
+				Secure: core.BoolPtr(true),
+			}
+
+			variableDataModel := &schematicsv1.VariableData{
+				Name: core.StringPtr("ibmcloud_api_key"),
+				Value: core.StringPtr("<api_key of the account where cluster and cos are present>"),
+				Metadata: variableMetadataModel,
+			}
+
+			agentUserStateModel := &schematicsv1.AgentUserState{
+				State: core.StringPtr("enable"),
 			}
 
 			updateAgentDataOptions := schematicsService.NewUpdateAgentDataOptions(
 				"testString",
-				"MyDevAgent",
+				"AgentName",
 				"Default",
 				"v1.0.0",
 				"us-south",
 				"us-south",
 				agentInfrastructureModel,
 			)
+			updateAgentDataOptions.SetDescription("New Description")
+			updateAgentDataOptions.SetTags([]string{"tag1", "tag2"})
+			updateAgentDataOptions.SetAgentInputs([]schematicsv1.VariableData{*variableDataModel})
+			updateAgentDataOptions.SetUserState(agentUserStateModel)
 
 			agentData, response, err := schematicsService.UpdateAgentData(updateAgentDataOptions)
 			if err != nil {
@@ -1418,27 +1615,6 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(agentVersions).ToNot(BeNil())
 		})
-		It(`GetPrsAgentJob request example`, func() {
-			fmt.Println("\nGetPrsAgentJob() result:")
-			// begin-get_prs_agent_job
-
-			getPrsAgentJobOptions := schematicsService.NewGetPrsAgentJobOptions(
-				"testString",
-			)
-
-			agentPrsJob, response, err := schematicsService.GetPrsAgentJob(getPrsAgentJobOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(agentPrsJob, "", "  ")
-			fmt.Println(string(b))
-
-			// end-get_prs_agent_job
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentPrsJob).ToNot(BeNil())
-		})
 		It(`PrsAgentJob request example`, func() {
 			fmt.Println("\nPrsAgentJob() result:")
 			// begin-prs_agent_job
@@ -1460,27 +1636,6 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(202))
 			Expect(agentPrsJob).ToNot(BeNil())
 		})
-		It(`GetHealthCheckAgentJob request example`, func() {
-			fmt.Println("\nGetHealthCheckAgentJob() result:")
-			// begin-get_health_check_agent_job
-
-			getHealthCheckAgentJobOptions := schematicsService.NewGetHealthCheckAgentJobOptions(
-				"testString",
-			)
-
-			agentHealthJob, response, err := schematicsService.GetHealthCheckAgentJob(getHealthCheckAgentJobOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(agentHealthJob, "", "  ")
-			fmt.Println(string(b))
-
-			// end-get_health_check_agent_job
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentHealthJob).ToNot(BeNil())
-		})
 		It(`HealthCheckAgentJob request example`, func() {
 			fmt.Println("\nHealthCheckAgentJob() result:")
 			// begin-health_check_agent_job
@@ -1501,27 +1656,6 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(202))
 			Expect(agentHealthJob).ToNot(BeNil())
-		})
-		It(`GetDeployAgentJob request example`, func() {
-			fmt.Println("\nGetDeployAgentJob() result:")
-			// begin-get_deploy_agent_job
-
-			getDeployAgentJobOptions := schematicsService.NewGetDeployAgentJobOptions(
-				"testString",
-			)
-
-			agentDeployJob, response, err := schematicsService.GetDeployAgentJob(getDeployAgentJobOptions)
-			if err != nil {
-				panic(err)
-			}
-			b, _ := json.MarshalIndent(agentDeployJob, "", "  ")
-			fmt.Println(string(b))
-
-			// end-get_deploy_agent_job
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(202))
-			Expect(agentDeployJob).ToNot(BeNil())
 		})
 		It(`DeployAgentJob request example`, func() {
 			fmt.Println("\nDeployAgentJob() result:")
@@ -1569,7 +1703,17 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nUpdateKmsSettings() result:")
 			// begin-update_kms_settings
 
+			kmsSettingsPrimaryCrkModel := &schematicsv1.KMSSettingsPrimaryCrk{
+				KmsName: core.StringPtr("Key Protect-xxx"),
+				KmsPrivateEndpoint: core.StringPtr("https://private.us-south.kms.cloud.ibm.com"),
+				KeyCrn: core.StringPtr("crn:v1:public:kms:us-south:a/010101010:key:3a14ceaf-c679-455d-10101010"),
+			}
+
 			updateKmsSettingsOptions := schematicsService.NewUpdateKmsSettingsOptions()
+			updateKmsSettingsOptions.SetLocation("US")
+			updateKmsSettingsOptions.SetEncryptionScheme("byok")
+			updateKmsSettingsOptions.SetResourceGroup("Default")
+			updateKmsSettingsOptions.SetPrimaryCrk(kmsSettingsPrimaryCrkModel)
 
 			kmsSettings, response, err := schematicsService.UpdateKmsSettings(updateKmsSettingsOptions)
 			if err != nil {
@@ -1629,7 +1773,14 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nCreatePolicy() result:")
 			// begin-create_policy
 
-			createPolicyOptions := schematicsService.NewCreatePolicyOptions()
+			createPolicyOptions := schematicsService.NewCreatePolicyOptions(
+				"agent_assignment_policy",
+			)
+			createPolicyOptions.SetName("new-policy-dev")
+			createPolicyOptions.SetDescription("Policy for job execution of secured workspaces on agent1")
+			createPolicyOptions.SetResourceGroup("Default")
+			createPolicyOptions.SetTags([]string{"policy:secured-job"})
+			createPolicyOptions.SetLocation("us-south")
 
 			policy, response, err := schematicsService.CreatePolicy(createPolicyOptions)
 			if err != nil {
@@ -1671,7 +1822,13 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 			updatePolicyOptions := schematicsService.NewUpdatePolicyOptions(
 				"testString",
+				"agent_assignment_policy",
 			)
+			updatePolicyOptions.SetName("new-policy-dev")
+			updatePolicyOptions.SetDescription("Policy for job execution of secured workspaces on agent1 updated")
+			updatePolicyOptions.SetResourceGroup("Default")
+			updatePolicyOptions.SetTags([]string{"policy:secured-job"})
+			updatePolicyOptions.SetLocation("us-south")
 
 			policy, response, err := schematicsService.UpdatePolicy(updatePolicyOptions)
 			if err != nil {
@@ -1811,26 +1968,6 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 		})
-		It(`DeleteAgent request example`, func() {
-			// begin-delete_agent
-
-			deleteAgentOptions := schematicsService.NewDeleteAgentOptions(
-				"testString",
-			)
-
-			response, err := schematicsService.DeleteAgent(deleteAgentOptions)
-			if err != nil {
-				panic(err)
-			}
-			if response.StatusCode != 204 {
-				fmt.Printf("\nUnexpected response status code received from DeleteAgent(): %d\n", response.StatusCode)
-			}
-
-			// end-delete_agent
-
-			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(204))
-		})
 		It(`DeleteAgentData request example`, func() {
 			// begin-delete_agent_data
 
@@ -1852,6 +1989,7 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(204))
 		})
 		It(`DeleteAgentResources request example`, func() {
+			fmt.Println("\nDeleteAgentResources() result:")
 			// begin-delete_agent_resources
 
 			deleteAgentResourcesOptions := schematicsService.NewDeleteAgentResourcesOptions(
@@ -1859,18 +1997,18 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 				"testString",
 			)
 
-			response, err := schematicsService.DeleteAgentResources(deleteAgentResourcesOptions)
+			deleteAgentResources202Response, response, err := schematicsService.DeleteAgentResources(deleteAgentResourcesOptions)
 			if err != nil {
 				panic(err)
 			}
-			if response.StatusCode != 202 {
-				fmt.Printf("\nUnexpected response status code received from DeleteAgentResources(): %d\n", response.StatusCode)
-			}
+			b, _ := json.MarshalIndent(deleteAgentResources202Response, "", "  ")
+			fmt.Println(string(b))
 
 			// end-delete_agent_resources
 
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(202))
+			Expect(deleteAgentResources202Response).ToNot(BeNil())
 		})
 		It(`DeletePolicy request example`, func() {
 			// begin-delete_policy

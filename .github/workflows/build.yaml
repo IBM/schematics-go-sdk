@@ -1,0 +1,152 @@
+# This workflow will build and unit test the project.
+# If the workflow is running on the "main" branch, then
+# semantic-release is also run to create a new release (if
+# warranted by the new commits being built).
+
+name: build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+    # Allow workflow to be triggered manually.
+
+jobs:
+  detect-secrets:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: detect-secrets
+    # NOTE: if you wish to run this workflow on github.com
+    # change the value below to "ubuntu-latest".
+    runs-on: ibm-x86-64-small
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install detect-secrets
+        run: |
+          pip install --upgrade "git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets"
+
+      - name: Run detect-secrets
+        run: |
+          detect-secrets scan --update .secrets.baseline
+          detect-secrets -v audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+
+  build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: build-test (go v${{ matrix.go-version }})
+    needs: detect-secrets
+    # NOTE: if you wish to run this workflow on github.com
+    # change the value below to "ubuntu-latest".
+    runs-on: ibm-x86-64-small
+
+    strategy:
+      matrix:
+        go-version: ["1.25", "1.26"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go v${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install dependencies
+        run: |
+          curl -sfL https://golangci-lint.run/install.sh| sh -s -- -b $(go env GOPATH)/bin v2.12.2
+          golangci-lint version
+          go install golang.org/x/tools/cmd/goimports@latest
+
+      - name: Build/Test Project
+        run: make ci
+
+  # To enable semantic-release, uncomment the following block.
+  # publish-release:
+  #   if: "github.ref_name == 'main' && github.event_name != 'pull_request'"
+  #   needs: build
+  #   name: publish
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         persist-credentials: false
+  #
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22
+  #
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: 3.12
+  #
+  #     - name: Install Deployment Tools
+  #       run: |
+  #         pip install bump-my-version
+  #         npm install
+  #
+  #     - name: Run semantic-release
+  #       env:
+  #         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  #       run: npm run semantic-release
+
+  # After creating your SDK project from this template repository,
+  # remove this entire "jobs" section as this is only applicable
+  # to the template repo's build.
+  systest:
+    name: Run system test with template
+    runs-on: ibm-x86-64-medium
+    if: github.event_name != 'pull_request'
+    needs: build
+    strategy:
+      matrix:
+        test-gen-arg: ["tests", "apidocs"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          token: ${{ secrets.PUBLIC_GH_TOKEN }}
+          go-version: 1.25
+
+      - name: Build & Test
+        run: |
+          echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
+          git clone https://github.ibm.com/CloudEngineering/sdkgen-systest.git
+          cd sdkgen-systest
+          ./install_scripts/install_deps_ubuntu.sh
+          ./install_scripts/install_go.sh
+          ./setup_and_generate.sh -l ibm-go -t ${{ github.ref_name }} -s -i ${{ matrix.test-gen-arg }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  results:
+    if: ${{ always() }}
+    # NOTE: if you wish to run this workflow on github.com
+    # change the value below to "ubuntu-latest".
+    runs-on: ibm-x86-64-small
+    name: Final Test Results
+    needs: systest
+    steps:
+      - run: |
+          result="${{ needs.systest.result }}"
+          if [[ $result == "success" || $result == "skipped" ]]; then
+            exit 0
+          else
+            exit 1
+          fi

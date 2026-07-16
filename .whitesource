@@ -1,0 +1,16 @@
+{
+  "settingsInheritedFrom": "whitesource-config/whitesource-config@master",
+  "scanSettingsSAST": {
+    "enableScan": true,
+    "scanPullRequests": true
+  },
+  "issueSettings": {
+    "issueRepoName": "sdk-mend-issues",
+    "assignees": ["Norbert-Biczo", "Lidia-Tarcza", "Andras-Felleg"],
+    "customLabels": ["go-template"]
+  },
+  "remediateSettings": {
+    "enableRenovate": false,
+    "extends": ["config:recommended"]
+  }
+}
