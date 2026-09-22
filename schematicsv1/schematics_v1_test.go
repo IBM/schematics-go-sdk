@@ -68,14 +68,13 @@ var _ = Describe(`SchematicsV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SCHEMATICS_URL": "https://schematicsv1/api",
+				"SCHEMATICS_URL":       "https://schematicsv1/api",
 				"SCHEMATICS_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				schematicsService, serviceErr := schematicsv1.NewSchematicsV1UsingExternalConfig(&schematicsv1.SchematicsV1Options{
-				})
+				schematicsService, serviceErr := schematicsv1.NewSchematicsV1UsingExternalConfig(&schematicsv1.SchematicsV1Options{})
 				Expect(schematicsService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -104,8 +103,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				schematicsService, serviceErr := schematicsv1.NewSchematicsV1UsingExternalConfig(&schematicsv1.SchematicsV1Options{
-				})
+				schematicsService, serviceErr := schematicsv1.NewSchematicsV1UsingExternalConfig(&schematicsv1.SchematicsV1Options{})
 				err := schematicsService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(schematicsService).ToNot(BeNil())
@@ -123,13 +121,12 @@ var _ = Describe(`SchematicsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SCHEMATICS_URL": "https://schematicsv1/api",
+				"SCHEMATICS_URL":       "https://schematicsv1/api",
 				"SCHEMATICS_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			schematicsService, serviceErr := schematicsv1.NewSchematicsV1UsingExternalConfig(&schematicsv1.SchematicsV1Options{
-			})
+			schematicsService, serviceErr := schematicsv1.NewSchematicsV1UsingExternalConfig(&schematicsv1.SchematicsV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(schematicsService).To(BeNil())
@@ -140,7 +137,7 @@ var _ = Describe(`SchematicsV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"SCHEMATICS_AUTH_TYPE":   "NOAuth",
+				"SCHEMATICS_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -5136,7 +5133,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			})
 			It(`Invoke TemplateRepoUpload with error: Param validation error`, func() {
 				schematicsService, serviceErr := schematicsv1.NewSchematicsV1(&schematicsv1.SchematicsV1Options{
-					URL:  testServer.URL,
+					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
 				Expect(serviceErr).To(BeNil())
@@ -10828,7 +10825,7 @@ var _ = Describe(`SchematicsV1`, func() {
 			})
 			It(`Invoke UploadTemplateTarAction with error: Param validation error`, func() {
 				schematicsService, serviceErr := schematicsv1.NewSchematicsV1(&schematicsv1.SchematicsV1Options{
-					URL:  testServer.URL,
+					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
 				})
 				Expect(serviceErr).To(BeNil())
