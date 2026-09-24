@@ -29,7 +29,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-//
 // This file provides an example of how to use the schematics service.
 //
 // The following configuration properties are assumed to be defined:
@@ -41,14 +40,13 @@ import (
 // These configuration properties can be exported as environment variables, or stored
 // in a configuration file and then:
 // export IBM_CREDENTIALS_FILE=<name of configuration file>
-//
 var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 	const externalConfigFile = "../schematics_v1.env"
 
 	var (
 		schematicsService *schematicsv1.SchematicsV1
-		config       map[string]string
+		config            map[string]string
 	)
 
 	var shouldSkipTest = func() {
@@ -165,15 +163,15 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 			gitSourceModel := &schematicsv1.GitSource{
 				ComputedGitRepoURL: core.StringPtr("https://github.com/IBM-Cloud/terraform-provider-ibm/tree/master/examples/ibm-vsi"),
-				GitRepoURL: core.StringPtr("https://github.com/IBM-Cloud/terraform-provider-ibm"),
-				GitRepoFolder: core.StringPtr("examples/ibm-vsi"),
-				GitRelease: core.StringPtr("v1.0.0"),
-				GitBranch: core.StringPtr("master"),
+				GitRepoURL:         core.StringPtr("https://github.com/IBM-Cloud/terraform-provider-ibm"),
+				GitRepoFolder:      core.StringPtr("examples/ibm-vsi"),
+				GitRelease:         core.StringPtr("v1.0.0"),
+				GitBranch:          core.StringPtr("master"),
 			}
 
 			externalSourceModel := &schematicsv1.ExternalSource{
 				SourceType: core.StringPtr("git_hub"),
-				Git: gitSourceModel,
+				Git:        gitSourceModel,
 			}
 
 			processTemplateMetaDataOptions := schematicsService.NewProcessTemplateMetaDataOptions(
@@ -218,13 +216,13 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-create_workspace
 
 			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
-				Name: core.StringPtr("region"),
-				Type: core.StringPtr("string"),
+				Name:  core.StringPtr("region"),
+				Type:  core.StringPtr("string"),
 				Value: core.StringPtr("us-south"),
 			}
 
 			templateSourceDataRequestModel := &schematicsv1.TemplateSourceDataRequest{
-				Type: core.StringPtr("terraform_v1.9"),
+				Type:          core.StringPtr("terraform_v1.9"),
 				Variablestore: []schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel},
 			}
 
@@ -311,14 +309,14 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
 				Description: core.StringPtr("Description of sample_var"),
-				Name: core.StringPtr("sample_var"),
-				Secure: core.BoolPtr(false),
-				Value: core.StringPtr("THIS IS IBM CLOUD TERRAFORM CLI DEMO"),
+				Name:        core.StringPtr("sample_var"),
+				Secure:      core.BoolPtr(false),
+				Value:       core.StringPtr("THIS IS IBM CLOUD TERRAFORM CLI DEMO"),
 			}
 
 			templateSourceDataRequestModel := &schematicsv1.TemplateSourceDataRequest{
-				Folder: core.StringPtr("."),
-				Type: core.StringPtr("terraform_v1.0"),
+				Folder:        core.StringPtr("."),
+				Type:          core.StringPtr("terraform_v1.0"),
 				Variablestore: []schematicsv1.WorkspaceVariableRequest{*workspaceVariableRequestModel},
 			}
 
@@ -425,10 +423,10 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 			workspaceVariableRequestModel := &schematicsv1.WorkspaceVariableRequest{
 				Description: core.StringPtr("IBM Cloud region"),
-				Name: core.StringPtr("region"),
-				Secure: core.BoolPtr(false),
-				Type: core.StringPtr("string"),
-				Value: core.StringPtr("us-south"),
+				Name:        core.StringPtr("region"),
+				Secure:      core.BoolPtr(false),
+				Type:        core.StringPtr("string"),
+				Value:       core.StringPtr("us-south"),
 			}
 
 			replaceWorkspaceInputsOptions := schematicsService.NewReplaceWorkspaceInputsOptions(
@@ -761,7 +759,7 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 			externalSourceModel := &schematicsv1.ExternalSource{
 				SourceType: core.StringPtr("git"),
-				Git: gitSourceModel,
+				Git:        gitSourceModel,
 			}
 
 			createActionOptions := schematicsService.NewCreateActionOptions()
@@ -812,22 +810,22 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 
 			gitSourceModel := &schematicsv1.GitSource{
 				GitRepoURL: core.StringPtr("https://github.com/Cloud-Schematics/ansible-lamp-stack"),
-				GitBranch: core.StringPtr("v2.0"),
+				GitBranch:  core.StringPtr("v2.0"),
 			}
 
 			externalSourceModel := &schematicsv1.ExternalSource{
 				SourceType: core.StringPtr("git_hub"),
-				Git: gitSourceModel,
+				Git:        gitSourceModel,
 			}
 
 			variableMetadataModel := &schematicsv1.VariableMetadata{
-				Type: core.StringPtr("string"),
+				Type:   core.StringPtr("string"),
 				Secure: core.BoolPtr(true),
 			}
 
 			variableDataModel := &schematicsv1.VariableData{
-				Name: core.StringPtr("db_password"),
-				Value: core.StringPtr("NewSecurePassword456"),
+				Name:     core.StringPtr("db_password"),
+				Value:    core.StringPtr("NewSecurePassword456"),
 				Metadata: variableMetadataModel,
 			}
 
@@ -1274,22 +1272,21 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			fmt.Println("\nReplaceInventory() result:")
 			// begin-replace_inventory
 
-			credentialVariableMetadataModel := &schematicsv1.CredentialVariableMetadata{
-			}
+			credentialVariableMetadataModel := &schematicsv1.CredentialVariableMetadata{}
 
 			credentialVariableDataModel := &schematicsv1.CredentialVariableData{
 				Metadata: credentialVariableMetadataModel,
 			}
 
 			hostModel := &schematicsv1.Host{
-				Name: core.StringPtr("158.177.7.182"),
+				Name:       core.StringPtr("158.177.7.182"),
 				Credential: credentialVariableDataModel,
 			}
 
 			groupModel := &schematicsv1.Group{
-				Name: core.StringPtr("windows"),
+				Name:        core.StringPtr("windows"),
 				Credentials: credentialVariableDataModel,
-				Hosts: []schematicsv1.Host{*hostModel},
+				Hosts:       []schematicsv1.Host{*hostModel},
 			}
 
 			inventoryViewModel := &schematicsv1.InventoryView{
@@ -1344,13 +1341,13 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-create_resource_query
 
 			resourceQueryParamModel := &schematicsv1.ResourceQueryParam{
-				Name: core.StringPtr("workspace-id"),
-				Value: core.StringPtr("us-east.ACTION.kubectlWorkshop.1010101"),
+				Name:        core.StringPtr("workspace-id"),
+				Value:       core.StringPtr("us-east.ACTION.kubectlWorkshop.1010101"),
 				Description: core.StringPtr("string"),
 			}
 
 			resourceQueryModel := &schematicsv1.ResourceQuery{
-				QueryType: core.StringPtr("workspaces"),
+				QueryType:      core.StringPtr("workspaces"),
 				QueryCondition: []schematicsv1.ResourceQueryParam{*resourceQueryParamModel},
 			}
 
@@ -1419,13 +1416,13 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-replace_resources_query
 
 			resourceQueryParamModel := &schematicsv1.ResourceQueryParam{
-				Name: core.StringPtr("workspace-id"),
-				Value: core.StringPtr("us-east.ACTION.kubectlWorkshop.1010101"),
+				Name:        core.StringPtr("workspace-id"),
+				Value:       core.StringPtr("us-east.ACTION.kubectlWorkshop.1010101"),
 				Description: core.StringPtr("string"),
 			}
 
 			resourceQueryModel := &schematicsv1.ResourceQuery{
-				QueryType: core.StringPtr("workspaces"),
+				QueryType:      core.StringPtr("workspaces"),
 				QueryCondition: []schematicsv1.ResourceQueryParam{*resourceQueryParamModel},
 			}
 
@@ -1473,12 +1470,12 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-create_agent_data
 
 			agentInfrastructureModel := &schematicsv1.AgentInfrastructure{
-				InfraType: core.StringPtr("ibm_kubernetes"),
-				ClusterID: core.StringPtr("cluster_id"),
+				InfraType:            core.StringPtr("ibm_kubernetes"),
+				ClusterID:            core.StringPtr("cluster_id"),
 				ClusterResourceGroup: core.StringPtr("Default"),
-				CosInstanceName: core.StringPtr("blueprint_basic"),
-				CosBucketName: core.StringPtr("sample_bucket_name"),
-				CosBucketRegion: core.StringPtr("us-east"),
+				CosInstanceName:      core.StringPtr("blueprint_basic"),
+				CosBucketName:        core.StringPtr("sample_bucket_name"),
+				CosBucketRegion:      core.StringPtr("us-east"),
 			}
 
 			variableMetadataModel := &schematicsv1.VariableMetadata{
@@ -1486,8 +1483,8 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			}
 
 			variableDataModel := &schematicsv1.VariableData{
-				Name: core.StringPtr("ibmcloud_api_key"),
-				Value: core.StringPtr("<api_key of the account where cluster and cos are present>"),
+				Name:     core.StringPtr("ibmcloud_api_key"),
+				Value:    core.StringPtr("<api_key of the account where cluster and cos are present>"),
 				Metadata: variableMetadataModel,
 			}
 
@@ -1547,12 +1544,12 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-update_agent_data
 
 			agentInfrastructureModel := &schematicsv1.AgentInfrastructure{
-				InfraType: core.StringPtr("ibm_kubernetes"),
-				ClusterID: core.StringPtr("cluster_id"),
+				InfraType:            core.StringPtr("ibm_kubernetes"),
+				ClusterID:            core.StringPtr("cluster_id"),
 				ClusterResourceGroup: core.StringPtr("Default"),
-				CosInstanceName: core.StringPtr("blueprint_basic"),
-				CosBucketName: core.StringPtr("sample_bucket_name"),
-				CosBucketRegion: core.StringPtr("us-east"),
+				CosInstanceName:      core.StringPtr("blueprint_basic"),
+				CosBucketName:        core.StringPtr("sample_bucket_name"),
+				CosBucketRegion:      core.StringPtr("us-east"),
 			}
 
 			variableMetadataModel := &schematicsv1.VariableMetadata{
@@ -1560,8 +1557,8 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			}
 
 			variableDataModel := &schematicsv1.VariableData{
-				Name: core.StringPtr("ibmcloud_api_key"),
-				Value: core.StringPtr("<api_key of the account where cluster and cos are present>"),
+				Name:     core.StringPtr("ibmcloud_api_key"),
+				Value:    core.StringPtr("<api_key of the account where cluster and cos are present>"),
 				Metadata: variableMetadataModel,
 			}
 
@@ -1704,9 +1701,9 @@ var _ = Describe(`SchematicsV1 Examples Tests`, func() {
 			// begin-update_kms_settings
 
 			kmsSettingsPrimaryCrkModel := &schematicsv1.KMSSettingsPrimaryCrk{
-				KmsName: core.StringPtr("Key Protect-xxx"),
+				KmsName:            core.StringPtr("Key Protect-xxx"),
 				KmsPrivateEndpoint: core.StringPtr("https://private.us-south.kms.cloud.ibm.com"),
-				KeyCrn: core.StringPtr("crn:v1:public:kms:us-south:a/010101010:key:3a14ceaf-c679-455d-10101010"),
+				KeyCrn:             core.StringPtr("crn:v1:public:kms:us-south:a/010101010:key:3a14ceaf-c679-455d-10101010"),
 			}
 
 			updateKmsSettingsOptions := schematicsService.NewUpdateKmsSettingsOptions()

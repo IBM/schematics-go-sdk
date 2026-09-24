@@ -179,11 +179,12 @@ func (schematics *SchematicsV1) DisableRetries() {
 // ListLocations : List supported locations
 // Retrieve a list of IBM Cloud locations where you can work with the Schematics objects.
 //
-//   <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions,
-//   see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListLocations(listLocationsOptions *ListLocationsOptions) (result *SchematicsLocationsList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListLocationsWithContext(context.Background(), listLocationsOptions)
@@ -246,11 +247,12 @@ func (schematics *SchematicsV1) ListLocationsWithContext(ctx context.Context, li
 // ListResourceGroup : List resource groups
 // Retrieve a list of IBM Cloud resource groups that your account has access to.
 //
-//   <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions,
-//   see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListResourceGroup(listResourceGroupOptions *ListResourceGroupOptions) (result []ResourceGroupResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListResourceGroupWithContext(context.Background(), listResourceGroupOptions)
@@ -375,11 +377,12 @@ func (schematics *SchematicsV1) GetSchematicsVersionWithContext(ctx context.Cont
 // Get the variable metadata from the template. This metadata can be passed in the payload during Schematics workspace
 // create or update API call.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ProcessTemplateMetaData(processTemplateMetaDataOptions *ProcessTemplateMetaDataOptions) (result *TemplateMetaDataResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ProcessTemplateMetaDataWithContext(context.Background(), processTemplateMetaDataOptions)
@@ -472,13 +475,14 @@ func (schematics *SchematicsV1) ProcessTemplateMetaDataWithContext(ctx context.C
 // that is returned depends on the API endpoint that you use. For example, if you use an API endpoint for a geography,
 // such as North America, only workspaces that are created in `us-south` or `us-east` are returned.
 //
-//  For more information about supported API endpoints, see [API endpoints](/apidocs/schematics#api-endpoints).
+//	For more information about supported API endpoints, see [API endpoints](/apidocs/schematics#api-endpoints).
 //
-//   <h3>Authorization</h3>
+//	 <h3>Authorization</h3>
 //
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions,
-//   see [Schematics service access roles and required
+//	 Schematics support generic authorization for its resources.
+//	 For more information, about Schematics access and permissions,
+//	 see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListWorkspaces(listWorkspacesOptions *ListWorkspacesOptions) (result *WorkspaceResponseList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListWorkspacesWithContext(context.Background(), listWorkspacesOptions)
@@ -558,37 +562,46 @@ func (schematics *SchematicsV1) ListWorkspacesWithContext(ctx context.Context, l
 // or GitLab repository, you must use the `PUT /v1/workspaces/{id}` API to update the workspace or use the
 // `/v1/workspaces/{id}/templates/{template_id}/template_repo_upload` API to upload a TAR file instead.
 //
-//  **Getting API endpoint**:-
+//	**Getting API endpoint**:-
 //
-//  * The Schematics API endpoint that you use to create the workspace determines where your Schematics actions run and
+//	* The Schematics API endpoint that you use to create the workspace determines where your Schematics actions run and
+//
 // your data is stored. See [API endpoints](/apidocs/schematics#api-endpoints) for more information.
-//  * If you use the API endpoint for a geography and not a specific location, such as North America, you can specify
+//   - If you use the API endpoint for a geography and not a specific location, such as North America, you can specify
+//
 // the location in your API request body.
 //
-//  * If you do not specify the location in the request body, Schematics determines your workspace location based on
+//   - If you do not specify the location in the request body, Schematics determines your workspace location based on
+//
 // availability.
-//  * If you use an API endpoint for a specific location, such as Frankfurt, the location that you enter in your API
+//   - If you use an API endpoint for a specific location, such as Frankfurt, the location that you enter in your API
+//
 // request body must match your API endpoint.
 //
-//  * You also have the option to not specify a location in your API request body if you use a location-specific API
+//   - You also have the option to not specify a location in your API request body if you use a location-specific API
+//
 // endpoint.
 //
-//  **Getting IAM access token** :-
-//  * Before you create Schematics workspace, you need to create the IAM access token for your IBM Cloud Account.
-//  * To create IAM access token, use `export IBMCLOUD_API_KEY=<ibmcloud_api_key>` and execute `curl -X POST
+//	**Getting IAM access token** :-
+//	* Before you create Schematics workspace, you need to create the IAM access token for your IBM Cloud Account.
+//	* To create IAM access token, use `export IBMCLOUD_API_KEY=<ibmcloud_api_key>` and execute `curl -X POST
+//
 // "https://iam.cloud.ibm.com/identity/token" -H "Content-Type= application/x-www-form-urlencoded" -d
 // "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=$IBMCLOUD_API_KEY" -u bx:bx`. For more information, about
 // creating IAM access token and API Docs, see [IAM access token](/apidocs/iam-identity-token-api#gettoken-password) and
 // [Create API key](/apidocs/iam-identity-token-api#create-api-key).
-//  * You can set the environment values  `export ACCESS_TOKEN=<access_token>` and `export
+//   - You can set the environment values  `export ACCESS_TOKEN=<access_token>` and `export
+//
 // REFRESH_TOKEN=<refresh_token>`.
-//  * You can use the obtained IAM access token in create workspace `curl` command.
 //
-//   <h3>Authorization</h3>
+//   - You can use the obtained IAM access token in create workspace `curl` command.
 //
-//   Schematics support generic authorization for its resources.
-//   For more information, about Schematics access and permissions,
-//   see [Schematics service access roles and required
+//     <h3>Authorization</h3>
+//
+//     Schematics support generic authorization for its resources.
+//     For more information, about Schematics access and permissions,
+//     see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateWorkspace(createWorkspaceOptions *CreateWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreateWorkspaceWithContext(context.Background(), createWorkspaceOptions)
@@ -717,15 +730,16 @@ func (schematics *SchematicsV1) CreateWorkspaceWithContext(ctx context.Context, 
 // resources that the workspace manages. To remove all resources that are associated with the workspace, use the `DELETE
 // /v1/workspaces/{id}?destroy_resources=true` API.
 //
-//  **Note**: If you delete a workspace without deleting the resources,
-//  you must manage your resources with the resource dashboard or CLI afterwards.
-//  You cannot use IBM Cloud Schematics anymore to manage your resources.
+//	**Note**: If you delete a workspace without deleting the resources,
+//	you must manage your resources with the resource dashboard or CLI afterwards.
+//	You cannot use IBM Cloud Schematics anymore to manage your resources.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteWorkspace(deleteWorkspaceOptions *DeleteWorkspaceOptions) (result *string, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.DeleteWorkspaceWithContext(context.Background(), deleteWorkspaceOptions)
@@ -795,11 +809,11 @@ func (schematics *SchematicsV1) DeleteWorkspaceWithContext(ctx context.Context, 
 // GetWorkspace : Get workspace details
 // Retrieve detailed information for a workspace in your IBM Cloud account.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see [Schematics service access
-//  roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetWorkspace(getWorkspaceOptions *GetWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetWorkspaceWithContext(context.Background(), getWorkspaceOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -870,23 +884,27 @@ func (schematics *SchematicsV1) GetWorkspaceWithContext(ctx context.Context, get
 // UpdateWorkspace : Update workspace metadata
 // Use this API to update the following workspace metadata:
 //
-//  * Workspace name (`name`) - **Note**: Updating the workspace name does not update the ID of the workspace.
-//  * Workspace description (`description`)
-//  * Tags (`tags[]`)
-//  * Resource group (`resource_group`)
-//  * Workspace status (`workspace_status.frozen`)
+//   - Workspace name (`name`) - **Note**: Updating the workspace name does not update the ID of the workspace.
 //
+//   - Workspace description (`description`)
 //
-//  **Tip**: If you want to update information about the Terraform template
-//  or IBM Cloud catalog software template that your workspace points to,
-//  use the `PUT /v1/workspaces/{id}` API. To update workspace variables,
-//  use the `PUT /v1/workspaces/{id}/template_data/{template_id}/values` API.
+//   - Tags (`tags[]`)
 //
-//  <h3>Authorization</h3>
+//   - Resource group (`resource_group`)
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//   - Workspace status (`workspace_status.frozen`)
+//
+//     **Tip**: If you want to update information about the Terraform template
+//     or IBM Cloud catalog software template that your workspace points to,
+//     use the `PUT /v1/workspaces/{id}` API. To update workspace variables,
+//     use the `PUT /v1/workspaces/{id}/template_data/{template_id}/values` API.
+//
+//     <h3>Authorization</h3>
+//
+//     Schematics support generic authorization for its resources.
+//     For more information, about Schematics access and permissions,
+//     see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateWorkspace(updateWorkspaceOptions *UpdateWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UpdateWorkspaceWithContext(context.Background(), updateWorkspaceOptions)
@@ -1006,14 +1024,15 @@ func (schematics *SchematicsV1) UpdateWorkspaceWithContext(ctx context.Context, 
 // Use this API to update or replace the entire workspace, including the Terraform template (`template_repo`) or IBM
 // Cloud catalog software template (`catalog_ref`) that your workspace points to.
 //
-//  **Tip**:- If you want to update workspace metadata, use the `PATCH /v1/workspaces/{id}` API.
-//  To update workspace variables, use the `PUT /v1/workspaces/{id}/template_data/{template_id}/values` API.
+//	**Tip**:- If you want to update workspace metadata, use the `PATCH /v1/workspaces/{id}` API.
+//	To update workspace variables, use the `PUT /v1/workspaces/{id}/template_data/{template_id}/values` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ReplaceWorkspace(replaceWorkspaceOptions *ReplaceWorkspaceOptions) (result *WorkspaceResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ReplaceWorkspaceWithContext(context.Background(), replaceWorkspaceOptions)
@@ -1215,11 +1234,12 @@ func (schematics *SchematicsV1) GetWorkspaceReadmeWithContext(ctx context.Contex
 // Provide your Terraform template by uploading a TAR file from your local machine. Before you use this API, you must
 // create a workspace without a link to a GitHub or GitLab repository with the `POST /v1/workspaces` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) TemplateRepoUpload(templateRepoUploadOptions *TemplateRepoUploadOptions) (result *TemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.TemplateRepoUploadWithContext(context.Background(), templateRepoUploadOptions)
@@ -1239,7 +1259,7 @@ func (schematics *SchematicsV1) TemplateRepoUploadWithContext(ctx context.Contex
 		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
-	if (templateRepoUploadOptions.File == nil) {
+	if templateRepoUploadOptions.File == nil {
 		err = core.SDKErrorf(nil, "file must be supplied", "condition-not-met", common.GetComponentInfo())
 		return
 	}
@@ -1301,11 +1321,12 @@ func (schematics *SchematicsV1) TemplateRepoUploadWithContext(ctx context.Contex
 // GetWorkspaceInputs : List workspace input variables
 // Retrieve a list of input variables that are declared in your Terraform or IBM Cloud catalog template.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetWorkspaceInputs(getWorkspaceInputsOptions *GetWorkspaceInputsOptions) (result *TemplateValues, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetWorkspaceInputsWithContext(context.Background(), getWorkspaceInputsOptions)
@@ -1465,11 +1486,12 @@ func (schematics *SchematicsV1) ReplaceWorkspaceInputsWithContext(ctx context.Co
 // GetAllWorkspaceInputs : Get workspace template details
 // Retrieve detailed information about the Terraform template that your workspace points to.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetAllWorkspaceInputs(getAllWorkspaceInputsOptions *GetAllWorkspaceInputsOptions) (result *WorkspaceTemplateValuesResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetAllWorkspaceInputsWithContext(context.Background(), getAllWorkspaceInputsOptions)
@@ -1969,11 +1991,12 @@ func (schematics *SchematicsV1) GetWorkspaceResourcesWithContext(ctx context.Con
 // resources. To show the content of the Terraform statefile, use the `GET
 // /v1/workspaces/{id}/runtime_data/{template_id}/state_store` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceState(getWorkspaceStateOptions *GetWorkspaceStateOptions) (result *StateStoreResponseList, response *core.DetailedResponse, err error) {
@@ -2126,11 +2149,12 @@ func (schematics *SchematicsV1) GetWorkspaceTemplateStateWithContext(ctx context
 // Get the Terraform log file URL for a workspace job. You can retrieve the log URL for jobs that were created with the
 // `PUT /v1/workspaces/{id}/apply`, `POST /v1/workspaces/{id}/plan`, or `DELETE /v1/workspaces/{id}/destroy` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 // Deprecated: this method is deprecated and may be removed in a future release.
 func (schematics *SchematicsV1) GetWorkspaceActivityLogs(getWorkspaceActivityLogsOptions *GetWorkspaceActivityLogsOptions) (result *WorkspaceActivityLogs, response *core.DetailedResponse, err error) {
@@ -2155,7 +2179,7 @@ func (schematics *SchematicsV1) GetWorkspaceActivityLogsWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"w_id": *getWorkspaceActivityLogsOptions.WID,
+		"w_id":        *getWorkspaceActivityLogsOptions.WID,
 		"activity_id": *getWorkspaceActivityLogsOptions.ActivityID,
 	}
 
@@ -2279,11 +2303,12 @@ func (schematics *SchematicsV1) GetWorkspaceLogUrlsWithContext(ctx context.Conte
 // GetTemplateLogs : Show latest logs for a workspace template
 // Show the Terraform logs for the most recent job of a template that ran against your workspace.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetTemplateLogs(getTemplateLogsOptions *GetTemplateLogsOptions) (result *string, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetTemplateLogsWithContext(context.Background(), getTemplateLogsOptions)
@@ -2379,8 +2404,8 @@ func (schematics *SchematicsV1) GetTemplateActivityLogWithContext(ctx context.Co
 	}
 
 	pathParamsMap := map[string]string{
-		"w_id": *getTemplateActivityLogOptions.WID,
-		"t_id": *getTemplateActivityLogOptions.TID,
+		"w_id":        *getTemplateActivityLogOptions.WID,
+		"t_id":        *getTemplateActivityLogOptions.TID,
 		"activity_id": *getTemplateActivityLogOptions.ActivityID,
 	}
 
@@ -2437,14 +2462,16 @@ func (schematics *SchematicsV1) GetTemplateActivityLogWithContext(ctx context.Co
 // use an API endpoint for a geography, such as North America, only actions that are created in `us-south` or `us-east`
 // are retrieved.
 //
-//  For more information, about supported API endpoints, see
+//	For more information, about supported API endpoints, see
+//
 // [API endpoints](/apidocs/schematics#api-endpoints).
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListActions(listActionsOptions *ListActionsOptions) (result *ActionList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListActionsWithContext(context.Background(), listActionsOptions)
@@ -2524,25 +2551,28 @@ func (schematics *SchematicsV1) ListActionsWithContext(ctx context.Context, list
 // file already present in your Git repository. For sample templates, see IBM Cloud Automation
 // [templates](https://github.com/Cloud-Schematics).
 //
-//  The Schematics action API now supports bastion host connection with `non-root` user, and bastion connection type is
+//	The Schematics action API now supports bastion host connection with `non-root` user, and bastion connection type is
+//
 // marked as optional, when inventory connection type is set as [Windows Remote
 // Management](https://www.ibm.com/docs/en/license-metric-tool?topic=v-configuring-winrm-hyper-hosts)(`winrm`).
 //
-//  For more information, about the Schematics create action,
-//  see [ibmcloud schematics action
+//	For more information, about the Schematics create action,
+//	see [ibmcloud schematics action
+//
 // create](https://cloud.ibm.com/docs/schematics?topic=schematics-schematics-cli-reference#schematics-create-action).
 //
-//  **Note** you cannot update the location and region once an action is created.
+//	**Note** you cannot update the location and region once an action is created.
 //
-//  Also, make sure your IP addresses are in the
+//	Also, make sure your IP addresses are in the
+//
 // [allowlist](https://cloud.ibm.com/docs/schematics?topic=schematics-allowed-ipaddresses).
 //
+//	<h3>Authorization</h3>
 //
-//  <h3>Authorization</h3>
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
 // permissions](/docs/schematics?topic=schematics-access#action-permissions).
 func (schematics *SchematicsV1) CreateAction(createActionOptions *CreateActionOptions) (result *Action, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreateActionWithContext(context.Background(), createActionOptions)
@@ -2685,11 +2715,12 @@ func (schematics *SchematicsV1) CreateActionWithContext(ctx context.Context, cre
 // action state, see  [Schematics action state
 // diagram](https://cloud.ibm.com/docs/schematics?topic=schematics-action-setup#action-state-diagram).
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteAction(deleteActionOptions *DeleteActionOptions) (response *core.DetailedResponse, err error) {
 	response, err = schematics.DeleteActionWithContext(context.Background(), deleteActionOptions)
@@ -2758,11 +2789,12 @@ func (schematics *SchematicsV1) DeleteActionWithContext(ctx context.Context, del
 // Retrieve the detailed information of an actions from your IBM Cloud account.  This API returns a URL to the log file
 // that you can retrieve by using  the `GET /v2/actions/{action_id}/logs` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#action-permissions).
 func (schematics *SchematicsV1) GetAction(getActionOptions *GetActionOptions) (result *Action, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetActionWithContext(context.Background(), getActionOptions)
@@ -2841,20 +2873,21 @@ func (schematics *SchematicsV1) GetActionWithContext(ctx context.Context, getAct
 // [Schematics action state
 // diagram](https://cloud.ibm.com/docs/schematics?topic=schematics-action-setup#action-state-diagram).
 //
+//	The Schematics action API now supports bastion host connection with `non-root` user, and bastion connection type is
 //
-//  The Schematics action API now supports bastion host connection with `non-root` user, and bastion connection type is
 // marked as optional, when inventory connection type is set as [Windows Remote
 // Management](https://www.ibm.com/docs/en/license-metric-tool?topic=v-configuring-winrm-hyper-hosts)(`winrm`).
 //
-//  **Note** you cannot update the location and region once an action is created. Also, make sure your IP addresses are
+//	**Note** you cannot update the location and region once an action is created. Also, make sure your IP addresses are
+//
 // in the [allowlist](https://cloud.ibm.com/docs/schematics?topic=schematics-allowed-ipaddresses].
 //
+//	<h3>Authorization</h3>
 //
-//  <h3>Authorization</h3>
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateAction(updateActionOptions *UpdateActionOptions) (result *Action, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UpdateActionWithContext(context.Background(), updateActionOptions)
@@ -2998,11 +3031,12 @@ func (schematics *SchematicsV1) UpdateActionWithContext(ctx context.Context, upd
 // Update your template by uploading tape archive file (.tar) file from  your local machine. Before you use this API,
 // you must create an action  without a link to a GitHub or GitLab repository with the `POST /v2/actions` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](/docs/schematics?topic=schematics-access#action-permissions).
 func (schematics *SchematicsV1) UploadTemplateTarAction(uploadTemplateTarActionOptions *UploadTemplateTarActionOptions) (result *TemplateRepoTarUploadResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UploadTemplateTarActionWithContext(context.Background(), uploadTemplateTarActionOptions)
@@ -3022,7 +3056,7 @@ func (schematics *SchematicsV1) UploadTemplateTarActionWithContext(ctx context.C
 		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
-	if (uploadTemplateTarActionOptions.File == nil) {
+	if uploadTemplateTarActionOptions.File == nil {
 		err = core.SDKErrorf(nil, "file must be supplied", "condition-not-met", common.GetComponentInfo())
 		return
 	}
@@ -3165,9 +3199,10 @@ func (schematics *SchematicsV1) ListWorkspaceActivitiesWithContext(ctx context.C
 // are included in your Terraform template file are ignored.
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteWorkspaceActivity(deleteWorkspaceActivityOptions *DeleteWorkspaceActivityOptions) (result *WorkspaceActivityApplyResult, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.DeleteWorkspaceActivityWithContext(context.Background(), deleteWorkspaceActivityOptions)
@@ -3189,7 +3224,7 @@ func (schematics *SchematicsV1) DeleteWorkspaceActivityWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"w_id": *deleteWorkspaceActivityOptions.WID,
+		"w_id":        *deleteWorkspaceActivityOptions.WID,
 		"activity_id": *deleteWorkspaceActivityOptions.ActivityID,
 	}
 
@@ -3260,7 +3295,7 @@ func (schematics *SchematicsV1) GetWorkspaceActivityWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"w_id": *getWorkspaceActivityOptions.WID,
+		"w_id":        *getWorkspaceActivityOptions.WID,
 		"activity_id": *getWorkspaceActivityOptions.ActivityID,
 	}
 
@@ -3311,11 +3346,12 @@ func (schematics *SchematicsV1) GetWorkspaceActivityWithContext(ctx context.Cont
 // RunWorkspaceCommands : Run Terraform Commands
 // Run Terraform state commands to modify the workspace state file, by using the IBM Cloud Schematics API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) RunWorkspaceCommands(runWorkspaceCommandsOptions *RunWorkspaceCommandsOptions) (result *WorkspaceActivityCommandResult, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.RunWorkspaceCommandsWithContext(context.Background(), runWorkspaceCommandsOptions)
@@ -3412,30 +3448,30 @@ func (schematics *SchematicsV1) RunWorkspaceCommandsWithContext(ctx context.Cont
 // the files is [persisted](https://cloud.ibm.com/docs/schematics?topic=schematics-persist-files) to determine what
 // resources exist in your IBM Cloud account.
 //
+//	**Important**: Your workspace must be in an `Inactive`, `Active`, `Failed`, or
+//	`Stopped` state to perform a Schematics `apply` job. After all updates are applied,
+//	the state of the files is [persisted](https://cloud.ibm.com/docs/schematics?topic=schematics-persist-files)
 //
-//  **Important**: Your workspace must be in an `Inactive`, `Active`, `Failed`, or
-//  `Stopped` state to perform a Schematics `apply` job. After all updates are applied,
-//  the state of the files is [persisted](https://cloud.ibm.com/docs/schematics?topic=schematics-persist-files)
-//
-//  to determine what resources exist in your IBM Cloud account.
-//
-//
-//  **Note**: This API returns an activity or job ID that you use to retrieve the
-//
-//  log URL with the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
+//	to determine what resources exist in your IBM Cloud account.
 //
 //
-//  **Important:** Applying a template might incur costs. Make sure to review
-//  the pricing information for the resources that you specified in your
-//  templates before you apply the template in IBM Cloud.
-//  To find a summary of job that Schematics is about to perform,
-//  create a Terraform execution plan with the `POST /v1/workspaces/{id}/plan` API.
+//	**Note**: This API returns an activity or job ID that you use to retrieve the
 //
-//  <h3>Authorization</h3>
+//	log URL with the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//
+//	**Important:** Applying a template might incur costs. Make sure to review
+//	the pricing information for the resources that you specified in your
+//	templates before you apply the template in IBM Cloud.
+//	To find a summary of job that Schematics is about to perform,
+//	create a Terraform execution plan with the `POST /v1/workspaces/{id}/plan` API.
+//
+//	<h3>Authorization</h3>
+//
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ApplyWorkspaceCommand(applyWorkspaceCommandOptions *ApplyWorkspaceCommandOptions) (result *WorkspaceActivityApplyResult, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ApplyWorkspaceCommandWithContext(context.Background(), applyWorkspaceCommandOptions)
@@ -3527,19 +3563,20 @@ func (schematics *SchematicsV1) ApplyWorkspaceCommandWithContext(ctx context.Con
 // workspace, use the `DELETE /v1/workspaces/{id}` API. This API returns an activity or job ID that you use to retrieve
 // the URL to the log file with the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
 //
+//	**Important**: Your workspace must be in an `Active`, `Failed`, or `Stopped` state to perform a Schematics `destroy`
 //
-//  **Important**: Your workspace must be in an `Active`, `Failed`, or `Stopped` state to perform a Schematics `destroy`
 // job.
 //
+//	**Note**: Deleting IBM Cloud resources cannot be undone. Make sure that you back up any required data before you
 //
-//  **Note**: Deleting IBM Cloud resources cannot be undone. Make sure that you back up any required data before you
 // remove your resources.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DestroyWorkspaceCommand(destroyWorkspaceCommandOptions *DestroyWorkspaceCommandOptions) (result *WorkspaceActivityDestroyResult, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.DestroyWorkspaceCommandWithContext(context.Background(), destroyWorkspaceCommandOptions)
@@ -3631,19 +3668,20 @@ func (schematics *SchematicsV1) DestroyWorkspaceCommandWithContext(ctx context.C
 // template that your workspace points to. During this time, you cannot make changes to your workspace. You can use the
 // summary to verify your changes before you apply the template in IBM Cloud.
 //
+//	**Important**: Your workspace must be in an `Inactive`, `Active`, `Failed`, or `Stopped` state to perform a
 //
-//  **Important**: Your workspace must be in an `Inactive`, `Active`, `Failed`, or `Stopped` state to perform a
 // Schematics `plan` job.
 //
+//	**Note**: This API returns an activity or job ID that you use to retrieve the URL to the log file with the `GET
 //
-//  **Note**: This API returns an activity or job ID that you use to retrieve the URL to the log file with the `GET
 // /v1/workspaces/{id}/actions/{action_id}/logs` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) PlanWorkspaceCommand(planWorkspaceCommandOptions *PlanWorkspaceCommandOptions) (result *WorkspaceActivityPlanResult, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.PlanWorkspaceCommandWithContext(context.Background(), planWorkspaceCommandOptions)
@@ -3735,11 +3773,12 @@ func (schematics *SchematicsV1) PlanWorkspaceCommandWithContext(ctx context.Cont
 // Terraform statefile is updated accordingly. This API returns an activity or job ID that you use to retrieve the URL
 // to the log file with the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions,
-//  see [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions,
+//	see [Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) RefreshWorkspaceCommand(refreshWorkspaceCommandOptions *RefreshWorkspaceCommandOptions) (result *WorkspaceActivityRefreshResult, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.RefreshWorkspaceCommandWithContext(context.Background(), refreshWorkspaceCommandOptions)
@@ -3819,11 +3858,12 @@ func (schematics *SchematicsV1) RefreshWorkspaceCommandWithContext(ctx context.C
 // `success`, or `failed`. Jobs are generated when you use the  `POST /v2/jobs`, `PUT /v2/jobs/{job_id}`, or `DELETE
 // /v2/jobs/{job_id}`.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListJobs(listJobsOptions *ListJobsOptions) (result *JobList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListJobsWithContext(context.Background(), listJobsOptions)
@@ -4038,11 +4078,12 @@ func (schematics *SchematicsV1) CreateJobWithContext(ctx context.Context, create
 // execution of an action defined in the playbook.  You can repeat the execution of same job, whenever you patch or
 // update the action or workspace.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteJob(deleteJobOptions *DeleteJobOptions) (response *core.DetailedResponse, err error) {
 	response, err = schematics.DeleteJobWithContext(context.Background(), deleteJobOptions)
@@ -4114,11 +4155,12 @@ func (schematics *SchematicsV1) DeleteJobWithContext(ctx context.Context, delete
 // GetJob : Get a job
 // Retrieve the detailed information of Job
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetJob(getJobOptions *GetJobOptions) (result *Job, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetJobWithContext(context.Background(), getJobOptions)
@@ -4195,11 +4237,12 @@ func (schematics *SchematicsV1) GetJobWithContext(ctx context.Context, getJobOpt
 // Creates a copy of the Schematics job and relaunches an existing job  by updating the information of an existing
 // Schematics job.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateJob(updateJobOptions *UpdateJobOptions) (result *Job, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UpdateJobWithContext(context.Background(), updateJobOptions)
@@ -4472,11 +4515,12 @@ func (schematics *SchematicsV1) GetJobFilesWithContext(ctx context.Context, getJ
 // Delete one or multiple Schematics workspace. Deleting a workspace does not destroy the resources from the Schematics
 // workspace.
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see
-//    [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateWorkspaceDeletionJob(createWorkspaceDeletionJobOptions *CreateWorkspaceDeletionJobOptions) (result *WorkspaceBulkDeleteResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreateWorkspaceDeletionJobWithContext(context.Background(), createWorkspaceDeletionJobOptions)
@@ -4564,11 +4608,12 @@ func (schematics *SchematicsV1) CreateWorkspaceDeletionJobWithContext(ctx contex
 // GetWorkspaceDeletionJobStatus : Get the workspace deletion job status
 // Retrieve detailed information for a workspace deletion job status.
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see
-//    [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatus(getWorkspaceDeletionJobStatusOptions *GetWorkspaceDeletionJobStatusOptions) (result *WorkspaceJobResponse, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetWorkspaceDeletionJobStatusWithContext(context.Background(), getWorkspaceDeletionJobStatusOptions)
@@ -4643,11 +4688,12 @@ func (schematics *SchematicsV1) GetWorkspaceDeletionJobStatusWithContext(ctx con
 // `us-east` are retrieved. For more information, about supported API endpoints, see
 // [APIendpoints](/apidocs/schematics#api-endpoints).
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListInventories(listInventoriesOptions *ListInventoriesOptions) (result *InventoryResourceRecordList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListInventoriesWithContext(context.Background(), listInventoriesOptions)
@@ -4725,17 +4771,20 @@ func (schematics *SchematicsV1) ListInventoriesWithContext(ctx context.Context, 
 // using Schematics actions. For more information, about inventory host groups, refer to [creating static and dynamic
 // inventory for Schematics actions](https://cloud.ibm.com/docs/schematics?topic=schematics-inventories-setup).
 //
-//  **Note** you cannot update the location and region, resource group once an action is created. Also, make sure your
+//	**Note** you cannot update the location and region, resource group once an action is created. Also, make sure your
+//
 // IP addresses are in the [allowlist](https://cloud.ibm.com/docs/schematics?topic=schematics-allowed-ipaddresses).
 //
-//  If your Git repository already contains a host file. Schematics does not overwrite the host file already present in
+//	If your Git repository already contains a host file. Schematics does not overwrite the host file already present in
+//
 // your Git repository.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateInventory(createInventoryOptions *CreateInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreateInventoryWithContext(context.Background(), createInventoryOptions)
@@ -4849,16 +4898,17 @@ func (schematics *SchematicsV1) CreateInventoryWithContext(ctx context.Context, 
 // more information, about inventory delete, refer to [ibmcloud schematics inventory
 // delete](https://cloud.ibm.com/docs/schematics?topic=schematics-schematics-cli-reference#schematics-delete-inventory).
 //
-//  **Note** you cannot delete the location and region, resource group from where your inventory is created. Also, make
+//	**Note** you cannot delete the location and region, resource group from where your inventory is created. Also, make
+//
 // sure your IP addresses are in the
 // [allowlist](https://cloud.ibm.com/docs/schematics?topic=schematics-allowed-ipaddresses).
 //
+//	<h3>Authorization</h3>
 //
-//  <h3>Authorization</h3>
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteInventory(deleteInventoryOptions *DeleteInventoryOptions) (response *core.DetailedResponse, err error) {
 	response, err = schematics.DeleteInventoryWithContext(context.Background(), deleteInventoryOptions)
@@ -4929,16 +4979,17 @@ func (schematics *SchematicsV1) DeleteInventoryWithContext(ctx context.Context, 
 // your IBM Cloud account. For more information, about inventory get, refer to [ibmcloud schematics inventory
 // get](https://cloud.ibm.com/docs/schematics?topic=schematics-schematics-cli-reference#schematics-get-inv).
 //
-//  **Note** you can fetch only the location and region, resource group from where your inventory is created.
-//  Also, make sure your IP addresses are in the
+//	**Note** you can fetch only the location and region, resource group from where your inventory is created.
+//	Also, make sure your IP addresses are in the
+//
 // [allowlist](https://cloud.ibm.com/docs/schematics?topic=schematics-allowed-ipaddresses).
 //
+//	<h3>Authorization</h3>
 //
-//  <h3>Authorization</h3>
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetInventory(getInventoryOptions *GetInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetInventoryWithContext(context.Background(), getInventoryOptions)
@@ -5016,16 +5067,17 @@ func (schematics *SchematicsV1) GetInventoryWithContext(ctx context.Context, get
 // inventory update, refer to [ibmcloud schematics inventory
 // update](https://cloud.ibm.com/docs/schematics?topic=schematics-schematics-cli-reference#schematics-update-inv).
 //
-//  **Note** you cannot update the location and region, resource group once an action is created.
-//  Also, make sure your IP addresses are in the
+//	**Note** you cannot update the location and region, resource group once an action is created.
+//	Also, make sure your IP addresses are in the
+//
 // [allowlist](https://cloud.ibm.com/docs/schematics?topic=schematics-allowed-ipaddresses).
 //
+//	<h3>Authorization</h3>
 //
-//  <h3>Authorization</h3>
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ReplaceInventory(replaceInventoryOptions *ReplaceInventoryOptions) (result *InventoryResourceRecord, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ReplaceInventoryWithContext(context.Background(), replaceInventoryOptions)
@@ -5145,9 +5197,10 @@ func (schematics *SchematicsV1) ReplaceInventoryWithContext(ctx context.Context,
 // information, about supported API endpoints, see [API endpoints](/apidocs/schematics#api-endpoints).
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListResourceQuery(listResourceQueryOptions *ListResourceQueryOptions) (result *ResourceQueryRecordList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListResourceQueryWithContext(context.Background(), listResourceQueryOptions)
@@ -5233,9 +5286,10 @@ func (schematics *SchematicsV1) ListResourceQueryWithContext(ctx context.Context
 // your Git repository.
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateResourceQuery(createResourceQueryOptions *CreateResourceQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreateResourceQueryWithContext(context.Background(), createResourceQueryOptions)
@@ -5324,9 +5378,10 @@ func (schematics *SchematicsV1) CreateResourceQueryWithContext(ctx context.Conte
 //
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteResourcesQuery(deleteResourcesQueryOptions *DeleteResourcesQueryOptions) (response *core.DetailedResponse, err error) {
 	response, err = schematics.DeleteResourcesQueryWithContext(context.Background(), deleteResourcesQueryOptions)
@@ -5398,9 +5453,10 @@ func (schematics *SchematicsV1) DeleteResourcesQueryWithContext(ctx context.Cont
 //
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetResourcesQuery(getResourcesQueryOptions *GetResourcesQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetResourcesQueryWithContext(context.Background(), getResourcesQueryOptions)
@@ -5549,9 +5605,10 @@ func (schematics *SchematicsV1) ExecuteResourceQueryWithContext(ctx context.Cont
 //
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ReplaceResourcesQuery(replaceResourcesQueryOptions *ReplaceResourcesQueryOptions) (result *ResourceQueryRecord, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ReplaceResourcesQueryWithContext(context.Background(), replaceResourcesQueryOptions)
@@ -5646,11 +5703,11 @@ func (schematics *SchematicsV1) ReplaceResourcesQueryWithContext(ctx context.Con
 // information about supported API endpoints, see [API
 // endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListAgentData(listAgentDataOptions *ListAgentDataOptions) (result *AgentDataList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListAgentDataWithContext(context.Background(), listAgentDataOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -5739,11 +5796,11 @@ func (schematics *SchematicsV1) ListAgentDataWithContext(ctx context.Context, li
 // see [FAQ](https://cloud.ibm.com/docs/schematics?topic=schematics-faqs-agent) and [Troubleshooting
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreateAgentData(createAgentDataOptions *CreateAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreateAgentDataWithContext(context.Background(), createAgentDataOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -5858,11 +5915,11 @@ func (schematics *SchematicsV1) CreateAgentDataWithContext(ctx context.Context, 
 // see [FAQ](/docs/schematics?topic=schematics-faqs-agent) and [Troubleshooting
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeleteAgentData(deleteAgentDataOptions *DeleteAgentDataOptions) (response *core.DetailedResponse, err error) {
 	response, err = schematics.DeleteAgentDataWithContext(context.Background(), deleteAgentDataOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -5933,11 +5990,11 @@ func (schematics *SchematicsV1) DeleteAgentDataWithContext(ctx context.Context, 
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found). For more information about
 // supported API endpoints, see [API endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetAgentData(getAgentDataOptions *GetAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetAgentDataWithContext(context.Background(), getAgentDataOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6016,11 +6073,11 @@ func (schematics *SchematicsV1) GetAgentDataWithContext(ctx context.Context, get
 // information about supported API endpoints, see [API
 // endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateAgentData(updateAgentDataOptions *UpdateAgentDataOptions) (result *AgentData, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UpdateAgentDataWithContext(context.Background(), updateAgentDataOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6139,11 +6196,11 @@ func (schematics *SchematicsV1) UpdateAgentDataWithContext(ctx context.Context, 
 // Retrieve the list of agent version's available to be deployed. For more information about supported API endpoints,
 // see [API endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetAgentVersions(getAgentVersionsOptions *GetAgentVersionsOptions) (result *AgentVersions, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetAgentVersionsWithContext(context.Background(), getAgentVersionsOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6208,7 +6265,8 @@ func (schematics *SchematicsV1) GetAgentVersionsWithContext(ctx context.Context,
 // [API endpoint](/apidocs/schematics/schematics#api-endpoints).
 // <h3>Authorization</h3> Schematics support generic authorization for its resources. For more information, about
 // Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) PrsAgentJob(prsAgentJobOptions *PrsAgentJobOptions) (result *AgentPRSJob, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.PrsAgentJobWithContext(context.Background(), prsAgentJobOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6285,7 +6343,8 @@ func (schematics *SchematicsV1) PrsAgentJobWithContext(ctx context.Context, prsA
 // about supported API endpoints, see [API endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 // <h3>Authorization</h3> Schematics support generic authorization for its resources. For more information, about
 // Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) HealthCheckAgentJob(healthCheckAgentJobOptions *HealthCheckAgentJobOptions) (result *AgentHealthJob, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.HealthCheckAgentJobWithContext(context.Background(), healthCheckAgentJobOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6362,7 +6421,8 @@ func (schematics *SchematicsV1) HealthCheckAgentJobWithContext(ctx context.Conte
 // about supported API endpoints, see [API endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 // <h3>Authorization</h3> Schematics support generic authorization for its resources. For more information, about
 // Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeployAgentJob(deployAgentJobOptions *DeployAgentJobOptions) (result *AgentDeployJob, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.DeployAgentJobWithContext(context.Background(), deployAgentJobOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6512,9 +6572,10 @@ func (schematics *SchematicsV1) DeleteAgentResourcesWithContext(ctx context.Cont
 // kms settings.
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetKmsSettings(getKmsSettingsOptions *GetKmsSettingsOptions) (result *KMSSettings, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetKmsSettingsWithContext(context.Background(), getKmsSettingsOptions)
@@ -6587,9 +6648,10 @@ func (schematics *SchematicsV1) GetKmsSettingsWithContext(ctx context.Context, g
 // North America, only kms settings for that region can be retrieved.
 // <h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdateKmsSettings(updateKmsSettingsOptions *UpdateKmsSettingsOptions) (result *KMSSettings, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UpdateKmsSettingsWithContext(context.Background(), updateKmsSettingsOptions)
@@ -6681,11 +6743,12 @@ func (schematics *SchematicsV1) UpdateKmsSettingsWithContext(ctx context.Context
 // Lists the kms instances of your IBM Cloud account to find your Key Protect or Hyper Protect Crypto Services by using
 // the location and encrypted scheme.
 //
-//  <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//  Schematics support generic authorization for its resources.
-//  For more information, about Schematics access and permissions, see
-//  [Schematics service access roles and required
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see
+//	[Schematics service access roles and required
+//
 // permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListKms(listKmsOptions *ListKmsOptions) (result *KMSDiscovery, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListKmsWithContext(context.Background(), listKmsOptions)
@@ -6768,11 +6831,11 @@ func (schematics *SchematicsV1) ListKmsWithContext(ctx context.Context, listKmsO
 // only policies that are created in `us-south` or `us-east` are returned. For more information about supported API
 // endpoints, see [API endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) ListPolicy(listPolicyOptions *ListPolicyOptions) (result *PolicyList, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.ListPolicyWithContext(context.Background(), listPolicyOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6847,12 +6910,11 @@ func (schematics *SchematicsV1) ListPolicyWithContext(ctx context.Context, listP
 // [FAQ](https://cloud.ibm.com/docs/schematics?topic=schematics-faqs-agent) and [Troubleshooting
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found).
 //
+//	<h3>Authorization</h3>
 //
-//    <h3>Authorization</h3>
-//
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) CreatePolicy(createPolicyOptions *CreatePolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.CreatePolicyWithContext(context.Background(), createPolicyOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -6961,11 +7023,11 @@ func (schematics *SchematicsV1) CreatePolicyWithContext(ctx context.Context, cre
 // see [FAQ](https://cloud.ibm.com/docs/schematics?topic=schematics-faqs-agent) and [Troubleshooting
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) DeletePolicy(deletePolicyOptions *DeletePolicyOptions) (response *core.DetailedResponse, err error) {
 	response, err = schematics.DeletePolicyWithContext(context.Background(), deletePolicyOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -7030,11 +7092,11 @@ func (schematics *SchematicsV1) DeletePolicyWithContext(ctx context.Context, del
 // information about supported API endpoints, see [API
 // endpoint](https://cloud.ibm.com/apidocs/schematics/schematics#api-endpoints).
 //
-//    <h3>Authorization</h3>
+//	<h3>Authorization</h3>
 //
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) GetPolicy(getPolicyOptions *GetPolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.GetPolicyWithContext(context.Background(), getPolicyOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -7114,12 +7176,11 @@ func (schematics *SchematicsV1) GetPolicyWithContext(ctx context.Context, getPol
 // questions, see [FAQ](https://cloud.ibm.com/docs/schematics?topic=schematics-faqs-agent) and [Troubleshooting
 // guide](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-crn-not-found).
 //
+//	<h3>Authorization</h3>
 //
-//    <h3>Authorization</h3>
-//
-//    Schematics support generic authorization for its resources.
-//    For more information, about Schematics access and permissions, see [Schematics service access
-//    roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
+//	Schematics support generic authorization for its resources.
+//	For more information, about Schematics access and permissions, see [Schematics service access
+//	roles and required permissions](https://cloud.ibm.com/docs/schematics?topic=schematics-access#access-roles).
 func (schematics *SchematicsV1) UpdatePolicy(updatePolicyOptions *UpdatePolicyOptions) (result *Policy, response *core.DetailedResponse, err error) {
 	result, response, err = schematics.UpdatePolicyWithContext(context.Background(), updatePolicyOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -7354,9 +7415,9 @@ type Action struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	Action_Location_EuDe = "eu-de"
-	Action_Location_EuGb = "eu-gb"
-	Action_Location_UsEast = "us-east"
+	Action_Location_EuDe    = "eu-de"
+	Action_Location_EuGb    = "eu-gb"
+	Action_Location_UsEast  = "us-east"
 	Action_Location_UsSouth = "us-south"
 )
 
@@ -7371,19 +7432,19 @@ const (
 // Type of connection to be used when connecting to remote host.  **Note** Currently, WinRM supports only Windows system
 // with the public IPs and do not support Bastion host.
 const (
-	Action_InventoryConnectionType_Ssh = "ssh"
+	Action_InventoryConnectionType_Ssh   = "ssh"
 	Action_InventoryConnectionType_Winrm = "winrm"
 )
 
 // Constants associated with the Action.SourceType property.
 // Type of source for the Template.
 const (
-	Action_SourceType_GitHub = "git_hub"
+	Action_SourceType_GitHub           = "git_hub"
 	Action_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	Action_SourceType_GitLab = "git_lab"
-	Action_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	Action_SourceType_IbmGitLab = "ibm_git_lab"
-	Action_SourceType_Local = "local"
+	Action_SourceType_GitLab           = "git_lab"
+	Action_SourceType_IbmCloudCatalog  = "ibm_cloud_catalog"
+	Action_SourceType_IbmGitLab        = "ibm_git_lab"
+	Action_SourceType_Local            = "local"
 )
 
 // UnmarshalAction unmarshals an instance of Action from the specified map of raw messages.
@@ -7679,9 +7740,9 @@ type ActionLite struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	ActionLite_Location_EuDe = "eu-de"
-	ActionLite_Location_EuGb = "eu-gb"
-	ActionLite_Location_UsEast = "us-east"
+	ActionLite_Location_EuDe    = "eu-de"
+	ActionLite_Location_EuGb    = "eu-gb"
+	ActionLite_Location_UsEast  = "us-east"
 	ActionLite_Location_UsSouth = "us-south"
 )
 
@@ -7796,8 +7857,8 @@ type ActionLiteState struct {
 const (
 	ActionLiteState_StatusCode_Critical = "critical"
 	ActionLiteState_StatusCode_Disabled = "disabled"
-	ActionLiteState_StatusCode_Normal = "normal"
-	ActionLiteState_StatusCode_Pending = "pending"
+	ActionLiteState_StatusCode_Normal   = "normal"
+	ActionLiteState_StatusCode_Pending  = "pending"
 )
 
 // UnmarshalActionLiteState unmarshals an instance of ActionLiteState from the specified map of raw messages.
@@ -7832,7 +7893,7 @@ type AgentAssignmentPolicyParameter struct {
 // Constants associated with the AgentAssignmentPolicyParameter.SelectorKind property.
 // Types of schematics object selector.
 const (
-	AgentAssignmentPolicyParameter_SelectorKind_Ids = "ids"
+	AgentAssignmentPolicyParameter_SelectorKind_Ids    = "ids"
 	AgentAssignmentPolicyParameter_SelectorKind_Scoped = "scoped"
 )
 
@@ -7940,20 +8001,20 @@ type AgentData struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	AgentData_SchematicsLocation_EuDe = "eu-de"
-	AgentData_SchematicsLocation_EuGb = "eu-gb"
-	AgentData_SchematicsLocation_UsEast = "us-east"
+	AgentData_SchematicsLocation_EuDe    = "eu-de"
+	AgentData_SchematicsLocation_EuGb    = "eu-gb"
+	AgentData_SchematicsLocation_UsEast  = "us-east"
 	AgentData_SchematicsLocation_UsSouth = "us-south"
 )
 
 // NewAgentData : Instantiate AgentData (Generic Model Constructor)
 func (*SchematicsV1) NewAgentData(name string, resourceGroup string, version string, schematicsLocation string, agentLocation string, agentInfrastructure *AgentInfrastructure) (_model *AgentData, err error) {
 	_model = &AgentData{
-		Name: core.StringPtr(name),
-		ResourceGroup: core.StringPtr(resourceGroup),
-		Version: core.StringPtr(version),
-		SchematicsLocation: core.StringPtr(schematicsLocation),
-		AgentLocation: core.StringPtr(agentLocation),
+		Name:                core.StringPtr(name),
+		ResourceGroup:       core.StringPtr(resourceGroup),
+		Version:             core.StringPtr(version),
+		SchematicsLocation:  core.StringPtr(schematicsLocation),
+		AgentLocation:       core.StringPtr(agentLocation),
 		AgentInfrastructure: agentInfrastructure,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -8196,9 +8257,9 @@ type AgentDataLite struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	AgentDataLite_SchematicsLocation_EuDe = "eu-de"
-	AgentDataLite_SchematicsLocation_EuGb = "eu-gb"
-	AgentDataLite_SchematicsLocation_UsEast = "us-east"
+	AgentDataLite_SchematicsLocation_EuDe    = "eu-de"
+	AgentDataLite_SchematicsLocation_EuGb    = "eu-gb"
+	AgentDataLite_SchematicsLocation_UsEast  = "us-east"
 	AgentDataLite_SchematicsLocation_UsSouth = "us-south"
 )
 
@@ -8332,14 +8393,14 @@ type AgentDataRecentDeployJob struct {
 // Constants associated with the AgentDataRecentDeployJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentDataRecentDeployJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentDataRecentDeployJob_StatusCode_JobFailed = "job_failed"
-	AgentDataRecentDeployJob_StatusCode_JobFinished = "job_finished"
-	AgentDataRecentDeployJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentDataRecentDeployJob_StatusCode_JobPending = "job_pending"
+	AgentDataRecentDeployJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentDataRecentDeployJob_StatusCode_JobFailed         = "job_failed"
+	AgentDataRecentDeployJob_StatusCode_JobFinished       = "job_finished"
+	AgentDataRecentDeployJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentDataRecentDeployJob_StatusCode_JobPending        = "job_pending"
 	AgentDataRecentDeployJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentDataRecentDeployJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentDataRecentDeployJob_StatusCode_JobStopped = "job_stopped"
+	AgentDataRecentDeployJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentDataRecentDeployJob unmarshals an instance of AgentDataRecentDeployJob from the specified map of raw messages.
@@ -8424,14 +8485,14 @@ type AgentDataRecentDestroyJob struct {
 // Constants associated with the AgentDataRecentDestroyJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentDataRecentDestroyJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentDataRecentDestroyJob_StatusCode_JobFailed = "job_failed"
-	AgentDataRecentDestroyJob_StatusCode_JobFinished = "job_finished"
-	AgentDataRecentDestroyJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentDataRecentDestroyJob_StatusCode_JobPending = "job_pending"
+	AgentDataRecentDestroyJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentDataRecentDestroyJob_StatusCode_JobFailed         = "job_failed"
+	AgentDataRecentDestroyJob_StatusCode_JobFinished       = "job_finished"
+	AgentDataRecentDestroyJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentDataRecentDestroyJob_StatusCode_JobPending        = "job_pending"
 	AgentDataRecentDestroyJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentDataRecentDestroyJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentDataRecentDestroyJob_StatusCode_JobStopped = "job_stopped"
+	AgentDataRecentDestroyJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentDataRecentDestroyJob unmarshals an instance of AgentDataRecentDestroyJob from the specified map of raw messages.
@@ -8511,14 +8572,14 @@ type AgentDataRecentHealthJob struct {
 // Constants associated with the AgentDataRecentHealthJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentDataRecentHealthJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentDataRecentHealthJob_StatusCode_JobFailed = "job_failed"
-	AgentDataRecentHealthJob_StatusCode_JobFinished = "job_finished"
-	AgentDataRecentHealthJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentDataRecentHealthJob_StatusCode_JobPending = "job_pending"
+	AgentDataRecentHealthJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentDataRecentHealthJob_StatusCode_JobFailed         = "job_failed"
+	AgentDataRecentHealthJob_StatusCode_JobFinished       = "job_finished"
+	AgentDataRecentHealthJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentDataRecentHealthJob_StatusCode_JobPending        = "job_pending"
 	AgentDataRecentHealthJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentDataRecentHealthJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentDataRecentHealthJob_StatusCode_JobStopped = "job_stopped"
+	AgentDataRecentHealthJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentDataRecentHealthJob unmarshals an instance of AgentDataRecentHealthJob from the specified map of raw messages.
@@ -8598,14 +8659,14 @@ type AgentDataRecentPrsJob struct {
 // Constants associated with the AgentDataRecentPrsJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentDataRecentPrsJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentDataRecentPrsJob_StatusCode_JobFailed = "job_failed"
-	AgentDataRecentPrsJob_StatusCode_JobFinished = "job_finished"
-	AgentDataRecentPrsJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentDataRecentPrsJob_StatusCode_JobPending = "job_pending"
+	AgentDataRecentPrsJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentDataRecentPrsJob_StatusCode_JobFailed         = "job_failed"
+	AgentDataRecentPrsJob_StatusCode_JobFinished       = "job_finished"
+	AgentDataRecentPrsJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentDataRecentPrsJob_StatusCode_JobPending        = "job_pending"
 	AgentDataRecentPrsJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentDataRecentPrsJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentDataRecentPrsJob_StatusCode_JobStopped = "job_stopped"
+	AgentDataRecentPrsJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentDataRecentPrsJob unmarshals an instance of AgentDataRecentPrsJob from the specified map of raw messages.
@@ -8688,14 +8749,14 @@ type AgentDeployJob struct {
 // Constants associated with the AgentDeployJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentDeployJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentDeployJob_StatusCode_JobFailed = "job_failed"
-	AgentDeployJob_StatusCode_JobFinished = "job_finished"
-	AgentDeployJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentDeployJob_StatusCode_JobPending = "job_pending"
+	AgentDeployJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentDeployJob_StatusCode_JobFailed         = "job_failed"
+	AgentDeployJob_StatusCode_JobFinished       = "job_finished"
+	AgentDeployJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentDeployJob_StatusCode_JobPending        = "job_pending"
 	AgentDeployJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentDeployJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentDeployJob_StatusCode_JobStopped = "job_stopped"
+	AgentDeployJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentDeployJob unmarshals an instance of AgentDeployJob from the specified map of raw messages.
@@ -8780,14 +8841,14 @@ type AgentHealthJob struct {
 // Constants associated with the AgentHealthJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentHealthJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentHealthJob_StatusCode_JobFailed = "job_failed"
-	AgentHealthJob_StatusCode_JobFinished = "job_finished"
-	AgentHealthJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentHealthJob_StatusCode_JobPending = "job_pending"
+	AgentHealthJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentHealthJob_StatusCode_JobFailed         = "job_failed"
+	AgentHealthJob_StatusCode_JobFinished       = "job_finished"
+	AgentHealthJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentHealthJob_StatusCode_JobPending        = "job_pending"
 	AgentHealthJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentHealthJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentHealthJob_StatusCode_JobStopped = "job_stopped"
+	AgentHealthJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentHealthJob unmarshals an instance of AgentHealthJob from the specified map of raw messages.
@@ -8896,8 +8957,8 @@ type AgentInfrastructure struct {
 // Type of target agent infrastructure.
 const (
 	AgentInfrastructure_InfraType_IbmKubernetes = "ibm_kubernetes"
-	AgentInfrastructure_InfraType_IbmOpenshift = "ibm_openshift"
-	AgentInfrastructure_InfraType_IbmSatellite = "ibm_satellite"
+	AgentInfrastructure_InfraType_IbmOpenshift  = "ibm_openshift"
+	AgentInfrastructure_InfraType_IbmSatellite  = "ibm_satellite"
 )
 
 // UnmarshalAgentInfrastructure unmarshals an instance of AgentInfrastructure from the specified map of raw messages.
@@ -8958,17 +9019,17 @@ type AgentKPIData struct {
 // Constants associated with the AgentKPIData.AvailabilityIndicator property.
 // Overall availability indicator reported by the agent.
 const (
-	AgentKPIData_AvailabilityIndicator_Available = "available"
-	AgentKPIData_AvailabilityIndicator_Error = "error"
+	AgentKPIData_AvailabilityIndicator_Available   = "available"
+	AgentKPIData_AvailabilityIndicator_Error       = "error"
 	AgentKPIData_AvailabilityIndicator_Unavailable = "unavailable"
 )
 
 // Constants associated with the AgentKPIData.LifecycleIndicator property.
 // Overall lifecycle indicator reported by the agents.
 const (
-	AgentKPIData_LifecycleIndicator_Consistent = "consistent"
+	AgentKPIData_LifecycleIndicator_Consistent   = "consistent"
 	AgentKPIData_LifecycleIndicator_Inconsistent = "inconsistent"
-	AgentKPIData_LifecycleIndicator_Obselete = "obselete"
+	AgentKPIData_LifecycleIndicator_Obselete     = "obselete"
 )
 
 // UnmarshalAgentKPIData unmarshals an instance of AgentKPIData from the specified map of raw messages.
@@ -9018,17 +9079,17 @@ type AgentKPIDataLite struct {
 // Constants associated with the AgentKPIDataLite.AvailabilityIndicator property.
 // Overall availability indicator reported by the agent.
 const (
-	AgentKPIDataLite_AvailabilityIndicator_Available = "available"
-	AgentKPIDataLite_AvailabilityIndicator_Error = "error"
+	AgentKPIDataLite_AvailabilityIndicator_Available   = "available"
+	AgentKPIDataLite_AvailabilityIndicator_Error       = "error"
 	AgentKPIDataLite_AvailabilityIndicator_Unavailable = "unavailable"
 )
 
 // Constants associated with the AgentKPIDataLite.LifecycleIndicator property.
 // Overall lifecycle indicator reported by the agents.
 const (
-	AgentKPIDataLite_LifecycleIndicator_Consistent = "consistent"
+	AgentKPIDataLite_LifecycleIndicator_Consistent   = "consistent"
 	AgentKPIDataLite_LifecycleIndicator_Inconsistent = "inconsistent"
-	AgentKPIDataLite_LifecycleIndicator_Obselete = "obselete"
+	AgentKPIDataLite_LifecycleIndicator_Obselete     = "obselete"
 )
 
 // UnmarshalAgentKPIDataLite unmarshals an instance of AgentKPIDataLite from the specified map of raw messages.
@@ -9109,14 +9170,14 @@ type AgentPRSJob struct {
 // Constants associated with the AgentPRSJob.StatusCode property.
 // Status of Jobs.
 const (
-	AgentPRSJob_StatusCode_JobCancelled = "job_cancelled"
-	AgentPRSJob_StatusCode_JobFailed = "job_failed"
-	AgentPRSJob_StatusCode_JobFinished = "job_finished"
-	AgentPRSJob_StatusCode_JobInProgress = "job_in_progress"
-	AgentPRSJob_StatusCode_JobPending = "job_pending"
+	AgentPRSJob_StatusCode_JobCancelled      = "job_cancelled"
+	AgentPRSJob_StatusCode_JobFailed         = "job_failed"
+	AgentPRSJob_StatusCode_JobFinished       = "job_finished"
+	AgentPRSJob_StatusCode_JobInProgress     = "job_in_progress"
+	AgentPRSJob_StatusCode_JobPending        = "job_pending"
 	AgentPRSJob_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	AgentPRSJob_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	AgentPRSJob_StatusCode_JobStopped = "job_stopped"
+	AgentPRSJob_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalAgentPRSJob unmarshals an instance of AgentPRSJob from the specified map of raw messages.
@@ -9178,11 +9239,11 @@ type AgentSystemStatus struct {
 // Constants associated with the AgentSystemStatus.StatusCode property.
 // Agent Status.
 const (
-	AgentSystemStatus_StatusCode_Draft = "draft"
-	AgentSystemStatus_StatusCode_Error = "error"
+	AgentSystemStatus_StatusCode_Draft      = "draft"
+	AgentSystemStatus_StatusCode_Error      = "error"
 	AgentSystemStatus_StatusCode_InProgress = "in_progress"
-	AgentSystemStatus_StatusCode_Normal = "normal"
-	AgentSystemStatus_StatusCode_Pending = "pending"
+	AgentSystemStatus_StatusCode_Normal     = "normal"
+	AgentSystemStatus_StatusCode_Pending    = "pending"
 )
 
 // UnmarshalAgentSystemStatus unmarshals an instance of AgentSystemStatus from the specified map of raw messages.
@@ -9218,11 +9279,11 @@ type AgentUserState struct {
 
 // Constants associated with the AgentUserState.State property.
 // User-defined states
-//   * `enable`  Agent is enabled by the user.
-//   * `disable` Agent is disbaled by the user.
+//   - `enable`  Agent is enabled by the user.
+//   - `disable` Agent is disbaled by the user.
 const (
 	AgentUserState_State_Disable = "disable"
-	AgentUserState_State_Enable = "enable"
+	AgentUserState_State_Enable  = "enable"
 )
 
 // UnmarshalAgentUserState unmarshals an instance of AgentUserState from the specified map of raw messages.
@@ -9328,7 +9389,7 @@ type ApplyWorkspaceCommandOptions struct {
 func (*SchematicsV1) NewApplyWorkspaceCommandOptions(refreshToken string, wID string) *ApplyWorkspaceCommandOptions {
 	return &ApplyWorkspaceCommandOptions{
 		RefreshToken: core.StringPtr(refreshToken),
-		WID: core.StringPtr(wID),
+		WID:          core.StringPtr(wID),
 	}
 }
 
@@ -9802,9 +9863,9 @@ type CreateActionOptions struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	CreateActionOptions_Location_EuDe = "eu-de"
-	CreateActionOptions_Location_EuGb = "eu-gb"
-	CreateActionOptions_Location_UsEast = "us-east"
+	CreateActionOptions_Location_EuDe    = "eu-de"
+	CreateActionOptions_Location_EuGb    = "eu-gb"
+	CreateActionOptions_Location_UsEast  = "us-east"
 	CreateActionOptions_Location_UsSouth = "us-south"
 )
 
@@ -9819,19 +9880,19 @@ const (
 // Type of connection to be used when connecting to remote host.  **Note** Currently, WinRM supports only Windows system
 // with the public IPs and do not support Bastion host.
 const (
-	CreateActionOptions_InventoryConnectionType_Ssh = "ssh"
+	CreateActionOptions_InventoryConnectionType_Ssh   = "ssh"
 	CreateActionOptions_InventoryConnectionType_Winrm = "winrm"
 )
 
 // Constants associated with the CreateActionOptions.SourceType property.
 // Type of source for the Template.
 const (
-	CreateActionOptions_SourceType_GitHub = "git_hub"
+	CreateActionOptions_SourceType_GitHub           = "git_hub"
 	CreateActionOptions_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	CreateActionOptions_SourceType_GitLab = "git_lab"
-	CreateActionOptions_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	CreateActionOptions_SourceType_IbmGitLab = "ibm_git_lab"
-	CreateActionOptions_SourceType_Local = "local"
+	CreateActionOptions_SourceType_GitLab           = "git_lab"
+	CreateActionOptions_SourceType_IbmCloudCatalog  = "ibm_cloud_catalog"
+	CreateActionOptions_SourceType_IbmGitLab        = "ibm_git_lab"
+	CreateActionOptions_SourceType_Local            = "local"
 )
 
 // NewCreateActionOptions : Instantiate CreateActionOptions
@@ -10020,20 +10081,20 @@ type CreateAgentDataOptions struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	CreateAgentDataOptions_SchematicsLocation_EuDe = "eu-de"
-	CreateAgentDataOptions_SchematicsLocation_EuGb = "eu-gb"
-	CreateAgentDataOptions_SchematicsLocation_UsEast = "us-east"
+	CreateAgentDataOptions_SchematicsLocation_EuDe    = "eu-de"
+	CreateAgentDataOptions_SchematicsLocation_EuGb    = "eu-gb"
+	CreateAgentDataOptions_SchematicsLocation_UsEast  = "us-east"
 	CreateAgentDataOptions_SchematicsLocation_UsSouth = "us-south"
 )
 
 // NewCreateAgentDataOptions : Instantiate CreateAgentDataOptions
 func (*SchematicsV1) NewCreateAgentDataOptions(name string, resourceGroup string, version string, schematicsLocation string, agentLocation string, agentInfrastructure *AgentInfrastructure) *CreateAgentDataOptions {
 	return &CreateAgentDataOptions{
-		Name: core.StringPtr(name),
-		ResourceGroup: core.StringPtr(resourceGroup),
-		Version: core.StringPtr(version),
-		SchematicsLocation: core.StringPtr(schematicsLocation),
-		AgentLocation: core.StringPtr(agentLocation),
+		Name:                core.StringPtr(name),
+		ResourceGroup:       core.StringPtr(resourceGroup),
+		Version:             core.StringPtr(version),
+		SchematicsLocation:  core.StringPtr(schematicsLocation),
+		AgentLocation:       core.StringPtr(agentLocation),
 		AgentInfrastructure: agentInfrastructure,
 	}
 }
@@ -10167,9 +10228,9 @@ type CreateInventoryOptions struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	CreateInventoryOptions_Location_EuDe = "eu-de"
-	CreateInventoryOptions_Location_EuGb = "eu-gb"
-	CreateInventoryOptions_Location_UsEast = "us-east"
+	CreateInventoryOptions_Location_EuDe    = "eu-de"
+	CreateInventoryOptions_Location_EuGb    = "eu-gb"
+	CreateInventoryOptions_Location_UsEast  = "us-east"
 	CreateInventoryOptions_Location_UsSouth = "us-south"
 )
 
@@ -10328,37 +10389,37 @@ type CreateJobOptions struct {
 // Constants associated with the CreateJobOptions.CommandObject property.
 // Name of the Schematics automation resource.
 const (
-	CreateJobOptions_CommandObject_Action = "action"
+	CreateJobOptions_CommandObject_Action      = "action"
 	CreateJobOptions_CommandObject_Environment = "environment"
-	CreateJobOptions_CommandObject_System = "system"
-	CreateJobOptions_CommandObject_Workspace = "workspace"
+	CreateJobOptions_CommandObject_System      = "system"
+	CreateJobOptions_CommandObject_Workspace   = "workspace"
 )
 
 // Constants associated with the CreateJobOptions.CommandName property.
 // Schematics job command name.
 const (
 	CreateJobOptions_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	CreateJobOptions_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	CreateJobOptions_CommandName_CreateAction = "create_action"
-	CreateJobOptions_CommandName_CreateCart = "create_cart"
-	CreateJobOptions_CommandName_CreateWorkspace = "create_workspace"
-	CreateJobOptions_CommandName_DeleteAction = "delete_action"
-	CreateJobOptions_CommandName_DeleteWorkspace = "delete_workspace"
-	CreateJobOptions_CommandName_PatchAction = "patch_action"
-	CreateJobOptions_CommandName_PatchWorkspace = "patch_workspace"
-	CreateJobOptions_CommandName_PutAction = "put_action"
-	CreateJobOptions_CommandName_PutWorkspace = "put_workspace"
-	CreateJobOptions_CommandName_RepositoryProcess = "repository_process"
-	CreateJobOptions_CommandName_SystemKeyDelete = "system_key_delete"
-	CreateJobOptions_CommandName_SystemKeyDisable = "system_key_disable"
-	CreateJobOptions_CommandName_SystemKeyEnable = "system_key_enable"
-	CreateJobOptions_CommandName_SystemKeyRestore = "system_key_restore"
-	CreateJobOptions_CommandName_SystemKeyRotate = "system_key_rotate"
-	CreateJobOptions_CommandName_TerraformCommands = "terraform_commands"
-	CreateJobOptions_CommandName_WorkspaceApply = "workspace_apply"
-	CreateJobOptions_CommandName_WorkspaceDestroy = "workspace_destroy"
-	CreateJobOptions_CommandName_WorkspacePlan = "workspace_plan"
-	CreateJobOptions_CommandName_WorkspaceRefresh = "workspace_refresh"
+	CreateJobOptions_CommandName_AnsiblePlaybookRun   = "ansible_playbook_run"
+	CreateJobOptions_CommandName_CreateAction         = "create_action"
+	CreateJobOptions_CommandName_CreateCart           = "create_cart"
+	CreateJobOptions_CommandName_CreateWorkspace      = "create_workspace"
+	CreateJobOptions_CommandName_DeleteAction         = "delete_action"
+	CreateJobOptions_CommandName_DeleteWorkspace      = "delete_workspace"
+	CreateJobOptions_CommandName_PatchAction          = "patch_action"
+	CreateJobOptions_CommandName_PatchWorkspace       = "patch_workspace"
+	CreateJobOptions_CommandName_PutAction            = "put_action"
+	CreateJobOptions_CommandName_PutWorkspace         = "put_workspace"
+	CreateJobOptions_CommandName_RepositoryProcess    = "repository_process"
+	CreateJobOptions_CommandName_SystemKeyDelete      = "system_key_delete"
+	CreateJobOptions_CommandName_SystemKeyDisable     = "system_key_disable"
+	CreateJobOptions_CommandName_SystemKeyEnable      = "system_key_enable"
+	CreateJobOptions_CommandName_SystemKeyRestore     = "system_key_restore"
+	CreateJobOptions_CommandName_SystemKeyRotate      = "system_key_rotate"
+	CreateJobOptions_CommandName_TerraformCommands    = "terraform_commands"
+	CreateJobOptions_CommandName_WorkspaceApply       = "workspace_apply"
+	CreateJobOptions_CommandName_WorkspaceDestroy     = "workspace_destroy"
+	CreateJobOptions_CommandName_WorkspacePlan        = "workspace_plan"
+	CreateJobOptions_CommandName_WorkspaceRefresh     = "workspace_refresh"
 )
 
 // Constants associated with the CreateJobOptions.Location property.
@@ -10366,9 +10427,9 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	CreateJobOptions_Location_EuDe = "eu-de"
-	CreateJobOptions_Location_EuGb = "eu-gb"
-	CreateJobOptions_Location_UsEast = "us-east"
+	CreateJobOptions_Location_EuDe    = "eu-de"
+	CreateJobOptions_Location_EuGb    = "eu-gb"
+	CreateJobOptions_Location_UsEast  = "us-east"
 	CreateJobOptions_Location_UsSouth = "us-south"
 )
 
@@ -10522,7 +10583,7 @@ type CreatePolicyOptions struct {
 
 // Constants associated with the CreatePolicyOptions.Kind property.
 // Policy kind or categories for managing and deriving policy decision
-//   * `agent_assignment_policy` Agent assignment policy for job execution.
+//   - `agent_assignment_policy` Agent assignment policy for job execution.
 const (
 	CreatePolicyOptions_Kind_AgentAssignmentPolicy = "agent_assignment_policy"
 )
@@ -10532,9 +10593,9 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	CreatePolicyOptions_Location_EuDe = "eu-de"
-	CreatePolicyOptions_Location_EuGb = "eu-gb"
-	CreatePolicyOptions_Location_UsEast = "us-east"
+	CreatePolicyOptions_Location_EuDe    = "eu-de"
+	CreatePolicyOptions_Location_EuGb    = "eu-gb"
+	CreatePolicyOptions_Location_UsEast  = "us-east"
 	CreatePolicyOptions_Location_UsSouth = "us-south"
 )
 
@@ -11012,7 +11073,7 @@ type CredentialVariableMetadata struct {
 // Constants associated with the CredentialVariableMetadata.Type property.
 // Type of the variable.
 const (
-	CredentialVariableMetadata_Type_Link = "link"
+	CredentialVariableMetadata_Type_Link   = "link"
 	CredentialVariableMetadata_Type_String = "string"
 )
 
@@ -11201,7 +11262,7 @@ type DeleteAgentResourcesOptions struct {
 // NewDeleteAgentResourcesOptions : Instantiate DeleteAgentResourcesOptions
 func (*SchematicsV1) NewDeleteAgentResourcesOptions(agentID string, refreshToken string) *DeleteAgentResourcesOptions {
 	return &DeleteAgentResourcesOptions{
-		AgentID: core.StringPtr(agentID),
+		AgentID:      core.StringPtr(agentID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -11305,7 +11366,7 @@ type DeleteJobOptions struct {
 // NewDeleteJobOptions : Instantiate DeleteJobOptions
 func (*SchematicsV1) NewDeleteJobOptions(jobID string, refreshToken string) *DeleteJobOptions {
 	return &DeleteJobOptions{
-		JobID: core.StringPtr(jobID),
+		JobID:        core.StringPtr(jobID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -11431,7 +11492,7 @@ type DeleteWorkspaceActivityOptions struct {
 // NewDeleteWorkspaceActivityOptions : Instantiate DeleteWorkspaceActivityOptions
 func (*SchematicsV1) NewDeleteWorkspaceActivityOptions(wID string, activityID string) *DeleteWorkspaceActivityOptions {
 	return &DeleteWorkspaceActivityOptions{
-		WID: core.StringPtr(wID),
+		WID:        core.StringPtr(wID),
 		ActivityID: core.StringPtr(activityID),
 	}
 }
@@ -11489,7 +11550,7 @@ type DeleteWorkspaceOptions struct {
 // NewDeleteWorkspaceOptions : Instantiate DeleteWorkspaceOptions
 func (*SchematicsV1) NewDeleteWorkspaceOptions(wID string, refreshToken string) *DeleteWorkspaceOptions {
 	return &DeleteWorkspaceOptions{
-		WID: core.StringPtr(wID),
+		WID:          core.StringPtr(wID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -11618,7 +11679,7 @@ type DestroyWorkspaceCommandOptions struct {
 func (*SchematicsV1) NewDestroyWorkspaceCommandOptions(refreshToken string, wID string) *DestroyWorkspaceCommandOptions {
 	return &DestroyWorkspaceCommandOptions{
 		RefreshToken: core.StringPtr(refreshToken),
-		WID: core.StringPtr(wID),
+		WID:          core.StringPtr(wID),
 	}
 }
 
@@ -11840,12 +11901,12 @@ type ExternalSource struct {
 // Constants associated with the ExternalSource.SourceType property.
 // Type of source for the Template.
 const (
-	ExternalSource_SourceType_GitHub = "git_hub"
+	ExternalSource_SourceType_GitHub           = "git_hub"
 	ExternalSource_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	ExternalSource_SourceType_GitLab = "git_lab"
-	ExternalSource_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	ExternalSource_SourceType_IbmGitLab = "ibm_git_lab"
-	ExternalSource_SourceType_Local = "local"
+	ExternalSource_SourceType_GitLab           = "git_lab"
+	ExternalSource_SourceType_IbmCloudCatalog  = "ibm_cloud_catalog"
+	ExternalSource_SourceType_IbmGitLab        = "ibm_git_lab"
+	ExternalSource_SourceType_Local            = "local"
 )
 
 // NewExternalSource : Instantiate ExternalSource (Generic Model Constructor)
@@ -11898,8 +11959,8 @@ type GetActionOptions struct {
 // Level of details returned by the get method.
 const (
 	GetActionOptions_Profile_Detailed = "detailed"
-	GetActionOptions_Profile_Ids = "ids"
-	GetActionOptions_Profile_Summary = "summary"
+	GetActionOptions_Profile_Ids      = "ids"
+	GetActionOptions_Profile_Summary  = "summary"
 )
 
 // NewGetActionOptions : Instantiate GetActionOptions
@@ -11943,8 +12004,8 @@ type GetAgentDataOptions struct {
 // Level of details returned by the get method.
 const (
 	GetAgentDataOptions_Profile_Detailed = "detailed"
-	GetAgentDataOptions_Profile_Ids = "ids"
-	GetAgentDataOptions_Profile_Summary = "summary"
+	GetAgentDataOptions_Profile_Ids      = "ids"
+	GetAgentDataOptions_Profile_Summary  = "summary"
 )
 
 // NewGetAgentDataOptions : Instantiate GetAgentDataOptions
@@ -12036,8 +12097,8 @@ type GetInventoryOptions struct {
 // Level of details returned by the get method.
 const (
 	GetInventoryOptions_Profile_Detailed = "detailed"
-	GetInventoryOptions_Profile_Ids = "ids"
-	GetInventoryOptions_Profile_Summary = "summary"
+	GetInventoryOptions_Profile_Ids      = "ids"
+	GetInventoryOptions_Profile_Summary  = "summary"
 )
 
 // NewGetInventoryOptions : Instantiate GetInventoryOptions
@@ -12080,17 +12141,17 @@ type GetJobFilesOptions struct {
 // Constants associated with the GetJobFilesOptions.FileType property.
 // The type of file you want to download eg.state_file, plan_json.
 const (
-	GetJobFilesOptions_FileType_LogFile = "log_file"
-	GetJobFilesOptions_FileType_PlanJSON = "plan_json"
-	GetJobFilesOptions_FileType_ReadmeFile = "readme_file"
-	GetJobFilesOptions_FileType_StateFile = "state_file"
+	GetJobFilesOptions_FileType_LogFile      = "log_file"
+	GetJobFilesOptions_FileType_PlanJSON     = "plan_json"
+	GetJobFilesOptions_FileType_ReadmeFile   = "readme_file"
+	GetJobFilesOptions_FileType_StateFile    = "state_file"
 	GetJobFilesOptions_FileType_TemplateRepo = "template_repo"
 )
 
 // NewGetJobFilesOptions : Instantiate GetJobFilesOptions
 func (*SchematicsV1) NewGetJobFilesOptions(jobID string, fileType string) *GetJobFilesOptions {
 	return &GetJobFilesOptions{
-		JobID: core.StringPtr(jobID),
+		JobID:    core.StringPtr(jobID),
 		FileType: core.StringPtr(fileType),
 	}
 }
@@ -12129,8 +12190,8 @@ type GetJobOptions struct {
 // Level of details returned by the get method.
 const (
 	GetJobOptions_Profile_Detailed = "detailed"
-	GetJobOptions_Profile_Ids = "ids"
-	GetJobOptions_Profile_Summary = "summary"
+	GetJobOptions_Profile_Ids      = "ids"
+	GetJobOptions_Profile_Summary  = "summary"
 )
 
 // NewGetJobOptions : Instantiate GetJobOptions
@@ -12202,8 +12263,8 @@ type GetPolicyOptions struct {
 // Level of details returned by the get method.
 const (
 	GetPolicyOptions_Profile_Detailed = "detailed"
-	GetPolicyOptions_Profile_Ids = "ids"
-	GetPolicyOptions_Profile_Summary = "summary"
+	GetPolicyOptions_Profile_Ids      = "ids"
+	GetPolicyOptions_Profile_Summary  = "summary"
 )
 
 // NewGetPolicyOptions : Instantiate GetPolicyOptions
@@ -12314,8 +12375,8 @@ type GetTemplateActivityLogOptions struct {
 // NewGetTemplateActivityLogOptions : Instantiate GetTemplateActivityLogOptions
 func (*SchematicsV1) NewGetTemplateActivityLogOptions(wID string, tID string, activityID string) *GetTemplateActivityLogOptions {
 	return &GetTemplateActivityLogOptions{
-		WID: core.StringPtr(wID),
-		TID: core.StringPtr(tID),
+		WID:        core.StringPtr(wID),
+		TID:        core.StringPtr(tID),
 		ActivityID: core.StringPtr(activityID),
 	}
 }
@@ -12464,7 +12525,7 @@ type GetWorkspaceActivityLogsOptions struct {
 // NewGetWorkspaceActivityLogsOptions : Instantiate GetWorkspaceActivityLogsOptions
 func (*SchematicsV1) NewGetWorkspaceActivityLogsOptions(wID string, activityID string) *GetWorkspaceActivityLogsOptions {
 	return &GetWorkspaceActivityLogsOptions{
-		WID: core.StringPtr(wID),
+		WID:        core.StringPtr(wID),
 		ActivityID: core.StringPtr(activityID),
 	}
 }
@@ -12503,7 +12564,7 @@ type GetWorkspaceActivityOptions struct {
 // NewGetWorkspaceActivityOptions : Instantiate GetWorkspaceActivityOptions
 func (*SchematicsV1) NewGetWorkspaceActivityOptions(wID string, activityID string) *GetWorkspaceActivityOptions {
 	return &GetWorkspaceActivityOptions{
-		WID: core.StringPtr(wID),
+		WID:        core.StringPtr(wID),
 		ActivityID: core.StringPtr(activityID),
 	}
 }
@@ -12808,9 +12869,9 @@ type GetWorkspaceReadmeOptions struct {
 }
 
 // Constants associated with the GetWorkspaceReadmeOptions.Formatted property.
-// The format of the readme file.  Value ''markdown'' will give markdown, otherwise html.
+// The format of the readme file.  Value ”markdown” will give markdown, otherwise html.
 const (
-	GetWorkspaceReadmeOptions_Formatted_HTML = "html"
+	GetWorkspaceReadmeOptions_Formatted_HTML     = "html"
 	GetWorkspaceReadmeOptions_Formatted_Markdown = "markdown"
 )
 
@@ -13286,9 +13347,9 @@ type InventoryResourceRecord struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	InventoryResourceRecord_Location_EuDe = "eu-de"
-	InventoryResourceRecord_Location_EuGb = "eu-gb"
-	InventoryResourceRecord_Location_UsEast = "us-east"
+	InventoryResourceRecord_Location_EuDe    = "eu-de"
+	InventoryResourceRecord_Location_EuGb    = "eu-gb"
+	InventoryResourceRecord_Location_UsEast  = "us-east"
 	InventoryResourceRecord_Location_UsSouth = "us-south"
 )
 
@@ -13540,37 +13601,37 @@ type Job struct {
 // Constants associated with the Job.CommandObject property.
 // Name of the Schematics automation resource.
 const (
-	Job_CommandObject_Action = "action"
+	Job_CommandObject_Action      = "action"
 	Job_CommandObject_Environment = "environment"
-	Job_CommandObject_System = "system"
-	Job_CommandObject_Workspace = "workspace"
+	Job_CommandObject_System      = "system"
+	Job_CommandObject_Workspace   = "workspace"
 )
 
 // Constants associated with the Job.CommandName property.
 // Schematics job command name.
 const (
 	Job_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	Job_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	Job_CommandName_CreateAction = "create_action"
-	Job_CommandName_CreateCart = "create_cart"
-	Job_CommandName_CreateWorkspace = "create_workspace"
-	Job_CommandName_DeleteAction = "delete_action"
-	Job_CommandName_DeleteWorkspace = "delete_workspace"
-	Job_CommandName_PatchAction = "patch_action"
-	Job_CommandName_PatchWorkspace = "patch_workspace"
-	Job_CommandName_PutAction = "put_action"
-	Job_CommandName_PutWorkspace = "put_workspace"
-	Job_CommandName_RepositoryProcess = "repository_process"
-	Job_CommandName_SystemKeyDelete = "system_key_delete"
-	Job_CommandName_SystemKeyDisable = "system_key_disable"
-	Job_CommandName_SystemKeyEnable = "system_key_enable"
-	Job_CommandName_SystemKeyRestore = "system_key_restore"
-	Job_CommandName_SystemKeyRotate = "system_key_rotate"
-	Job_CommandName_TerraformCommands = "terraform_commands"
-	Job_CommandName_WorkspaceApply = "workspace_apply"
-	Job_CommandName_WorkspaceDestroy = "workspace_destroy"
-	Job_CommandName_WorkspacePlan = "workspace_plan"
-	Job_CommandName_WorkspaceRefresh = "workspace_refresh"
+	Job_CommandName_AnsiblePlaybookRun   = "ansible_playbook_run"
+	Job_CommandName_CreateAction         = "create_action"
+	Job_CommandName_CreateCart           = "create_cart"
+	Job_CommandName_CreateWorkspace      = "create_workspace"
+	Job_CommandName_DeleteAction         = "delete_action"
+	Job_CommandName_DeleteWorkspace      = "delete_workspace"
+	Job_CommandName_PatchAction          = "patch_action"
+	Job_CommandName_PatchWorkspace       = "patch_workspace"
+	Job_CommandName_PutAction            = "put_action"
+	Job_CommandName_PutWorkspace         = "put_workspace"
+	Job_CommandName_RepositoryProcess    = "repository_process"
+	Job_CommandName_SystemKeyDelete      = "system_key_delete"
+	Job_CommandName_SystemKeyDisable     = "system_key_disable"
+	Job_CommandName_SystemKeyEnable      = "system_key_enable"
+	Job_CommandName_SystemKeyRestore     = "system_key_restore"
+	Job_CommandName_SystemKeyRotate      = "system_key_rotate"
+	Job_CommandName_TerraformCommands    = "terraform_commands"
+	Job_CommandName_WorkspaceApply       = "workspace_apply"
+	Job_CommandName_WorkspaceDestroy     = "workspace_destroy"
+	Job_CommandName_WorkspacePlan        = "workspace_plan"
+	Job_CommandName_WorkspaceRefresh     = "workspace_refresh"
 )
 
 // Constants associated with the Job.Location property.
@@ -13578,9 +13639,9 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	Job_Location_EuDe = "eu-de"
-	Job_Location_EuGb = "eu-gb"
-	Job_Location_UsEast = "us-east"
+	Job_Location_EuDe    = "eu-de"
+	Job_Location_EuGb    = "eu-gb"
+	Job_Location_UsEast  = "us-east"
 	Job_Location_UsSouth = "us-south"
 )
 
@@ -13757,11 +13818,11 @@ type JobData struct {
 // Constants associated with the JobData.JobType property.
 // Type of Job.
 const (
-	JobData_JobType_ActionJob = "action_job"
-	JobData_JobType_FlowJob = "flow-job"
+	JobData_JobType_ActionJob       = "action_job"
+	JobData_JobType_FlowJob         = "flow-job"
 	JobData_JobType_RepoDownloadJob = "repo_download_job"
-	JobData_JobType_SystemJob = "system_job"
-	JobData_JobType_WorkspaceJob = "workspace_job"
+	JobData_JobType_SystemJob       = "system_job"
+	JobData_JobType_WorkspaceJob    = "workspace_job"
 )
 
 // NewJobData : Instantiate JobData (Generic Model Constructor)
@@ -14052,12 +14113,12 @@ type JobDataWorkItem struct {
 // Constants associated with the JobDataWorkItem.SourceType property.
 // Type of source for the Template.
 const (
-	JobDataWorkItem_SourceType_GitHub = "git_hub"
+	JobDataWorkItem_SourceType_GitHub           = "git_hub"
 	JobDataWorkItem_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	JobDataWorkItem_SourceType_GitLab = "git_lab"
-	JobDataWorkItem_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	JobDataWorkItem_SourceType_IbmGitLab = "ibm_git_lab"
-	JobDataWorkItem_SourceType_Local = "local"
+	JobDataWorkItem_SourceType_GitLab           = "git_lab"
+	JobDataWorkItem_SourceType_IbmCloudCatalog  = "ibm_cloud_catalog"
+	JobDataWorkItem_SourceType_IbmGitLab        = "ibm_git_lab"
+	JobDataWorkItem_SourceType_Local            = "local"
 )
 
 // UnmarshalJobDataWorkItem unmarshals an instance of JobDataWorkItem from the specified map of raw messages.
@@ -14141,50 +14202,50 @@ type JobDataWorkItemLastJob struct {
 // Constants associated with the JobDataWorkItemLastJob.CommandObject property.
 // Name of the Schematics automation resource.
 const (
-	JobDataWorkItemLastJob_CommandObject_Action = "action"
+	JobDataWorkItemLastJob_CommandObject_Action      = "action"
 	JobDataWorkItemLastJob_CommandObject_Environment = "environment"
-	JobDataWorkItemLastJob_CommandObject_System = "system"
-	JobDataWorkItemLastJob_CommandObject_Workspace = "workspace"
+	JobDataWorkItemLastJob_CommandObject_System      = "system"
+	JobDataWorkItemLastJob_CommandObject_Workspace   = "workspace"
 )
 
 // Constants associated with the JobDataWorkItemLastJob.CommandName property.
 // Schematics job command name.
 const (
 	JobDataWorkItemLastJob_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	JobDataWorkItemLastJob_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	JobDataWorkItemLastJob_CommandName_CreateAction = "create_action"
-	JobDataWorkItemLastJob_CommandName_CreateCart = "create_cart"
-	JobDataWorkItemLastJob_CommandName_CreateWorkspace = "create_workspace"
-	JobDataWorkItemLastJob_CommandName_DeleteAction = "delete_action"
-	JobDataWorkItemLastJob_CommandName_DeleteWorkspace = "delete_workspace"
-	JobDataWorkItemLastJob_CommandName_PatchAction = "patch_action"
-	JobDataWorkItemLastJob_CommandName_PatchWorkspace = "patch_workspace"
-	JobDataWorkItemLastJob_CommandName_PutAction = "put_action"
-	JobDataWorkItemLastJob_CommandName_PutWorkspace = "put_workspace"
-	JobDataWorkItemLastJob_CommandName_RepositoryProcess = "repository_process"
-	JobDataWorkItemLastJob_CommandName_SystemKeyDelete = "system_key_delete"
-	JobDataWorkItemLastJob_CommandName_SystemKeyDisable = "system_key_disable"
-	JobDataWorkItemLastJob_CommandName_SystemKeyEnable = "system_key_enable"
-	JobDataWorkItemLastJob_CommandName_SystemKeyRestore = "system_key_restore"
-	JobDataWorkItemLastJob_CommandName_SystemKeyRotate = "system_key_rotate"
-	JobDataWorkItemLastJob_CommandName_TerraformCommands = "terraform_commands"
-	JobDataWorkItemLastJob_CommandName_WorkspaceApply = "workspace_apply"
-	JobDataWorkItemLastJob_CommandName_WorkspaceDestroy = "workspace_destroy"
-	JobDataWorkItemLastJob_CommandName_WorkspacePlan = "workspace_plan"
-	JobDataWorkItemLastJob_CommandName_WorkspaceRefresh = "workspace_refresh"
+	JobDataWorkItemLastJob_CommandName_AnsiblePlaybookRun   = "ansible_playbook_run"
+	JobDataWorkItemLastJob_CommandName_CreateAction         = "create_action"
+	JobDataWorkItemLastJob_CommandName_CreateCart           = "create_cart"
+	JobDataWorkItemLastJob_CommandName_CreateWorkspace      = "create_workspace"
+	JobDataWorkItemLastJob_CommandName_DeleteAction         = "delete_action"
+	JobDataWorkItemLastJob_CommandName_DeleteWorkspace      = "delete_workspace"
+	JobDataWorkItemLastJob_CommandName_PatchAction          = "patch_action"
+	JobDataWorkItemLastJob_CommandName_PatchWorkspace       = "patch_workspace"
+	JobDataWorkItemLastJob_CommandName_PutAction            = "put_action"
+	JobDataWorkItemLastJob_CommandName_PutWorkspace         = "put_workspace"
+	JobDataWorkItemLastJob_CommandName_RepositoryProcess    = "repository_process"
+	JobDataWorkItemLastJob_CommandName_SystemKeyDelete      = "system_key_delete"
+	JobDataWorkItemLastJob_CommandName_SystemKeyDisable     = "system_key_disable"
+	JobDataWorkItemLastJob_CommandName_SystemKeyEnable      = "system_key_enable"
+	JobDataWorkItemLastJob_CommandName_SystemKeyRestore     = "system_key_restore"
+	JobDataWorkItemLastJob_CommandName_SystemKeyRotate      = "system_key_rotate"
+	JobDataWorkItemLastJob_CommandName_TerraformCommands    = "terraform_commands"
+	JobDataWorkItemLastJob_CommandName_WorkspaceApply       = "workspace_apply"
+	JobDataWorkItemLastJob_CommandName_WorkspaceDestroy     = "workspace_destroy"
+	JobDataWorkItemLastJob_CommandName_WorkspacePlan        = "workspace_plan"
+	JobDataWorkItemLastJob_CommandName_WorkspaceRefresh     = "workspace_refresh"
 )
 
 // Constants associated with the JobDataWorkItemLastJob.JobStatus property.
 // Status of Jobs.
 const (
-	JobDataWorkItemLastJob_JobStatus_JobCancelled = "job_cancelled"
-	JobDataWorkItemLastJob_JobStatus_JobFailed = "job_failed"
-	JobDataWorkItemLastJob_JobStatus_JobFinished = "job_finished"
-	JobDataWorkItemLastJob_JobStatus_JobInProgress = "job_in_progress"
-	JobDataWorkItemLastJob_JobStatus_JobPending = "job_pending"
+	JobDataWorkItemLastJob_JobStatus_JobCancelled      = "job_cancelled"
+	JobDataWorkItemLastJob_JobStatus_JobFailed         = "job_failed"
+	JobDataWorkItemLastJob_JobStatus_JobFinished       = "job_finished"
+	JobDataWorkItemLastJob_JobStatus_JobInProgress     = "job_in_progress"
+	JobDataWorkItemLastJob_JobStatus_JobPending        = "job_pending"
 	JobDataWorkItemLastJob_JobStatus_JobReadyToExecute = "job_ready_to_execute"
 	JobDataWorkItemLastJob_JobStatus_JobStopInProgress = "job_stop_in_progress"
-	JobDataWorkItemLastJob_JobStatus_JobStopped = "job_stopped"
+	JobDataWorkItemLastJob_JobStatus_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobDataWorkItemLastJob unmarshals an instance of JobDataWorkItemLastJob from the specified map of raw messages.
@@ -14351,13 +14412,13 @@ type JobFileData struct {
 // Constants associated with the JobFileData.FileType property.
 // The type of output file generated by the Job.
 const (
-	JobFileData_FileType_CostJSON = "cost_json"
-	JobFileData_FileType_DraftPlanJSON = "draft_plan_json"
-	JobFileData_FileType_GitFiles = "git_files"
+	JobFileData_FileType_CostJSON        = "cost_json"
+	JobFileData_FileType_DraftPlanJSON   = "draft_plan_json"
+	JobFileData_FileType_GitFiles        = "git_files"
 	JobFileData_FileType_LogInsightsFile = "log_insights_file"
-	JobFileData_FileType_PlanJSON = "plan_json"
-	JobFileData_FileType_QuoteJSON = "quote_json"
-	JobFileData_FileType_StateFile = "state_file"
+	JobFileData_FileType_PlanJSON        = "plan_json"
+	JobFileData_FileType_QuoteJSON       = "quote_json"
+	JobFileData_FileType_StateFile       = "state_file"
 )
 
 // UnmarshalJobFileData unmarshals an instance of JobFileData from the specified map of raw messages.
@@ -14550,37 +14611,37 @@ type JobLite struct {
 // Constants associated with the JobLite.CommandObject property.
 // Name of the Schematics automation resource.
 const (
-	JobLite_CommandObject_Action = "action"
+	JobLite_CommandObject_Action      = "action"
 	JobLite_CommandObject_Environment = "environment"
-	JobLite_CommandObject_System = "system"
-	JobLite_CommandObject_Workspace = "workspace"
+	JobLite_CommandObject_System      = "system"
+	JobLite_CommandObject_Workspace   = "workspace"
 )
 
 // Constants associated with the JobLite.CommandName property.
 // Schematics job command name.
 const (
 	JobLite_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	JobLite_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	JobLite_CommandName_CreateAction = "create_action"
-	JobLite_CommandName_CreateCart = "create_cart"
-	JobLite_CommandName_CreateWorkspace = "create_workspace"
-	JobLite_CommandName_DeleteAction = "delete_action"
-	JobLite_CommandName_DeleteWorkspace = "delete_workspace"
-	JobLite_CommandName_PatchAction = "patch_action"
-	JobLite_CommandName_PatchWorkspace = "patch_workspace"
-	JobLite_CommandName_PutAction = "put_action"
-	JobLite_CommandName_PutWorkspace = "put_workspace"
-	JobLite_CommandName_RepositoryProcess = "repository_process"
-	JobLite_CommandName_SystemKeyDelete = "system_key_delete"
-	JobLite_CommandName_SystemKeyDisable = "system_key_disable"
-	JobLite_CommandName_SystemKeyEnable = "system_key_enable"
-	JobLite_CommandName_SystemKeyRestore = "system_key_restore"
-	JobLite_CommandName_SystemKeyRotate = "system_key_rotate"
-	JobLite_CommandName_TerraformCommands = "terraform_commands"
-	JobLite_CommandName_WorkspaceApply = "workspace_apply"
-	JobLite_CommandName_WorkspaceDestroy = "workspace_destroy"
-	JobLite_CommandName_WorkspacePlan = "workspace_plan"
-	JobLite_CommandName_WorkspaceRefresh = "workspace_refresh"
+	JobLite_CommandName_AnsiblePlaybookRun   = "ansible_playbook_run"
+	JobLite_CommandName_CreateAction         = "create_action"
+	JobLite_CommandName_CreateCart           = "create_cart"
+	JobLite_CommandName_CreateWorkspace      = "create_workspace"
+	JobLite_CommandName_DeleteAction         = "delete_action"
+	JobLite_CommandName_DeleteWorkspace      = "delete_workspace"
+	JobLite_CommandName_PatchAction          = "patch_action"
+	JobLite_CommandName_PatchWorkspace       = "patch_workspace"
+	JobLite_CommandName_PutAction            = "put_action"
+	JobLite_CommandName_PutWorkspace         = "put_workspace"
+	JobLite_CommandName_RepositoryProcess    = "repository_process"
+	JobLite_CommandName_SystemKeyDelete      = "system_key_delete"
+	JobLite_CommandName_SystemKeyDisable     = "system_key_disable"
+	JobLite_CommandName_SystemKeyEnable      = "system_key_enable"
+	JobLite_CommandName_SystemKeyRestore     = "system_key_restore"
+	JobLite_CommandName_SystemKeyRotate      = "system_key_rotate"
+	JobLite_CommandName_TerraformCommands    = "terraform_commands"
+	JobLite_CommandName_WorkspaceApply       = "workspace_apply"
+	JobLite_CommandName_WorkspaceDestroy     = "workspace_destroy"
+	JobLite_CommandName_WorkspacePlan        = "workspace_plan"
+	JobLite_CommandName_WorkspaceRefresh     = "workspace_refresh"
 )
 
 // Constants associated with the JobLite.Location property.
@@ -14588,9 +14649,9 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	JobLite_Location_EuDe = "eu-de"
-	JobLite_Location_EuGb = "eu-gb"
-	JobLite_Location_UsEast = "us-east"
+	JobLite_Location_EuDe    = "eu-de"
+	JobLite_Location_EuGb    = "eu-gb"
+	JobLite_Location_UsEast  = "us-east"
 	JobLite_Location_UsSouth = "us-south"
 )
 
@@ -14720,10 +14781,10 @@ type JobLog struct {
 // Constants associated with the JobLog.Format property.
 // Format of the Log text.
 const (
-	JobLog_Format_HTML = "html"
-	JobLog_Format_JSON = "json"
+	JobLog_Format_HTML     = "html"
+	JobLog_Format_JSON     = "json"
 	JobLog_Format_Markdown = "markdown"
-	JobLog_Format_Rtf = "rtf"
+	JobLog_Format_Rtf      = "rtf"
 )
 
 // UnmarshalJobLog unmarshals an instance of JobLog from the specified map of raw messages.
@@ -14802,11 +14863,11 @@ type JobLogSummary struct {
 // Constants associated with the JobLogSummary.JobType property.
 // Type of Job.
 const (
-	JobLogSummary_JobType_ActionJob = "action_job"
-	JobLogSummary_JobType_FlowJob = "flow_job"
+	JobLogSummary_JobType_ActionJob       = "action_job"
+	JobLogSummary_JobType_FlowJob         = "flow_job"
 	JobLogSummary_JobType_RepoDownloadJob = "repo_download_job"
-	JobLogSummary_JobType_SystemJob = "system_job"
-	JobLogSummary_JobType_WorkspaceJob = "workspace_job"
+	JobLogSummary_JobType_SystemJob       = "system_job"
+	JobLogSummary_JobType_WorkspaceJob    = "workspace_job"
 )
 
 // UnmarshalJobLogSummary unmarshals an instance of JobLogSummary from the specified map of raw messages.
@@ -15311,32 +15372,32 @@ type JobStatusAction struct {
 // Constants associated with the JobStatusAction.StatusCode property.
 // Status of Jobs.
 const (
-	JobStatusAction_StatusCode_JobCancelled = "job_cancelled"
-	JobStatusAction_StatusCode_JobFailed = "job_failed"
-	JobStatusAction_StatusCode_JobFinished = "job_finished"
-	JobStatusAction_StatusCode_JobInProgress = "job_in_progress"
-	JobStatusAction_StatusCode_JobPending = "job_pending"
+	JobStatusAction_StatusCode_JobCancelled      = "job_cancelled"
+	JobStatusAction_StatusCode_JobFailed         = "job_failed"
+	JobStatusAction_StatusCode_JobFinished       = "job_finished"
+	JobStatusAction_StatusCode_JobInProgress     = "job_in_progress"
+	JobStatusAction_StatusCode_JobPending        = "job_pending"
 	JobStatusAction_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusAction_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusAction_StatusCode_JobStopped = "job_stopped"
+	JobStatusAction_StatusCode_JobStopped        = "job_stopped"
 )
 
 // Constants associated with the JobStatusAction.BastionStatusCode property.
 // Status of Resources.
 const (
-	JobStatusAction_BastionStatusCode_Error = "error"
-	JobStatusAction_BastionStatusCode_None = "none"
+	JobStatusAction_BastionStatusCode_Error      = "error"
+	JobStatusAction_BastionStatusCode_None       = "none"
 	JobStatusAction_BastionStatusCode_Processing = "processing"
-	JobStatusAction_BastionStatusCode_Ready = "ready"
+	JobStatusAction_BastionStatusCode_Ready      = "ready"
 )
 
 // Constants associated with the JobStatusAction.TargetsStatusCode property.
 // Status of Resources.
 const (
-	JobStatusAction_TargetsStatusCode_Error = "error"
-	JobStatusAction_TargetsStatusCode_None = "none"
+	JobStatusAction_TargetsStatusCode_Error      = "error"
+	JobStatusAction_TargetsStatusCode_None       = "none"
 	JobStatusAction_TargetsStatusCode_Processing = "processing"
-	JobStatusAction_TargetsStatusCode_Ready = "ready"
+	JobStatusAction_TargetsStatusCode_Ready      = "ready"
 )
 
 // UnmarshalJobStatusAction unmarshals an instance of JobStatusAction from the specified map of raw messages.
@@ -15410,14 +15471,14 @@ type JobStatusFlow struct {
 // Constants associated with the JobStatusFlow.StatusCode property.
 // Status of Jobs.
 const (
-	JobStatusFlow_StatusCode_JobCancelled = "job_cancelled"
-	JobStatusFlow_StatusCode_JobFailed = "job_failed"
-	JobStatusFlow_StatusCode_JobFinished = "job_finished"
-	JobStatusFlow_StatusCode_JobInProgress = "job_in_progress"
-	JobStatusFlow_StatusCode_JobPending = "job_pending"
+	JobStatusFlow_StatusCode_JobCancelled      = "job_cancelled"
+	JobStatusFlow_StatusCode_JobFailed         = "job_failed"
+	JobStatusFlow_StatusCode_JobFinished       = "job_finished"
+	JobStatusFlow_StatusCode_JobInProgress     = "job_in_progress"
+	JobStatusFlow_StatusCode_JobPending        = "job_pending"
 	JobStatusFlow_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusFlow_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusFlow_StatusCode_JobStopped = "job_stopped"
+	JobStatusFlow_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobStatusFlow unmarshals an instance of JobStatusFlow from the specified map of raw messages.
@@ -15475,14 +15536,14 @@ type JobStatusSchematicsResources struct {
 // Constants associated with the JobStatusSchematicsResources.StatusCode property.
 // Status of Jobs.
 const (
-	JobStatusSchematicsResources_StatusCode_JobCancelled = "job_cancelled"
-	JobStatusSchematicsResources_StatusCode_JobFailed = "job_failed"
-	JobStatusSchematicsResources_StatusCode_JobFinished = "job_finished"
-	JobStatusSchematicsResources_StatusCode_JobInProgress = "job_in_progress"
-	JobStatusSchematicsResources_StatusCode_JobPending = "job_pending"
+	JobStatusSchematicsResources_StatusCode_JobCancelled      = "job_cancelled"
+	JobStatusSchematicsResources_StatusCode_JobFailed         = "job_failed"
+	JobStatusSchematicsResources_StatusCode_JobFinished       = "job_finished"
+	JobStatusSchematicsResources_StatusCode_JobInProgress     = "job_in_progress"
+	JobStatusSchematicsResources_StatusCode_JobPending        = "job_pending"
 	JobStatusSchematicsResources_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusSchematicsResources_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusSchematicsResources_StatusCode_JobStopped = "job_stopped"
+	JobStatusSchematicsResources_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobStatusSchematicsResources unmarshals an instance of JobStatusSchematicsResources from the specified map of raw messages.
@@ -15530,14 +15591,14 @@ type JobStatusSystem struct {
 // Constants associated with the JobStatusSystem.SystemStatusCode property.
 // Status of Jobs.
 const (
-	JobStatusSystem_SystemStatusCode_JobCancelled = "job_cancelled"
-	JobStatusSystem_SystemStatusCode_JobFailed = "job_failed"
-	JobStatusSystem_SystemStatusCode_JobFinished = "job_finished"
-	JobStatusSystem_SystemStatusCode_JobInProgress = "job_in_progress"
-	JobStatusSystem_SystemStatusCode_JobPending = "job_pending"
+	JobStatusSystem_SystemStatusCode_JobCancelled      = "job_cancelled"
+	JobStatusSystem_SystemStatusCode_JobFailed         = "job_failed"
+	JobStatusSystem_SystemStatusCode_JobFinished       = "job_finished"
+	JobStatusSystem_SystemStatusCode_JobInProgress     = "job_in_progress"
+	JobStatusSystem_SystemStatusCode_JobPending        = "job_pending"
 	JobStatusSystem_SystemStatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusSystem_SystemStatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusSystem_SystemStatusCode_JobStopped = "job_stopped"
+	JobStatusSystem_SystemStatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobStatusSystem unmarshals an instance of JobStatusSystem from the specified map of raw messages.
@@ -15591,14 +15652,14 @@ type JobStatusTemplate struct {
 // Constants associated with the JobStatusTemplate.StatusCode property.
 // Status of Jobs.
 const (
-	JobStatusTemplate_StatusCode_JobCancelled = "job_cancelled"
-	JobStatusTemplate_StatusCode_JobFailed = "job_failed"
-	JobStatusTemplate_StatusCode_JobFinished = "job_finished"
-	JobStatusTemplate_StatusCode_JobInProgress = "job_in_progress"
-	JobStatusTemplate_StatusCode_JobPending = "job_pending"
+	JobStatusTemplate_StatusCode_JobCancelled      = "job_cancelled"
+	JobStatusTemplate_StatusCode_JobFailed         = "job_failed"
+	JobStatusTemplate_StatusCode_JobFinished       = "job_finished"
+	JobStatusTemplate_StatusCode_JobInProgress     = "job_in_progress"
+	JobStatusTemplate_StatusCode_JobPending        = "job_pending"
 	JobStatusTemplate_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusTemplate_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusTemplate_StatusCode_JobStopped = "job_stopped"
+	JobStatusTemplate_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobStatusTemplate unmarshals an instance of JobStatusTemplate from the specified map of raw messages.
@@ -15662,14 +15723,14 @@ type JobStatusWorkitem struct {
 // Constants associated with the JobStatusWorkitem.StatusCode property.
 // Status of Jobs.
 const (
-	JobStatusWorkitem_StatusCode_JobCancelled = "job_cancelled"
-	JobStatusWorkitem_StatusCode_JobFailed = "job_failed"
-	JobStatusWorkitem_StatusCode_JobFinished = "job_finished"
-	JobStatusWorkitem_StatusCode_JobInProgress = "job_in_progress"
-	JobStatusWorkitem_StatusCode_JobPending = "job_pending"
+	JobStatusWorkitem_StatusCode_JobCancelled      = "job_cancelled"
+	JobStatusWorkitem_StatusCode_JobFailed         = "job_failed"
+	JobStatusWorkitem_StatusCode_JobFinished       = "job_finished"
+	JobStatusWorkitem_StatusCode_JobInProgress     = "job_in_progress"
+	JobStatusWorkitem_StatusCode_JobPending        = "job_pending"
 	JobStatusWorkitem_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusWorkitem_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusWorkitem_StatusCode_JobStopped = "job_stopped"
+	JobStatusWorkitem_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobStatusWorkitem unmarshals an instance of JobStatusWorkitem from the specified map of raw messages.
@@ -15736,14 +15797,14 @@ type JobStatusWorkspace struct {
 // Constants associated with the JobStatusWorkspace.StatusCode property.
 // Status of Jobs.
 const (
-	JobStatusWorkspace_StatusCode_JobCancelled = "job_cancelled"
-	JobStatusWorkspace_StatusCode_JobFailed = "job_failed"
-	JobStatusWorkspace_StatusCode_JobFinished = "job_finished"
-	JobStatusWorkspace_StatusCode_JobInProgress = "job_in_progress"
-	JobStatusWorkspace_StatusCode_JobPending = "job_pending"
+	JobStatusWorkspace_StatusCode_JobCancelled      = "job_cancelled"
+	JobStatusWorkspace_StatusCode_JobFailed         = "job_failed"
+	JobStatusWorkspace_StatusCode_JobFinished       = "job_finished"
+	JobStatusWorkspace_StatusCode_JobInProgress     = "job_in_progress"
+	JobStatusWorkspace_StatusCode_JobPending        = "job_pending"
 	JobStatusWorkspace_StatusCode_JobReadyToExecute = "job_ready_to_execute"
 	JobStatusWorkspace_StatusCode_JobStopInProgress = "job_stop_in_progress"
-	JobStatusWorkspace_StatusCode_JobStopped = "job_stopped"
+	JobStatusWorkspace_StatusCode_JobStopped        = "job_stopped"
 )
 
 // UnmarshalJobStatusWorkspace unmarshals an instance of JobStatusWorkspace from the specified map of raw messages.
@@ -16118,7 +16179,7 @@ type ListActionsOptions struct {
 // Constants associated with the ListActionsOptions.Profile property.
 // Level of details returned by the get method.
 const (
-	ListActionsOptions_Profile_Ids = "ids"
+	ListActionsOptions_Profile_Ids     = "ids"
 	ListActionsOptions_Profile_Summary = "summary"
 )
 
@@ -16184,15 +16245,15 @@ type ListAgentDataOptions struct {
 // Level of details returned by the get method.
 const (
 	ListAgentDataOptions_Profile_Detailed = "detailed"
-	ListAgentDataOptions_Profile_Ids = "ids"
-	ListAgentDataOptions_Profile_Summary = "summary"
+	ListAgentDataOptions_Profile_Ids      = "ids"
+	ListAgentDataOptions_Profile_Summary  = "summary"
 )
 
 // Constants associated with the ListAgentDataOptions.Filter property.
 // Use `new` to get all unregistered agents; use `saved` to get all registered agents.
 const (
-	ListAgentDataOptions_Filter_All = "all"
-	ListAgentDataOptions_Filter_New = "new"
+	ListAgentDataOptions_Filter_All   = "all"
+	ListAgentDataOptions_Filter_New   = "new"
 	ListAgentDataOptions_Filter_Saved = "saved"
 )
 
@@ -16259,7 +16320,7 @@ type ListInventoriesOptions struct {
 // Constants associated with the ListInventoriesOptions.Profile property.
 // Level of details returned by the get method.
 const (
-	ListInventoriesOptions_Profile_Ids = "ids"
+	ListInventoriesOptions_Profile_Ids     = "ids"
 	ListInventoriesOptions_Profile_Summary = "summary"
 )
 
@@ -16369,17 +16430,17 @@ type ListJobsOptions struct {
 // Constants associated with the ListJobsOptions.Profile property.
 // Level of details returned by the get method.
 const (
-	ListJobsOptions_Profile_Ids = "ids"
+	ListJobsOptions_Profile_Ids     = "ids"
 	ListJobsOptions_Profile_Summary = "summary"
 )
 
 // Constants associated with the ListJobsOptions.Resource property.
 // Name of the resource (workspaces, actions, environment or controls).
 const (
-	ListJobsOptions_Resource_Action = "action"
-	ListJobsOptions_Resource_Actions = "actions"
+	ListJobsOptions_Resource_Action      = "action"
+	ListJobsOptions_Resource_Actions     = "actions"
 	ListJobsOptions_Resource_Environment = "environment"
-	ListJobsOptions_Resource_Workspaces = "workspaces"
+	ListJobsOptions_Resource_Workspaces  = "workspaces"
 )
 
 // Constants associated with the ListJobsOptions.List property.
@@ -16481,7 +16542,7 @@ type ListKmsOptions struct {
 func (*SchematicsV1) NewListKmsOptions(encryptionScheme string, location string) *ListKmsOptions {
 	return &ListKmsOptions{
 		EncryptionScheme: core.StringPtr(encryptionScheme),
-		Location: core.StringPtr(location),
+		Location:         core.StringPtr(location),
 	}
 }
 
@@ -16563,8 +16624,8 @@ type ListPolicyOptions struct {
 // Level of details returned by the get method.
 const (
 	ListPolicyOptions_Profile_Detailed = "detailed"
-	ListPolicyOptions_Profile_Ids = "ids"
-	ListPolicyOptions_Profile_Summary = "summary"
+	ListPolicyOptions_Profile_Ids      = "ids"
+	ListPolicyOptions_Profile_Summary  = "summary"
 )
 
 // NewListPolicyOptions : Instantiate ListPolicyOptions
@@ -16642,7 +16703,7 @@ type ListResourceQueryOptions struct {
 // Constants associated with the ListResourceQueryOptions.Profile property.
 // Level of details returned by the get method.
 const (
-	ListResourceQueryOptions_Profile_Ids = "ids"
+	ListResourceQueryOptions_Profile_Ids     = "ids"
 	ListResourceQueryOptions_Profile_Summary = "summary"
 )
 
@@ -16758,7 +16819,7 @@ type ListWorkspacesOptions struct {
 // Constants associated with the ListWorkspacesOptions.Profile property.
 // Level of details returned by the get method.
 const (
-	ListWorkspacesOptions_Profile_Ids = "ids"
+	ListWorkspacesOptions_Profile_Ids     = "ids"
 	ListWorkspacesOptions_Profile_Summary = "summary"
 )
 
@@ -17127,7 +17188,7 @@ type PlanWorkspaceCommandOptions struct {
 // NewPlanWorkspaceCommandOptions : Instantiate PlanWorkspaceCommandOptions
 func (*SchematicsV1) NewPlanWorkspaceCommandOptions(wID string, refreshToken string) *PlanWorkspaceCommandOptions {
 	return &PlanWorkspaceCommandOptions{
-		WID: core.StringPtr(wID),
+		WID:          core.StringPtr(wID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -17222,15 +17283,15 @@ type Policy struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	Policy_Location_EuDe = "eu-de"
-	Policy_Location_EuGb = "eu-gb"
-	Policy_Location_UsEast = "us-east"
+	Policy_Location_EuDe    = "eu-de"
+	Policy_Location_EuGb    = "eu-gb"
+	Policy_Location_UsEast  = "us-east"
 	Policy_Location_UsSouth = "us-south"
 )
 
 // Constants associated with the Policy.Kind property.
 // Policy kind or categories for managing and deriving policy decision
-//   * `agent_assignment_policy` Agent assignment policy for job execution.
+//   - `agent_assignment_policy` Agent assignment policy for job execution.
 const (
 	Policy_Kind_AgentAssignmentPolicy = "agent_assignment_policy"
 )
@@ -17429,15 +17490,15 @@ type PolicyLite struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	PolicyLite_Location_EuDe = "eu-de"
-	PolicyLite_Location_EuGb = "eu-gb"
-	PolicyLite_Location_UsEast = "us-east"
+	PolicyLite_Location_EuDe    = "eu-de"
+	PolicyLite_Location_EuGb    = "eu-gb"
+	PolicyLite_Location_UsEast  = "us-east"
 	PolicyLite_Location_UsSouth = "us-south"
 )
 
 // Constants associated with the PolicyLite.PolicyKind property.
 // Policy kind or categories for managing and deriving policy decision
-//   * `agent_assignment_policy` Agent assignment policy for job execution.
+//   - `agent_assignment_policy` Agent assignment policy for job execution.
 const (
 	PolicyLite_PolicyKind_AgentAssignmentPolicy = "agent_assignment_policy"
 )
@@ -17539,10 +17600,10 @@ type PolicyObjectSelector struct {
 // Constants associated with the PolicyObjectSelector.Kind property.
 // Name of the Schematics automation resource.
 const (
-	PolicyObjectSelector_Kind_Action = "action"
+	PolicyObjectSelector_Kind_Action      = "action"
 	PolicyObjectSelector_Kind_Environment = "environment"
-	PolicyObjectSelector_Kind_System = "system"
-	PolicyObjectSelector_Kind_Workspace = "workspace"
+	PolicyObjectSelector_Kind_System      = "system"
+	PolicyObjectSelector_Kind_Workspace   = "workspace"
 )
 
 // Constants associated with the PolicyObjectSelector.Locations property.
@@ -17550,9 +17611,9 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	PolicyObjectSelector_Locations_EuDe = "eu-de"
-	PolicyObjectSelector_Locations_EuGb = "eu-gb"
-	PolicyObjectSelector_Locations_UsEast = "us-east"
+	PolicyObjectSelector_Locations_EuDe    = "eu-de"
+	PolicyObjectSelector_Locations_EuGb    = "eu-gb"
+	PolicyObjectSelector_Locations_UsEast  = "us-east"
 	PolicyObjectSelector_Locations_UsSouth = "us-south"
 )
 
@@ -17598,7 +17659,7 @@ type PolicyObjects struct {
 // Constants associated with the PolicyObjects.SelectorKind property.
 // Types of schematics object selector.
 const (
-	PolicyObjects_SelectorKind_Ids = "ids"
+	PolicyObjects_SelectorKind_Ids    = "ids"
 	PolicyObjects_SelectorKind_Scoped = "scoped"
 )
 
@@ -17667,19 +17728,19 @@ type ProcessTemplateMetaDataOptions struct {
 // Constants associated with the ProcessTemplateMetaDataOptions.SourceType property.
 // Type of source for the Template.
 const (
-	ProcessTemplateMetaDataOptions_SourceType_GitHub = "git_hub"
+	ProcessTemplateMetaDataOptions_SourceType_GitHub           = "git_hub"
 	ProcessTemplateMetaDataOptions_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	ProcessTemplateMetaDataOptions_SourceType_GitLab = "git_lab"
-	ProcessTemplateMetaDataOptions_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	ProcessTemplateMetaDataOptions_SourceType_IbmGitLab = "ibm_git_lab"
-	ProcessTemplateMetaDataOptions_SourceType_Local = "local"
+	ProcessTemplateMetaDataOptions_SourceType_GitLab           = "git_lab"
+	ProcessTemplateMetaDataOptions_SourceType_IbmCloudCatalog  = "ibm_cloud_catalog"
+	ProcessTemplateMetaDataOptions_SourceType_IbmGitLab        = "ibm_git_lab"
+	ProcessTemplateMetaDataOptions_SourceType_Local            = "local"
 )
 
 // NewProcessTemplateMetaDataOptions : Instantiate ProcessTemplateMetaDataOptions
 func (*SchematicsV1) NewProcessTemplateMetaDataOptions(templateType string, source *ExternalSource) *ProcessTemplateMetaDataOptions {
 	return &ProcessTemplateMetaDataOptions{
 		TemplateType: core.StringPtr(templateType),
-		Source: source,
+		Source:       source,
 	}
 }
 
@@ -17789,7 +17850,7 @@ type RefreshWorkspaceCommandOptions struct {
 // NewRefreshWorkspaceCommandOptions : Instantiate RefreshWorkspaceCommandOptions
 func (*SchematicsV1) NewRefreshWorkspaceCommandOptions(wID string, refreshToken string) *RefreshWorkspaceCommandOptions {
 	return &RefreshWorkspaceCommandOptions{
-		WID: core.StringPtr(wID),
+		WID:          core.StringPtr(wID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -17873,9 +17934,9 @@ type ReplaceInventoryOptions struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	ReplaceInventoryOptions_Location_EuDe = "eu-de"
-	ReplaceInventoryOptions_Location_EuGb = "eu-gb"
-	ReplaceInventoryOptions_Location_UsEast = "us-east"
+	ReplaceInventoryOptions_Location_EuDe    = "eu-de"
+	ReplaceInventoryOptions_Location_EuGb    = "eu-gb"
+	ReplaceInventoryOptions_Location_UsEast  = "us-east"
 	ReplaceInventoryOptions_Location_UsSouth = "us-south"
 )
 
@@ -18647,7 +18708,7 @@ type RunWorkspaceCommandsOptions struct {
 // NewRunWorkspaceCommandsOptions : Instantiate RunWorkspaceCommandsOptions
 func (*SchematicsV1) NewRunWorkspaceCommandsOptions(wID string, refreshToken string) *RunWorkspaceCommandsOptions {
 	return &RunWorkspaceCommandsOptions{
-		WID: core.StringPtr(wID),
+		WID:          core.StringPtr(wID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -18816,10 +18877,10 @@ type ScopedResource struct {
 // Constants associated with the ScopedResource.Kind property.
 // Name of the Schematics automation resource.
 const (
-	ScopedResource_Kind_Action = "action"
+	ScopedResource_Kind_Action      = "action"
 	ScopedResource_Kind_Environment = "environment"
-	ScopedResource_Kind_System = "system"
-	ScopedResource_Kind_Workspace = "workspace"
+	ScopedResource_Kind_System      = "system"
+	ScopedResource_Kind_Workspace   = "workspace"
 )
 
 // UnmarshalScopedResource unmarshals an instance of ScopedResource from the specified map of raw messages.
@@ -20466,9 +20527,9 @@ type UpdateActionOptions struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	UpdateActionOptions_Location_EuDe = "eu-de"
-	UpdateActionOptions_Location_EuGb = "eu-gb"
-	UpdateActionOptions_Location_UsEast = "us-east"
+	UpdateActionOptions_Location_EuDe    = "eu-de"
+	UpdateActionOptions_Location_EuGb    = "eu-gb"
+	UpdateActionOptions_Location_UsEast  = "us-east"
 	UpdateActionOptions_Location_UsSouth = "us-south"
 )
 
@@ -20483,19 +20544,19 @@ const (
 // Type of connection to be used when connecting to remote host.  **Note** Currently, WinRM supports only Windows system
 // with the public IPs and do not support Bastion host.
 const (
-	UpdateActionOptions_InventoryConnectionType_Ssh = "ssh"
+	UpdateActionOptions_InventoryConnectionType_Ssh   = "ssh"
 	UpdateActionOptions_InventoryConnectionType_Winrm = "winrm"
 )
 
 // Constants associated with the UpdateActionOptions.SourceType property.
 // Type of source for the Template.
 const (
-	UpdateActionOptions_SourceType_GitHub = "git_hub"
+	UpdateActionOptions_SourceType_GitHub           = "git_hub"
 	UpdateActionOptions_SourceType_GitHubEnterprise = "git_hub_enterprise"
-	UpdateActionOptions_SourceType_GitLab = "git_lab"
-	UpdateActionOptions_SourceType_IbmCloudCatalog = "ibm_cloud_catalog"
-	UpdateActionOptions_SourceType_IbmGitLab = "ibm_git_lab"
-	UpdateActionOptions_SourceType_Local = "local"
+	UpdateActionOptions_SourceType_GitLab           = "git_lab"
+	UpdateActionOptions_SourceType_IbmCloudCatalog  = "ibm_cloud_catalog"
+	UpdateActionOptions_SourceType_IbmGitLab        = "ibm_git_lab"
+	UpdateActionOptions_SourceType_Local            = "local"
 )
 
 // NewUpdateActionOptions : Instantiate UpdateActionOptions
@@ -20711,21 +20772,21 @@ type UpdateAgentDataOptions struct {
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	UpdateAgentDataOptions_SchematicsLocation_EuDe = "eu-de"
-	UpdateAgentDataOptions_SchematicsLocation_EuGb = "eu-gb"
-	UpdateAgentDataOptions_SchematicsLocation_UsEast = "us-east"
+	UpdateAgentDataOptions_SchematicsLocation_EuDe    = "eu-de"
+	UpdateAgentDataOptions_SchematicsLocation_EuGb    = "eu-gb"
+	UpdateAgentDataOptions_SchematicsLocation_UsEast  = "us-east"
 	UpdateAgentDataOptions_SchematicsLocation_UsSouth = "us-south"
 )
 
 // NewUpdateAgentDataOptions : Instantiate UpdateAgentDataOptions
 func (*SchematicsV1) NewUpdateAgentDataOptions(agentID string, name string, resourceGroup string, version string, schematicsLocation string, agentLocation string, agentInfrastructure *AgentInfrastructure) *UpdateAgentDataOptions {
 	return &UpdateAgentDataOptions{
-		AgentID: core.StringPtr(agentID),
-		Name: core.StringPtr(name),
-		ResourceGroup: core.StringPtr(resourceGroup),
-		Version: core.StringPtr(version),
-		SchematicsLocation: core.StringPtr(schematicsLocation),
-		AgentLocation: core.StringPtr(agentLocation),
+		AgentID:             core.StringPtr(agentID),
+		Name:                core.StringPtr(name),
+		ResourceGroup:       core.StringPtr(resourceGroup),
+		Version:             core.StringPtr(version),
+		SchematicsLocation:  core.StringPtr(schematicsLocation),
+		AgentLocation:       core.StringPtr(agentLocation),
 		AgentInfrastructure: agentInfrastructure,
 	}
 }
@@ -20895,37 +20956,37 @@ type UpdateJobOptions struct {
 // Constants associated with the UpdateJobOptions.CommandObject property.
 // Name of the Schematics automation resource.
 const (
-	UpdateJobOptions_CommandObject_Action = "action"
+	UpdateJobOptions_CommandObject_Action      = "action"
 	UpdateJobOptions_CommandObject_Environment = "environment"
-	UpdateJobOptions_CommandObject_System = "system"
-	UpdateJobOptions_CommandObject_Workspace = "workspace"
+	UpdateJobOptions_CommandObject_System      = "system"
+	UpdateJobOptions_CommandObject_Workspace   = "workspace"
 )
 
 // Constants associated with the UpdateJobOptions.CommandName property.
 // Schematics job command name.
 const (
 	UpdateJobOptions_CommandName_AnsiblePlaybookCheck = "ansible_playbook_check"
-	UpdateJobOptions_CommandName_AnsiblePlaybookRun = "ansible_playbook_run"
-	UpdateJobOptions_CommandName_CreateAction = "create_action"
-	UpdateJobOptions_CommandName_CreateCart = "create_cart"
-	UpdateJobOptions_CommandName_CreateWorkspace = "create_workspace"
-	UpdateJobOptions_CommandName_DeleteAction = "delete_action"
-	UpdateJobOptions_CommandName_DeleteWorkspace = "delete_workspace"
-	UpdateJobOptions_CommandName_PatchAction = "patch_action"
-	UpdateJobOptions_CommandName_PatchWorkspace = "patch_workspace"
-	UpdateJobOptions_CommandName_PutAction = "put_action"
-	UpdateJobOptions_CommandName_PutWorkspace = "put_workspace"
-	UpdateJobOptions_CommandName_RepositoryProcess = "repository_process"
-	UpdateJobOptions_CommandName_SystemKeyDelete = "system_key_delete"
-	UpdateJobOptions_CommandName_SystemKeyDisable = "system_key_disable"
-	UpdateJobOptions_CommandName_SystemKeyEnable = "system_key_enable"
-	UpdateJobOptions_CommandName_SystemKeyRestore = "system_key_restore"
-	UpdateJobOptions_CommandName_SystemKeyRotate = "system_key_rotate"
-	UpdateJobOptions_CommandName_TerraformCommands = "terraform_commands"
-	UpdateJobOptions_CommandName_WorkspaceApply = "workspace_apply"
-	UpdateJobOptions_CommandName_WorkspaceDestroy = "workspace_destroy"
-	UpdateJobOptions_CommandName_WorkspacePlan = "workspace_plan"
-	UpdateJobOptions_CommandName_WorkspaceRefresh = "workspace_refresh"
+	UpdateJobOptions_CommandName_AnsiblePlaybookRun   = "ansible_playbook_run"
+	UpdateJobOptions_CommandName_CreateAction         = "create_action"
+	UpdateJobOptions_CommandName_CreateCart           = "create_cart"
+	UpdateJobOptions_CommandName_CreateWorkspace      = "create_workspace"
+	UpdateJobOptions_CommandName_DeleteAction         = "delete_action"
+	UpdateJobOptions_CommandName_DeleteWorkspace      = "delete_workspace"
+	UpdateJobOptions_CommandName_PatchAction          = "patch_action"
+	UpdateJobOptions_CommandName_PatchWorkspace       = "patch_workspace"
+	UpdateJobOptions_CommandName_PutAction            = "put_action"
+	UpdateJobOptions_CommandName_PutWorkspace         = "put_workspace"
+	UpdateJobOptions_CommandName_RepositoryProcess    = "repository_process"
+	UpdateJobOptions_CommandName_SystemKeyDelete      = "system_key_delete"
+	UpdateJobOptions_CommandName_SystemKeyDisable     = "system_key_disable"
+	UpdateJobOptions_CommandName_SystemKeyEnable      = "system_key_enable"
+	UpdateJobOptions_CommandName_SystemKeyRestore     = "system_key_restore"
+	UpdateJobOptions_CommandName_SystemKeyRotate      = "system_key_rotate"
+	UpdateJobOptions_CommandName_TerraformCommands    = "terraform_commands"
+	UpdateJobOptions_CommandName_WorkspaceApply       = "workspace_apply"
+	UpdateJobOptions_CommandName_WorkspaceDestroy     = "workspace_destroy"
+	UpdateJobOptions_CommandName_WorkspacePlan        = "workspace_plan"
+	UpdateJobOptions_CommandName_WorkspaceRefresh     = "workspace_refresh"
 )
 
 // Constants associated with the UpdateJobOptions.Location property.
@@ -20933,16 +20994,16 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	UpdateJobOptions_Location_EuDe = "eu-de"
-	UpdateJobOptions_Location_EuGb = "eu-gb"
-	UpdateJobOptions_Location_UsEast = "us-east"
+	UpdateJobOptions_Location_EuDe    = "eu-de"
+	UpdateJobOptions_Location_EuGb    = "eu-gb"
+	UpdateJobOptions_Location_UsEast  = "us-east"
 	UpdateJobOptions_Location_UsSouth = "us-south"
 )
 
 // NewUpdateJobOptions : Instantiate UpdateJobOptions
 func (*SchematicsV1) NewUpdateJobOptions(jobID string, refreshToken string) *UpdateJobOptions {
 	return &UpdateJobOptions{
-		JobID: core.StringPtr(jobID),
+		JobID:        core.StringPtr(jobID),
 		RefreshToken: core.StringPtr(refreshToken),
 	}
 }
@@ -21161,7 +21222,7 @@ type UpdatePolicyOptions struct {
 
 // Constants associated with the UpdatePolicyOptions.Kind property.
 // Policy kind or categories for managing and deriving policy decision
-//   * `agent_assignment_policy` Agent assignment policy for job execution.
+//   - `agent_assignment_policy` Agent assignment policy for job execution.
 const (
 	UpdatePolicyOptions_Kind_AgentAssignmentPolicy = "agent_assignment_policy"
 )
@@ -21171,9 +21232,9 @@ const (
 // right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
 // provisioned using Schematics.
 const (
-	UpdatePolicyOptions_Location_EuDe = "eu-de"
-	UpdatePolicyOptions_Location_EuGb = "eu-gb"
-	UpdatePolicyOptions_Location_UsEast = "us-east"
+	UpdatePolicyOptions_Location_EuDe    = "eu-de"
+	UpdatePolicyOptions_Location_EuGb    = "eu-gb"
+	UpdatePolicyOptions_Location_UsEast  = "us-east"
 	UpdatePolicyOptions_Location_UsSouth = "us-south"
 )
 
@@ -21181,7 +21242,7 @@ const (
 func (*SchematicsV1) NewUpdatePolicyOptions(policyID string, kind string) *UpdatePolicyOptions {
 	return &UpdatePolicyOptions{
 		PolicyID: core.StringPtr(policyID),
-		Kind: core.StringPtr(kind),
+		Kind:     core.StringPtr(kind),
 	}
 }
 
@@ -21468,15 +21529,15 @@ type UserState struct {
 
 // Constants associated with the UserState.State property.
 // User-defined states
-//   * `draft` Object can be modified; can be used by Jobs run by the author, during execution
-//   * `live` Object can be modified; can be used by Jobs during execution
-//   * `locked` Object cannot be modified; can be used by Jobs during execution
-//   * `disable` Object can be modified. cannot be used by Jobs during execution.
+//   - `draft` Object can be modified; can be used by Jobs run by the author, during execution
+//   - `live` Object can be modified; can be used by Jobs during execution
+//   - `locked` Object cannot be modified; can be used by Jobs during execution
+//   - `disable` Object can be modified. cannot be used by Jobs during execution.
 const (
 	UserState_State_Disable = "disable"
-	UserState_State_Draft = "draft"
-	UserState_State_Live = "live"
-	UserState_State_Locked = "locked"
+	UserState_State_Draft   = "draft"
+	UserState_State_Live    = "live"
+	UserState_State_Locked  = "locked"
 )
 
 // UnmarshalUserState unmarshals an instance of UserState from the specified map of raw messages.
@@ -21667,15 +21728,15 @@ type VariableMetadata struct {
 // Constants associated with the VariableMetadata.Type property.
 // Type of the variable.
 const (
-	VariableMetadata_Type_Array = "array"
+	VariableMetadata_Type_Array   = "array"
 	VariableMetadata_Type_Boolean = "boolean"
 	VariableMetadata_Type_Complex = "complex"
-	VariableMetadata_Type_Date = "date"
+	VariableMetadata_Type_Date    = "date"
 	VariableMetadata_Type_Integer = "integer"
-	VariableMetadata_Type_Link = "link"
-	VariableMetadata_Type_List = "list"
-	VariableMetadata_Type_Map = "map"
-	VariableMetadata_Type_String = "string"
+	VariableMetadata_Type_Link    = "link"
+	VariableMetadata_Type_List    = "list"
+	VariableMetadata_Type_Map     = "map"
+	VariableMetadata_Type_String  = "string"
 )
 
 // Constants associated with the VariableMetadata.LinkStatus property.
