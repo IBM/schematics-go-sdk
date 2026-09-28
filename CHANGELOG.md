@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/IBM/schematics-go-sdk/compare/v0.4.0...v0.4.1) (2026-09-28)
+
+
+### Bug Fixes
+
+* **api:** readme file modified ([f7ba6ee](https://github.com/IBM/schematics-go-sdk/commit/f7ba6ee24a07dd09cc6aab3374ca825dc25e80e0))
+
 # [0.4.0](https://github.com/IBM/schematics-go-sdk/compare/v0.3.0...v0.4.0) (2024-11-19)
 
 
